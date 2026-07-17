@@ -1,0 +1,9 @@
+# Local agent and generated-work directories
+.agents/
+.codex/
+.tmp/
+__pycache__/
+*.py[cod]
+
+# Local Vercel metadata
+.vercel/

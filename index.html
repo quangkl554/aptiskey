@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aptis Keys — Ôn luyện Aptis hiệu quả</title>
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap"/>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="css/style.css?v=20260717"/>
+  <!-- Load Reading Database -->
+  <script src="js/reading_db.js?v=20260717"></script>
+  <script src="js/speaking_db.js?v=20260717"></script>
+  <style>
+    /* Add extra styles for Parts 2-5 */
+    .drag-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+      min-height: 56px;
+    }
+    .drag-list.drag-active {
+      outline: 2px dashed rgba(0, 123, 255, 0.18);
+      outline-offset: 6px;
+    }
+    .drag-item {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      cursor: default;
+      display: block;
+      font-size: 15px;
+      transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.18s;
+      user-select: text;
+    }
+
+    .drag-item.dragging {
+      opacity: 0.45;
+      background: #e2e3e5;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      transform: scale(1.01);
+    }
+    .drag-handle {
+      color: #6c757d;
+      cursor: grab;
+      user-select: none;
+    }
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+    .drag-index {
+      font-weight: bold;
+      width: 25px;
+      color: #495057;
+    }
+    .drag-text {
+      flex: 1;
+      line-height: 1.5;
+      cursor: text;
+      user-select: text;
+    }
+    .drag-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: default;
+    }
+    .drag-item.correct {
+      border-color: var(--success);
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .drag-item.incorrect {
+      border-color: var(--danger);
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .up-down-btns {
+      margin-left: auto;
+      display: flex;
+      gap: 5px;
+    }
+    .up-down-btn {
+      background: white;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .up-down-btn:hover {
+      background: #e9ecef;
+    }
+
+    /* Part 4 Opinions Layout */
+    .part4-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    @media (min-width: 992px) {
+      .part4-grid {
+        grid-template-columns: 1.2fr 1fr;
+      }
+    }
+    .opinions-box {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .opinion-card {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 15px;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+    .opinion-letter {
+      font-weight: bold;
+      color: var(--primary);
+      font-size: 16px;
+      margin-bottom: 5px;
+      display: block;
+    }
+    .statements-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .statement-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .statement-item {
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      font-size: 14px;
+    }
+    .statement-select {
+      width: 70px;
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ced4da;
+      outline: none;
+    }
+    .statement-select.correct {
+      border-color: var(--success);
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .statement-select.incorrect {
+      border-color: var(--danger);
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    /* Part 5 Layout */
+    .part5-paragraphs {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    .part5-card {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .part5-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .part5-num {
+      font-weight: bold;
+      font-size: 16px;
+      color: #495057;
+    }
+    .part5-select {
+      max-width: 320px;
+      width: 100%;
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: 1px solid #ced4da;
+      outline: none;
+      font-size: 13.5px;
+    }
+    .part5-select.correct {
+      border-color: var(--success);
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .part5-select.incorrect {
+      border-color: var(--danger);
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .part5-text {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: #212529;
+    }
+  </style>
+  <link rel="stylesheet" href="css/experience.css"/>
+</head>
+<body>
+
+<div class="app-wrapper">
+  
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <a href="#" class="sidebar-logo" onclick="showView('dashboard-view')">
+      <span class="logo-icon">A</span>
+      <span class="logo-text">Aptis keys</span>
+    </a>
+    
+    <ul class="sidebar-menu">
+      <li class="menu-item">
+        <a href="#" class="menu-link active" id="menu-dashboard" onclick="showView('dashboard-view')">
+          <span class="menu-link-left">
+            <i class="bi bi-house-door"></i>
+            Trang chủ
+          </span>
+        </a>
+      </li>
+      
+      <li class="menu-item">
+        <a href="#" class="menu-link" id="menu-reading" onclick="toggleSubmenu('reading-submenu')">
+          <span class="menu-link-left">
+            <i class="bi bi-book"></i>
+            Học reading
+          </span>
+          <i class="bi bi-chevron-right"></i>
+        </a>
+        <ul class="submenu" id="reading-submenu">
+          <li><a href="#" class="submenu-link" onclick="startReadingPart(1)">Part 1 (Điền từ)</a></li>
+          <li><a href="#" class="submenu-link" onclick="startReadingPart(2)">Part 2 & 3 (Sắp xếp câu)</a></li>
+          <li><a href="#" class="submenu-link" onclick="startReadingPart(4)">Part 4 (Nối ý kiến)</a></li>
+          <li><a href="#" class="submenu-link" onclick="startReadingPart(5)">Part 5 (Nối tiêu đề)</a></li>
+        </ul>
+      </li>
+      
+      <li class="menu-item">
+        <a href="#" class="menu-link" id="menu-speaking" onclick="toggleSubmenu('speaking-submenu')">
+          <span class="menu-link-left">
+            <i class="bi bi-mic"></i>
+            Học Speaking
+          </span>
+          <i class="bi bi-chevron-right"></i>
+        </a>
+        <ul class="submenu" id="speaking-submenu">
+          <li><a href="#" class="submenu-link" onclick="startSpeakingPart(1)">Part 1 (Câu hỏi cá nhân)</a></li>
+          <li><a href="#" class="submenu-link" onclick="startSpeakingPart(2)">Part 2 (Mô tả hình)</a></li>
+          <li><a href="#" class="submenu-link" onclick="startSpeakingPart(3)">Part 3 (So sánh hình)</a></li>
+          <li><a href="#" class="submenu-link" onclick="startSpeakingPart(4)">Part 4 (Kể trải nghiệm)</a></li>
+        </ul>
+      </li>
+
+      <li class="menu-item">
+        <a href="writing.html" class="menu-link">
+          <span class="menu-link-left">
+            <i class="bi bi-pen"></i>
+            Học Writing
+          </span>
+        </a>
+      </li>
+
+      <li class="menu-item">
+        <a href="listening.html" class="menu-link">
+          <span class="menu-link-left">
+            <i class="bi bi-headphones"></i>
+            Listening
+          </span>
+          <span class="menu-badge">299 bài</span>
+        </a>
+      </li>
+
+      <li class="menu-header">Tiện ích học</li>
+      <li class="menu-item">
+        <a href="#" class="menu-link" onclick="toggleFocusMode()">
+          <span class="menu-link-left">
+            <i class="bi bi-eye"></i>
+            Chế độ tập trung
+          </span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#" class="menu-link" onclick="toggleFullScreen()">
+          <span class="menu-link-left">
+            <i class="bi bi-arrows-fullscreen"></i>
+            Toàn màn hình
+          </span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="#" class="menu-link" onclick="showShortcutHelp()">
+          <span class="menu-link-left">
+            <i class="bi bi-command"></i>
+            Phím tắt
+          </span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+  
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+    
+    <!-- ===== TOP HEADER ===== -->
+    <header class="navbar">
+      <div class="navbar-left">
+        <button class="navbar-toggle" onclick="toggleSidebar()">
+          <i class="bi bi-list"></i>
+        </button>
+        <a href="#" class="navbar-link" onclick="showView('dashboard-view')">Trang chủ</a>
+        <span class="navbar-kicker">Không gian tự học offline</span>
+      </div>
+      
+      <div class="navbar-right">
+        <button class="nav-icon-btn" onclick="toggleFullScreen()">
+          <i class="bi bi-arrows-fullscreen"></i>
+        </button>
+
+        <div class="nav-profile">
+          <div class="profile-img">
+            <i class="bi bi-lightning-charge-fill"></i>
+          </div>
+          <span><strong id="study-streak">1</strong> ngày học liên tục</span>
+        </div>
+      </div>
+    </header>
+    
+    <!-- ===== PANEL CONTAINER ===== -->
+    <div class="content-wrapper" id="content-area">
+      
+      <!-- DASHBOARD VIEW -->
+      <div id="dashboard-view" class="view-panel active">
+        <section class="study-hero">
+          <div class="hero-copy">
+            <span class="hero-eyebrow"><i class="bi bi-stars"></i> Focus mode · Aptis Studio</span>
+            <h1>Học sâu hơn.<br/><span>Tiến bộ rõ hơn.</span></h1>
+            <p>Reading, Listening, Speaking và Writing đã được gom thành một bộ luyện tập thống nhất, đẹp và dùng được ngay trên máy.</p>
+            <div class="hero-actions">
+              <button class="hero-primary" onclick="continueLearning()"><i class="bi bi-play-fill"></i> Học tiếp</button>
+              <button class="hero-secondary" onclick="startSpeakingPart(2)"><i class="bi bi-mic-fill"></i> Luyện nói với hình</button>
+            </div>
+          </div>
+          <div class="hero-orbit" aria-hidden="true">
+            <div class="orbit-core"><span id="overall-progress">0%</span><small>đã học</small></div>
+            <span class="orbit-dot dot-one"></span><span class="orbit-dot dot-two"></span><span class="orbit-dot dot-three"></span>
+          </div>
+        </section>
+
+        <section class="dashboard-stats" aria-label="Thống kê nội dung">
+          <div><strong>77</strong><span>bộ Reading</span></div>
+          <div><strong>171</strong><span>bộ Speaking</span></div>
+          <div><strong>87</strong><span>hình offline</span></div>
+          <div><strong id="learned-count">0</strong><span>mục đã học</span></div>
+        </section>
+
+        <div class="section-heading">
+          <div><span>Chọn kỹ năng</span><h2>Vào nhịp học của bạn</h2></div>
+          <p>Mỗi buổi nên học 10–20 phút, tự trả lời trước rồi mới xem đáp án.</p>
+        </div>
+
+        <div class="skill-grid">
+          <article class="skill-card reading-skill" onclick="startReadingPart(1)">
+            <div class="skill-top"><span class="skill-icon"><i class="bi bi-book-half"></i></span><span class="skill-pill">77 bộ</span></div>
+            <h3>Reading</h3><p>Điền từ, sắp xếp câu, nối ý kiến và nối tiêu đề.</p>
+            <div class="skill-progress"><span id="reading-progress-bar"></span></div>
+            <div class="skill-footer"><span id="reading-progress-text">Bắt đầu luyện</span><i class="bi bi-arrow-up-right"></i></div>
+          </article>
+          <article class="skill-card speaking-skill" onclick="startSpeakingPart(1)">
+            <div class="skill-top"><span class="skill-icon"><i class="bi bi-soundwave"></i></span><span class="skill-pill">171 bộ</span></div>
+            <h3>Speaking</h3><p>Câu hỏi cá nhân, mô tả hình, so sánh và kể trải nghiệm.</p>
+            <div class="skill-progress"><span id="speaking-progress-bar"></span></div>
+            <div class="skill-footer"><span id="speaking-progress-text">Bắt đầu luyện</span><i class="bi bi-arrow-up-right"></i></div>
+          </article>
+          <a class="skill-card writing-skill" href="writing.html">
+            <div class="skill-top"><span class="skill-icon"><i class="bi bi-vector-pen"></i></span><span class="skill-pill">Đã có</span></div>
+            <h3>Writing</h3><p>Luyện viết theo từng phần với đếm từ và bài mẫu.</p>
+            <div class="skill-footer"><span>Mở khu vực Writing</span><i class="bi bi-arrow-up-right"></i></div>
+          </a>
+          <a class="skill-card listening-skill" href="listening.html">
+            <div class="skill-top"><span class="skill-icon"><i class="bi bi-headphones"></i></span><span class="skill-pill">299 bài</span></div>
+            <h3>Listening</h3><p>299 bài nghe offline · 297 audio · transcript và chấm đáp án theo từng dạng.</p>
+            <div class="skill-footer"><span>Mở khu vực Listening</span><i class="bi bi-arrow-up-right"></i></div>
+          </a>
+        </div>
+
+        <footer class="dashboard-footer">Aptis Studio · Reading · Listening · Speaking · Writing · 2026</footer>
+      </div>
+      
+      <!-- PRACTICE EXAM VIEW -->
+      <div id="practice-view" class="view-panel">
+        <div class="exam-layout">
+          <div class="exam-header">
+            <div class="exam-header-left">
+              <i class="bi bi-house-door-fill" style="cursor:pointer;" onclick="showView('dashboard-view')"></i>
+              <span>Aptis Keys</span>
+            </div>
+            <div class="exam-header-center">
+              Time remaining: <span id="timer-display">35:00</span>
+            </div>
+            <div class="exam-header-right" id="exam-right-title">
+              Reading Question 1
+            </div>
+          </div>
+          
+          <div class="exam-body">
+            <div class="exam-content-area">
+              <div class="reading-part-tabs" role="tablist" aria-label="Các phần Reading">
+                <button class="active" data-reading-part="1" onclick="startReadingPart(1)">Part 1 · Điền từ</button>
+                <button data-reading-part="2" onclick="startReadingPart(2)">Part 2 &amp; 3 · Sắp xếp câu</button>
+                <button data-reading-part="4" onclick="startReadingPart(4)">Part 4 · Nối ý kiến</button>
+                <button data-reading-part="5" onclick="startReadingPart(5)">Part 5 · Nối tiêu đề</button>
+              </div>
+              <div class="exam-card">
+                <div class="exam-question-title" id="q-number-title">Reading Question 1 of 13</div>
+                <div class="exam-instruction" id="q-instruction">Choose the word that fits in each gap.</div>
+                
+                <!-- DYNAMIC CONTENT BOX -->
+                <div id="dynamic-exam-content">
+                  <!-- Inner container generated by JS depending on Active Part -->
+                </div>
+
+                
+                <!-- SCORE FEEDBACK BANNER -->
+                <div class="score-banner" id="score-feedback"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="exam-footer-bar">
+            <button class="exam-btn exam-btn-back" onclick="prevQuestion()">Back</button>
+            <button class="exam-btn exam-btn-check" onclick="checkAnswers()">Check result</button>
+            <button class="exam-btn exam-btn-next" onclick="nextQuestion()">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPEAKING PRACTICE VIEW -->
+      <div id="speaking-view" class="view-panel">
+        <div class="speaking-shell">
+          <header class="speaking-header">
+            <button class="speaking-home" onclick="showView('dashboard-view')"><i class="bi bi-grid-1x2-fill"></i><span>Trang chủ</span></button>
+            <div class="speaking-part-tabs" role="tablist">
+              <button onclick="startSpeakingPart(1)" data-speaking-part="1">Part 1</button>
+              <button onclick="startSpeakingPart(2)" data-speaking-part="2">Part 2</button>
+              <button onclick="startSpeakingPart(3)" data-speaking-part="3">Part 3</button>
+              <button onclick="startSpeakingPart(4)" data-speaking-part="4">Part 4</button>
+            </div>
+            <div class="speaking-counter" id="speaking-counter">1 / 56</div>
+          </header>
+
+          <div class="speaking-stage">
+            <aside class="speaking-coach">
+              <div class="coach-label">Speaking coach</div>
+              <div class="voice-timer" id="voice-timer">
+                <div><strong id="voice-timer-display">00:30</strong><span>thời gian nói</span></div>
+              </div>
+              <button class="timer-main-btn" id="voice-timer-btn" onclick="toggleSpeakingTimer()"><i class="bi bi-play-fill"></i> Bắt đầu</button>
+              <button class="timer-reset-btn" onclick="resetSpeakingTimer()"><i class="bi bi-arrow-counterclockwise"></i> Đặt lại</button>
+              <div class="coach-tip"><i class="bi bi-lightbulb-fill"></i><p id="speaking-coach-tip">Tự trả lời trước khi xem đáp án mẫu.</p></div>
+              <div class="shortcut-mini"><kbd>←</kbd><kbd>→</kbd> chuyển câu · <kbd>A</kbd> đáp án · <kbd>Space</kbd> giờ</div>
+            </aside>
+
+            <main class="speaking-workspace">
+              <div class="speaking-question-head">
+                <div><span id="speaking-part-label">SPEAKING · PART 1</span><h2 id="speaking-title">Câu hỏi cá nhân</h2></div>
+                <div class="speaking-head-actions">
+                  <button onclick="randomSpeakingQuestion()" title="Câu ngẫu nhiên"><i class="bi bi-shuffle"></i></button>
+                  <button id="speaking-complete-btn" onclick="toggleSpeakingComplete()" title="Đánh dấu đã học"><i class="bi bi-check2-circle"></i></button>
+                </div>
+              </div>
+
+              <div id="speaking-content" class="speaking-content"></div>
+
+              <section class="speaking-note-card">
+                <label for="speaking-note"><i class="bi bi-journal-text"></i> Ý tưởng của tôi</label>
+                <textarea id="speaking-note" placeholder="Ghi từ khóa, cấu trúc hoặc câu bạn muốn luyện..." oninput="saveSpeakingNote()"></textarea>
+                <span id="speaking-note-status">Tự động lưu trên máy</span>
+              </section>
+
+              <div class="speaking-nav-actions">
+                <button onclick="prevSpeakingQuestion()"><i class="bi bi-arrow-left"></i> Câu trước</button>
+                <button class="answer-toggle-btn" id="answer-toggle-btn" onclick="toggleSpeakingAnswers()"><i class="bi bi-eye"></i> Xem đáp án mẫu</button>
+                <button onclick="nextSpeakingQuestion()">Câu tiếp <i class="bi bi-arrow-right"></i></button>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </main>
+</div>
+
+<div class="app-toast" id="app-toast" role="status" aria-live="polite"></div>
+
+<div class="result-modal-overlay" id="result-modal" aria-hidden="true" onclick="handleResultOverlayClick(event)">
+  <div class="result-modal" role="dialog" aria-modal="true" aria-labelledby="result-modal-title">
+    <div class="result-modal-header">
+      <h3 class="result-modal-title" id="result-modal-title">Test and Answer Review keys 001</h3>
+      <button type="button" class="result-modal-close" onclick="closeResultModal()" aria-label="Close result review">×</button>
+    </div>
+    <div class="result-modal-body">
+      <div class="result-score" id="result-modal-score">Your Score: 0 / 0</div>
+      <div class="result-classification" id="result-modal-classification">Classification: Cố gắng thêm nhé!</div>
+      <table class="review-table">
+        <thead>
+          <tr>
+            <th class="review-item-col">Câu</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+          </tr>
+        </thead>
+        <tbody id="result-review-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="selection-format-toolbar" id="selection-format-toolbar" hidden>
+  <button type="button" class="selection-format-btn" onmousedown="event.preventDefault()" onclick="applyQuestionAnnotation('highlight')" title="Highlight đoạn đang chọn"><i class="bi bi-highlighter"></i></button>
+  <button type="button" class="selection-format-btn" onmousedown="event.preventDefault()" onclick="applyQuestionAnnotation('bold')" title="In đậm"><strong>B</strong></button>
+  <button type="button" class="selection-format-btn" onmousedown="event.preventDefault()" onclick="applyQuestionAnnotation('italic')" title="In nghiêng"><em>I</em></button>
+  <button type="button" class="selection-format-btn" onmousedown="event.preventDefault()" onclick="applyQuestionAnnotation('underline')" title="Gạch chân"><u>U</u></button>
+  <label class="selection-color-wrap" title="Đổi màu chữ"><input type="color" id="selection-format-color" value="#0d6efd" oninput="applyQuestionAnnotation('color', this.value)" /></label>
+  <button type="button" class="selection-format-btn" onmousedown="event.preventDefault()" onclick="applyQuestionAnnotation('clear')" title="Bỏ định dạng đoạn đang chọn"><i class="bi bi-eraser"></i></button>
+</div>
+<!-- ===== SCRIPTS ===== -->
+<script>
+  let activePart = 1; // 1, 2, 4, 5
+  let currentQuestionIdx = 0;
+  let timerInterval = null;
+  let timeRemaining = 35 * 60; // 35 minutes in seconds
+
+  // Active selections and states
+  const userAnswers = {}; // key: `p{partNum}_q{questionIdx}_g{gapIdx}`
+  let currentPart2Order = []; // stores temporary order array for Part 2 drag-drop
+  const NOTE_STORAGE_PREFIX = 'aptisReadingStudyNote';
+  const DRAWING_STORAGE_PREFIX = 'aptisReadingDrawing';
+  const ANNOTATION_STORAGE_PREFIX = 'aptisReadingTextAnnotation';
+  const EMPTY_ANSWER_TEXT = '(không chọn)';
+  let noteStatusTimer = null;
+  let activeDrawingState = { isDrawing: false, lastX: 0, lastY: 0 };
+  let activeAnnotationRange = null;
+  let activeAnnotationTarget = null;
+  let annotationToolbarTimer = null;
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+
+  function escapeAttr(value) {
+    return escapeHtml(value);
+  }
+
+  function getActiveQuestionList() {
+    if (activePart === 1) return readingDB.part1 || [];
+    if (activePart === 2) return readingDB.part2_3 || [];
+    if (activePart === 4) return readingDB.part4 || [];
+    if (activePart === 5) return readingDB.part5 || [];
+    return [];
+  }
+
+  function getStudyStorageKey(prefix, noteId) {
+    return `${prefix}:${noteId}`;
+  }
+
+  function makeStableId(value) {
+    const text = String(value ?? '');
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+      hash = ((hash << 5) - hash) + text.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash).toString(36);
+  }
+
+  function sanitizeAnnotationHtml(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    template.content.querySelectorAll('script, style, iframe, object, embed, input, select, textarea, button, canvas').forEach(el => el.remove());
+    template.content.querySelectorAll('*').forEach(el => {
+      [...el.attributes].forEach(attr => {
+        const allowedClass = attr.name === 'class' && /^(exam-highlight|exam-text-color)(\s+(exam-highlight|exam-text-color))*$/.test(attr.value);
+        const allowedStyle = attr.name === 'style' && /^\s*color:\s*#[0-9a-fA-F]{3,8};?\s*$/.test(attr.value);
+        if (!allowedClass && !allowedStyle) el.removeAttribute(attr.name);
+      });
+    });
+    return template.innerHTML;
+  }
+
+  function getAnnotationHtml(annotationId, text) {
+    try {
+      const savedHtml = localStorage.getItem(getStudyStorageKey(ANNOTATION_STORAGE_PREFIX, annotationId));
+      if (savedHtml) return sanitizeAnnotationHtml(savedHtml);
+    } catch (err) {
+      // Annotation persistence is optional when browser storage is blocked.
+    }
+    return escapeHtml(text);
+  }
+
+  function renderAnnotatableText(annotationId, text, extraClass = '', tag = 'span') {
+    const allowedTag = ['span', 'div', 'strong'].includes(tag) ? tag : 'span';
+    const className = ['annotatable', extraClass].filter(Boolean).join(' ');
+    return `<${allowedTag} class="${escapeAttr(className)}" data-annotation-id="${escapeAttr(annotationId)}">${getAnnotationHtml(annotationId, text)}</${allowedTag}>`;
+  }
+
+  function getSelectionElement(node) {
+    if (!node) return null;
+    return node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+  }
+
+  function getActiveAnnotatableSelection() {
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed || !selection.rangeCount) return null;
+    const range = selection.getRangeAt(0);
+    const startEl = getSelectionElement(range.startContainer);
+    const endEl = getSelectionElement(range.endContainer);
+    const startTarget = startEl?.closest('.annotatable');
+    const endTarget = endEl?.closest('.annotatable');
+    const examContent = document.getElementById('dynamic-exam-content');
+    if (!startTarget || startTarget !== endTarget || !examContent?.contains(startTarget)) return null;
+    if (!startTarget.contains(range.commonAncestorContainer)) return null;
+    return { selection, range, target: startTarget };
+  }
+
+  function scheduleAnnotationToolbarUpdate() {
+    clearTimeout(annotationToolbarTimer);
+    annotationToolbarTimer = setTimeout(updateAnnotationToolbarFromSelection, 80);
+  }
+
+  function updateAnnotationToolbarFromSelection() {
+    const selectionState = getActiveAnnotatableSelection();
+    if (!selectionState) {
+      hideAnnotationToolbar();
+      return;
+    }
+    activeAnnotationRange = selectionState.range.cloneRange();
+    activeAnnotationTarget = selectionState.target;
+
+    const toolbar = document.getElementById('selection-format-toolbar');
+    const rect = selectionState.range.getBoundingClientRect();
+    if (!toolbar || !rect || (!rect.width && !rect.height)) return;
+
+    toolbar.hidden = false;
+    const toolbarRect = toolbar.getBoundingClientRect();
+    const left = Math.max(8, Math.min(window.innerWidth - toolbarRect.width - 8, rect.left + (rect.width / 2) - (toolbarRect.width / 2)));
+    const topAbove = rect.top - toolbarRect.height - 8;
+    const top = topAbove > 8 ? topAbove : Math.min(window.innerHeight - toolbarRect.height - 8, rect.bottom + 8);
+    toolbar.style.left = `${left}px`;
+    toolbar.style.top = `${Math.max(8, top)}px`;
+  }
+
+  function hideAnnotationToolbar() {
+    const toolbar = document.getElementById('selection-format-toolbar');
+    if (toolbar) toolbar.hidden = true;
+  }
+
+  function saveQuestionAnnotation(target) {
+    const annotationId = target?.dataset?.annotationId;
+    if (!annotationId) return;
+    try {
+      localStorage.setItem(getStudyStorageKey(ANNOTATION_STORAGE_PREFIX, annotationId), target.innerHTML);
+    } catch (err) {
+      // Keep the on-page annotation even if browser storage is blocked.
+    }
+  }
+
+  function wrapAnnotationRange(range, format, value) {
+    let wrapper;
+    if (format === 'bold') wrapper = document.createElement('strong');
+    if (format === 'italic') wrapper = document.createElement('em');
+    if (format === 'underline') wrapper = document.createElement('u');
+    if (format === 'highlight') {
+      wrapper = document.createElement('span');
+      wrapper.className = 'exam-highlight';
+    }
+    if (format === 'color') {
+      wrapper = document.createElement('span');
+      wrapper.className = 'exam-text-color';
+      wrapper.style.color = value || '#0d6efd';
+    }
+    if (!wrapper) return;
+    const fragment = range.extractContents();
+    wrapper.appendChild(fragment);
+    range.insertNode(wrapper);
+  }
+
+  function clearAnnotationRange(range) {
+    const plainText = range.toString();
+    range.deleteContents();
+    range.insertNode(document.createTextNode(plainText));
+  }
+
+  function applyQuestionAnnotation(format, value = null) {
+    if (!activeAnnotationRange || !activeAnnotationTarget) return;
+    const target = activeAnnotationTarget;
+    const range = activeAnnotationRange.cloneRange();
+    if (!target.contains(range.commonAncestorContainer)) return;
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    if (format === 'clear') {
+      clearAnnotationRange(range);
+    } else {
+      wrapAnnotationRange(range, format, value);
+    }
+
+    target.normalize();
+    saveQuestionAnnotation(target);
+    selection.removeAllRanges();
+    activeAnnotationRange = null;
+    activeAnnotationTarget = null;
+    hideAnnotationToolbar();
+  }
+
+  function renderStudyToggle(noteId) {
+    return `
+      <div class="inline-note" data-note-id="${escapeAttr(noteId)}">
+        <button type="button" class="inline-note-toggle" onclick="toggleStudyBox('${noteId}')">
+          <i class="bi bi-chevron-right" id="note-icon-${noteId}"></i>
+          <span>Ghi chú / dịch / vẽ</span>
+        </button>
+        <div class="inline-note-panel" id="note-panel-${noteId}" hidden>
+          <div class="rich-toolbar" aria-label="Text formatting tools">
+            <button type="button" class="format-btn icon-only" onmousedown="event.preventDefault()" onclick="applyNoteCommand('${noteId}', 'bold')" title="In đậm"><strong>B</strong></button>
+            <button type="button" class="format-btn icon-only" onmousedown="event.preventDefault()" onclick="applyNoteCommand('${noteId}', 'underline')" title="Gạch chân"><u>U</u></button>
+            <button type="button" class="format-btn" onmousedown="event.preventDefault()" onclick="applyNoteHighlight('${noteId}')" title="Highlight chữ"><i class="bi bi-highlighter"></i><span>Highlight</span></button>
+            <input type="color" id="note-color-${noteId}" class="note-color-picker" value="#0d6efd" oninput="applyNoteColor('${noteId}', this.value)" title="Đổi màu chữ" />
+            <button type="button" class="format-btn" onmousedown="event.preventDefault()" onclick="applyNoteCommand('${noteId}', 'removeFormat')" title="Bỏ định dạng"><i class="bi bi-eraser"></i><span>Bỏ format</span></button>
+            <button type="button" class="note-tool-btn" onclick="insertSelectedTextToNote('${noteId}')" title="Chép đoạn đang bôi đen vào ghi chú"><i class="bi bi-plus-square"></i><span>Chép đoạn chọn</span></button>
+            <button type="button" class="note-tool-btn" onclick="copyStudyNote('${noteId}')" title="Copy ghi chú"><i class="bi bi-clipboard"></i><span>Copy</span></button>
+            <button type="button" class="note-tool-btn" onclick="openStudyTranslation('${noteId}', 'vi')" title="Dịch sang tiếng Việt"><i class="bi bi-translate"></i><span>EN → VI</span></button>
+            <button type="button" class="note-tool-btn" onclick="openStudyTranslation('${noteId}', 'en')" title="Dịch sang tiếng Anh"><i class="bi bi-translate"></i><span>VI → EN</span></button>
+            <button type="button" class="note-tool-btn" onclick="clearStudyNote('${noteId}')" title="Xóa ghi chú"><i class="bi bi-trash"></i><span>Xóa note</span></button>
+            <span class="note-status" id="note-status-${noteId}">Tự lưu riêng cho ô này.</span>
+          </div>
+          <div id="study-note-${noteId}" class="study-rich-editor" contenteditable="true" oninput="saveStudyNote('${noteId}')" data-placeholder="Ghi từ vựng, bản dịch, ý chính hoặc mẹo làm ô này ở đây..."></div>
+          <div class="drawing-panel">
+            <div class="drawing-toolbar" aria-label="Drawing tools">
+              <button type="button" class="format-btn" title="Bút vẽ"><i class="bi bi-pencil"></i><span>Bút vẽ</span></button>
+              <input type="color" id="pen-color-${noteId}" class="pen-color-picker" value="#dc3545" title="Màu bút" />
+              <label class="pen-size-label">Nét <input type="range" id="pen-size-${noteId}" min="1" max="18" value="3" /></label>
+              <button type="button" class="note-tool-btn" onclick="clearDrawingPad('${noteId}')" title="Xóa vùng vẽ"><i class="bi bi-eraser"></i><span>Xóa vẽ</span></button>
+            </div>
+            <div class="drawing-canvas-wrap">
+              <canvas id="study-drawing-${noteId}" class="study-drawing-canvas" width="1000" height="180"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function toggleStudyBox(noteId) {
+    const panel = document.getElementById(`note-panel-${noteId}`);
+    const icon = document.getElementById(`note-icon-${noteId}`);
+    if (!panel) return;
+    const willOpen = panel.hidden;
+    panel.hidden = !willOpen;
+    if (icon) {
+      icon.classList.toggle('bi-chevron-right', !willOpen);
+      icon.classList.toggle('bi-chevron-down', willOpen);
+    }
+    if (willOpen) {
+      loadStudyNote(noteId);
+      initDrawingPad(noteId);
+    }
+  }
+
+  function setNoteStatus(noteId, message) {
+    const status = document.getElementById(`note-status-${noteId}`);
+    if (!status) return;
+    status.textContent = message;
+    clearTimeout(noteStatusTimer);
+    noteStatusTimer = setTimeout(() => {
+      status.textContent = 'Tự lưu riêng cho ô này.';
+    }, 2600);
+  }
+
+  function loadStudyNote(noteId) {
+    const editor = document.getElementById(`study-note-${noteId}`);
+    if (!editor) return;
+    try {
+      editor.innerHTML = localStorage.getItem(getStudyStorageKey(NOTE_STORAGE_PREFIX, noteId)) || '';
+    } catch (err) {
+      setNoteStatus(noteId, 'Trình duyệt đang chặn lưu ghi chú.');
+    }
+  }
+
+  function saveStudyNote(noteId) {
+    const editor = document.getElementById(`study-note-${noteId}`);
+    if (!editor) return;
+    try {
+      localStorage.setItem(getStudyStorageKey(NOTE_STORAGE_PREFIX, noteId), editor.innerHTML);
+      setNoteStatus(noteId, 'Đã lưu ghi chú.');
+    } catch (err) {
+      setNoteStatus(noteId, 'Không lưu được ghi chú trên trình duyệt này.');
+    }
+  }
+
+  function ensureEditorSelection(editor) {
+    const selection = window.getSelection();
+    const hasEditorSelection = selection && selection.rangeCount && editor.contains(selection.anchorNode) && !selection.isCollapsed;
+    if (hasEditorSelection) return;
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+
+  function applyNoteCommand(noteId, command, value = null) {
+    const editor = document.getElementById(`study-note-${noteId}`);
+    if (!editor) return;
+    editor.focus();
+    ensureEditorSelection(editor);
+    document.execCommand(command, false, value);
+    saveStudyNote(noteId);
+  }
+
+  function applyNoteHighlight(noteId) {
+    applyNoteCommand(noteId, 'backColor', '#fff3cd');
+  }
+
+  function applyNoteColor(noteId, color) {
+    applyNoteCommand(noteId, 'foreColor', color);
+  }
+
+  function getSelectedStudyText() {
+    const selectedText = window.getSelection ? window.getSelection().toString().trim() : '';
+    return selectedText.replace(/\s+/g, ' ');
+  }
+
+  function getStudyNoteText(noteId) {
+    const editor = document.getElementById(`study-note-${noteId}`);
+    return editor ? editor.innerText.trim() : '';
+  }
+
+  function insertSelectedTextToNote(noteId) {
+    const selectedText = getSelectedStudyText();
+    const editor = document.getElementById(`study-note-${noteId}`);
+    if (!editor) return;
+    if (!selectedText) {
+      setNoteStatus(noteId, 'Bôi đen đoạn cần lưu trước.');
+      return;
+    }
+    const safeText = escapeHtml(selectedText).replace(/\n/g, '<br>');
+    editor.insertAdjacentHTML('beforeend', `${editor.innerHTML.trim() ? '<br>' : ''}<p>${safeText}</p>`);
+    saveStudyNote(noteId);
+    editor.focus();
+  }
+
+  function openStudyTranslation(noteId, targetLang) {
+    const text = getStudyNoteText(noteId) || getSelectedStudyText();
+    if (!text) {
+      setNoteStatus(noteId, 'Nhập ghi chú hoặc bôi đen đoạn cần dịch trước.');
+      return;
+    }
+    const url = `https://translate.google.com/?sl=auto&tl=${targetLang}&text=${encodeURIComponent(text)}&op=translate`;
+    window.open(url, '_blank', 'noopener');
+    setNoteStatus(noteId, 'Đã mở Google Translate trong tab mới.');
+  }
+
+  function copyStudyNote(noteId) {
+    const text = getStudyNoteText(noteId);
+    if (!text) {
+      setNoteStatus(noteId, 'Chưa có ghi chú để copy.');
+      return;
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => setNoteStatus(noteId, 'Đã copy ghi chú.')).catch(() => setNoteStatus(noteId, 'Không copy được, hãy chọn thủ công.'));
+    } else {
+      const editor = document.getElementById(`study-note-${noteId}`);
+      const range = document.createRange();
+      range.selectNodeContents(editor);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand('copy');
+      selection.removeAllRanges();
+      setNoteStatus(noteId, 'Đã copy ghi chú.');
+    }
+  }
+
+  function clearStudyNote(noteId) {
+    const editor = document.getElementById(`study-note-${noteId}`);
+    if (!editor) return;
+    editor.innerHTML = '';
+    saveStudyNote(noteId);
+    editor.focus();
+  }
+
+  function getCanvasPoint(canvas, event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (event.clientX - rect.left) * (canvas.width / rect.width),
+      y: (event.clientY - rect.top) * (canvas.height / rect.height)
+    };
+  }
+
+  function getDrawingContext(canvas) {
+    const ctx = canvas.getContext('2d');
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    return ctx;
+  }
+
+  function initDrawingPad(noteId) {
+    const canvas = document.getElementById(`study-drawing-${noteId}`);
+    if (!canvas || canvas.dataset.ready === 'true') return;
+    canvas.dataset.ready = 'true';
+    const ctx = getDrawingContext(canvas);
+    try {
+      const savedImage = localStorage.getItem(getStudyStorageKey(DRAWING_STORAGE_PREFIX, noteId));
+      if (savedImage) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        img.src = savedImage;
+      }
+    } catch (err) {
+      setNoteStatus(noteId, 'Không tải được vùng vẽ đã lưu.');
+    }
+
+    canvas.addEventListener('pointerdown', event => {
+      event.preventDefault();
+      canvas.setPointerCapture(event.pointerId);
+      const point = getCanvasPoint(canvas, event);
+      activeDrawingState = { isDrawing: true, lastX: point.x, lastY: point.y };
+    });
+
+    canvas.addEventListener('pointermove', event => {
+      if (!activeDrawingState.isDrawing) return;
+      event.preventDefault();
+      const point = getCanvasPoint(canvas, event);
+      const color = document.getElementById(`pen-color-${noteId}`)?.value || '#dc3545';
+      const size = Number(document.getElementById(`pen-size-${noteId}`)?.value || 3);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = size;
+      ctx.beginPath();
+      ctx.moveTo(activeDrawingState.lastX, activeDrawingState.lastY);
+      ctx.lineTo(point.x, point.y);
+      ctx.stroke();
+      activeDrawingState.lastX = point.x;
+      activeDrawingState.lastY = point.y;
+    });
+
+    const stopDrawing = () => {
+      if (!activeDrawingState.isDrawing) return;
+      activeDrawingState.isDrawing = false;
+      try {
+        localStorage.setItem(getStudyStorageKey(DRAWING_STORAGE_PREFIX, noteId), canvas.toDataURL('image/png'));
+        setNoteStatus(noteId, 'Đã lưu nét vẽ.');
+      } catch (err) {
+        setNoteStatus(noteId, 'Không lưu được nét vẽ trên trình duyệt này.');
+      }
+    };
+
+    canvas.addEventListener('pointerup', stopDrawing);
+    canvas.addEventListener('pointercancel', stopDrawing);
+    canvas.addEventListener('pointerleave', stopDrawing);
+  }
+
+  function clearDrawingPad(noteId) {
+    const canvas = document.getElementById(`study-drawing-${noteId}`);
+    if (!canvas) return;
+    const ctx = getDrawingContext(canvas);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    try {
+      localStorage.removeItem(getStudyStorageKey(DRAWING_STORAGE_PREFIX, noteId));
+      setNoteStatus(noteId, 'Đã xóa vùng vẽ.');
+    } catch (err) {
+      setNoteStatus(noteId, 'Không xóa được vùng vẽ đã lưu.');
+    }
+  }
+
+  // UI Navigation
+  function showView(viewId) {
+    document.querySelectorAll('.view-panel').forEach(panel => {
+      panel.classList.remove('active');
+    });
+    document.getElementById(viewId).classList.add('active');
+    
+    // Manage sidebar active class
+    const dashboardLink = document.getElementById('menu-dashboard');
+    if (viewId === 'dashboard-view') {
+      dashboardLink.classList.add('active');
+      clearInterval(timerInterval);
+      stopSpeakingTimer();
+      document.body.classList.remove('focus-mode');
+      updateDashboardStats();
+    } else {
+      dashboardLink.classList.remove('active');
+    }
+    document.body.classList.remove('sidebar-open');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleSidebar() {
+    if (window.innerWidth <= 860) {
+      document.body.classList.toggle('sidebar-open');
+      return;
+    }
+    document.body.classList.toggle('focus-mode');
+  }
+
+  function toggleSubmenu(submenuId) {
+    const submenu = document.getElementById(submenuId);
+    submenu.classList.toggle('open');
+    const icon = submenu.previousElementSibling.querySelector('.bi-chevron-right');
+    if (icon) {
+      icon.classList.toggle('bi-chevron-down');
+    }
+  }
+
+  // Timer functions
+  function startTimer() {
+    timeRemaining = 35 * 60;
+    updateTimerDisplay();
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      updateTimerDisplay();
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert("Time is up!");
+        checkAnswers();
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const min = Math.floor(timeRemaining / 60);
+    const sec = timeRemaining % 60;
+    document.getElementById('timer-display').textContent = 
+      `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+  }
+
+  // Start exam depending on part
+  function startReadingPart(partNum) {
+    activePart = partNum;
+    currentQuestionIdx = 0;
+    showView('practice-view');
+    updateReadingPartTabs();
+    loadQuestion();
+    startTimer();
+    rememberSession('reading', partNum, 0);
+  }
+
+  function updateReadingPartTabs() {
+    document.querySelectorAll('[data-reading-part]').forEach(button => {
+      button.classList.toggle('active', Number(button.dataset.readingPart) === Number(activePart));
+    });
+  }
+
+  // Master Question Loader
+  function loadQuestion() {
+    const feedback = document.getElementById('score-feedback');
+    feedback.style.display = 'none';
+    hideAnnotationToolbar();
+    activeAnnotationRange = null;
+    activeAnnotationTarget = null;
+
+    const qList = getActiveQuestionList();
+    if (!qList.length) {
+      document.getElementById('q-number-title').textContent = `Reading Part ${activePart}`;
+      document.getElementById('exam-right-title').textContent = `Reading Part ${activePart}`;
+      document.getElementById('q-instruction').textContent = 'Chưa có dữ liệu cho phần này.';
+      document.getElementById('dynamic-exam-content').innerHTML = '<div class="exam-passage-box">Không tìm thấy câu hỏi. Hãy kiểm tra lại file dữ liệu gốc.</div>';
+
+      return;
+    }
+
+    if (currentQuestionIdx >= qList.length) currentQuestionIdx = 0;
+
+    if (activePart === 1) {
+      loadPart1();
+    } else if (activePart === 2) {
+      loadPart2();
+    } else if (activePart === 4) {
+      loadPart4();
+    } else if (activePart === 5) {
+      loadPart5();
+    }
+
+  }
+
+  // ----------------- PART 1 RENDERER -----------------
+  function loadPart1() {
+    const qList = readingDB.part1 || [];
+    const q = qList[currentQuestionIdx];
+    if (!q) return;
+    
+    document.getElementById('q-number-title').textContent = `Reading Question ${currentQuestionIdx + 1} of ${qList.length}`;
+    document.getElementById('exam-right-title').textContent = `Reading Question ${currentQuestionIdx + 1}`;
+    document.getElementById('q-instruction').textContent = `Choose the word that fits in each gap.`;
+    
+    const template = q.template || [];
+    const gaps = q.gaps || [];
+    const lines = [];
+    let currentLine = '';
+    let currentNoteIds = [];
+
+    function flushPart1Line() {
+      if (currentLine.trim() || currentNoteIds.length) {
+        lines.push({ html: currentLine, noteIds: [...currentNoteIds] });
+      }
+      currentLine = '';
+      currentNoteIds = [];
+    }
+
+    function appendPart1Text(text, templateIdx) {
+      const parts = String(text ?? '').split('\n');
+      parts.forEach((part, idx) => {
+        if (idx > 0) flushPart1Line();
+        if (part) currentLine += renderAnnotatableText(`p1-q${currentQuestionIdx}-t${templateIdx}-${idx}`, part, 'exam-text-segment');
+      });
+    }
+
+    function appendPart1Gap(gap, idx) {
+      const key = `p1_q${currentQuestionIdx}_g${idx}`;
+      const savedVal = userAnswers[key] || "";
+      let selectHtml = '';
+      selectHtml = ` <select class="exam-select" id="${key}" onchange="saveSelection('${key}', this.value)">`;
+      selectHtml += `<option value="">— Chọn —</option>`;
+      (gap.options || []).forEach(opt => {
+        const selected = (savedVal === opt) ? "selected" : "";
+        selectHtml += `<option value="${escapeAttr(opt)}" ${selected}>${escapeHtml(opt)}</option>`;
+      });
+      selectHtml += `</select> `;
+      currentLine += selectHtml;
+      currentNoteIds.push(`p1-q${currentQuestionIdx}-g${idx}`);
+    }
+
+    for (let i = 0; i < template.length; i++) {
+      appendPart1Text(template[i], i);
+      if (i < gaps.length) appendPart1Gap(gaps[i], i);
+    }
+    flushPart1Line();
+
+    let html = `<div class="exam-passage-box">`;
+    html += `${renderAnnotatableText(`p1-q${currentQuestionIdx}-sender`, q.sender || '', 'sender-text', 'strong')}<br/><br/>`;
+    lines.forEach(line => {
+      html += `<div class="part1-line">${line.html}</div>`;
+      line.noteIds.forEach(noteId => {
+        html += renderStudyToggle(noteId);
+      });
+    });
+    html += `</div>`;
+    
+    document.getElementById('dynamic-exam-content').innerHTML = html;
+  }
+
+  // ----------------- PART 2 & 3 RENDERER (DRAG & DROP) -----------------
+  function loadPart2() {
+    const qList = readingDB.part2_3 || [];
+    const q = qList[currentQuestionIdx];
+    if (!q) return;
+    
+    document.getElementById('q-number-title').textContent = `Reading Question ${currentQuestionIdx + 1} of ${qList.length}`;
+    document.getElementById('exam-right-title').textContent = `Reading Question ${currentQuestionIdx + 1}`;
+    document.getElementById('q-instruction').textContent = `Put all sentences below in the right order.`;
+    
+    const key = `p2_q${currentQuestionIdx}`;
+    if (!userAnswers[key]) {
+      const shuffled = [...q.correctOrder];
+      shuffled.sort(() => Math.random() - 0.5);
+      userAnswers[key] = shuffled;
+    }
+    
+    currentPart2Order = userAnswers[key];
+    
+    let html = `<div style="font-weight: bold; margin-bottom: 10px;">Topic: ${renderAnnotatableText(`p2-q${currentQuestionIdx}-topic`, q.topic || 'General', 'topic-text')}</div>`;
+    html += `<ul class="drag-list" id="drag-container" ondragover="dragOver(event)" ondrop="drop(event)">`;
+    
+    currentPart2Order.forEach((sentence, idx) => {
+      const noteId = `p2-q${currentQuestionIdx}-s${idx}`;
+      html += `
+        <li class="drag-item" data-index="${idx}" data-sentence="${escapeAttr(sentence)}">
+          <div class="drag-row">
+            <i class="bi bi-grip-vertical drag-handle" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)" title="Kéo để sắp xếp"></i>
+            <span class="drag-index">${idx + 1}</span>
+            ${renderAnnotatableText(`p2-q${currentQuestionIdx}-s${makeStableId(sentence)}`, sentence, 'drag-text')}
+            <div class="up-down-btns">
+              <button type="button" class="up-down-btn" onclick="moveSentence(${idx}, -1)" title="Move up"><i class="bi bi-chevron-up"></i></button>
+              <button type="button" class="up-down-btn" onclick="moveSentence(${idx}, 1)" title="Move down"><i class="bi bi-chevron-down"></i></button>
+            </div>
+          </div>
+          ${renderStudyToggle(noteId)}
+        </li>
+      `;
+    });
+    
+    html += `</ul>`;
+    document.getElementById('dynamic-exam-content').innerHTML = html;
+  }
+
+  // Drag and Drop implementation
+  let dragSrcEl = null;
+
+  function dragStart(e) {
+    const item = e.target.closest('.drag-item');
+    if (!item) {
+      e.preventDefault();
+      return;
+    }
+    dragSrcEl = item;
+    item.classList.add('dragging');
+    const container = document.getElementById('drag-container');
+    if (container) container.classList.add('drag-active');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', item.getAttribute('data-index'));
+  }
+
+  function dragOver(e) {
+    e.preventDefault();
+    const container = document.getElementById('drag-container');
+    const dragging = document.querySelector('.drag-item.dragging');
+    if (!container || !dragging) return false;
+
+    const afterElement = getDragAfterElement(container, e.clientY);
+    if (afterElement == null) {
+      container.appendChild(dragging);
+    } else {
+      container.insertBefore(dragging, afterElement);
+    }
+    refreshDragIndexes(container);
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+  }
+
+  function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
+    return draggableElements.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      }
+      return closest;
+    }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+  }
+
+
+  function refreshDragIndexes(container) {
+    [...container.querySelectorAll('.drag-item')].forEach((item, idx) => {
+      item.setAttribute('data-index', idx);
+      const indexEl = item.querySelector('.drag-index');
+      if (indexEl) indexEl.textContent = idx + 1;
+      const buttons = item.querySelectorAll('.up-down-btn');
+      if (buttons[0]) buttons[0].setAttribute('onclick', `moveSentence(${idx}, -1)`);
+      if (buttons[1]) buttons[1].setAttribute('onclick', `moveSentence(${idx}, 1)`);
+    });
+  }
+
+  function syncPart2OrderFromDom() {
+    const container = document.getElementById('drag-container');
+    if (!container) return;
+    refreshDragIndexes(container);
+    const ordered = [...container.querySelectorAll('.drag-item')].map(item => item.getAttribute('data-sentence'));
+    if (!ordered.length) return;
+    currentPart2Order = ordered;
+    const key = `p2_q${currentQuestionIdx}`;
+    userAnswers[key] = [...currentPart2Order];
+  }
+
+  function drop(e) {
+    e.preventDefault();
+    syncPart2OrderFromDom();
+  }
+
+  function dragEnd(e) {
+    const container = document.getElementById('drag-container');
+    document.querySelectorAll('.drag-item.dragging').forEach(item => item.classList.remove('dragging'));
+    if (container) container.classList.remove('drag-active');
+    syncPart2OrderFromDom();
+    dragSrcEl = null;
+    loadPart2();
+  }
+
+  function moveSentence(index, direction) {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= currentPart2Order.length) return;
+    
+    const nextOrder = [...currentPart2Order];
+    const [moved] = nextOrder.splice(index, 1);
+    nextOrder.splice(newIndex, 0, moved);
+    currentPart2Order = nextOrder;
+    
+    const key = `p2_q${currentQuestionIdx}`;
+    userAnswers[key] = [...currentPart2Order];
+    
+    loadPart2();
+  }
+
+  // ----------------- PART 4 RENDERER (OPINIONS MATCHING) -----------------
+  function loadPart4() {
+    const qList = readingDB.part4 || [];
+    const q = qList[currentQuestionIdx];
+    if (!q) return;
+    
+    document.getElementById('q-number-title').textContent = `Reading Question 4 (${currentQuestionIdx + 1}/${qList.length})`;
+    document.getElementById('exam-right-title').textContent = `Reading Question ${currentQuestionIdx + 1}`;
+    document.getElementById('q-instruction').textContent = `Read the four opinions posted in the forum, and proceed to answer the questions.`;
+    
+    let html = `<div style="font-weight: bold; margin-bottom: 15px;">Topic: ${renderAnnotatableText(`p4-q${currentQuestionIdx}-topic`, q.topic || 'General', 'topic-text')}</div>`;
+    html += `<div class="part4-grid">`;
+    
+    html += `<div class="opinions-box">`;
+    Object.entries(q.texts || {}).forEach(([letter, text]) => {
+      const noteId = `p4-q${currentQuestionIdx}-op${letter}`;
+      html += `
+        <div class="opinion-card">
+          <span class="opinion-letter">Person ${escapeHtml(letter)}</span>
+          ${renderAnnotatableText(`p4-q${currentQuestionIdx}-op${letter}`, text, 'opinion-text', 'div')}
+          ${renderStudyToggle(noteId)}
+        </div>
+      `;
+    });
+    html += `</div>`;
+    
+    html += `<div class="statements-box">`;
+    (q.statements || []).forEach((item, idx) => {
+      const key = `p4_q${currentQuestionIdx}_s${idx}`;
+      const savedVal = userAnswers[key] || "";
+      
+      const noteId = `p4-q${currentQuestionIdx}-st${idx}`;
+      html += `
+        <div class="statement-card">
+          <div class="statement-item">
+            <span style="flex:1;">${renderAnnotatableText(`p4-q${currentQuestionIdx}-st${idx}`, `${idx + 1}. ${item.statement}`, 'statement-text')}</span>
+            <select class="statement-select" id="${key}" onchange="saveSelection('${key}', this.value)">
+              <option value="">—</option>
+              <option value="A" ${savedVal === 'A' ? 'selected' : ''}>A</option>
+              <option value="B" ${savedVal === 'B' ? 'selected' : ''}>B</option>
+              <option value="C" ${savedVal === 'C' ? 'selected' : ''}>C</option>
+              <option value="D" ${savedVal === 'D' ? 'selected' : ''}>D</option>
+            </select>
+          </div>
+          ${renderStudyToggle(noteId)}
+        </div>
+      `;
+    });
+    html += `</div>`;
+    
+    html += `</div>`;
+    document.getElementById('dynamic-exam-content').innerHTML = html;
+  }
+
+  // ----------------- PART 5 RENDERER (HEADINGS MATCHING) -----------------
+  function loadPart5() {
+    const qList = readingDB.part5 || [];
+    const q = qList[currentQuestionIdx];
+    if (!q) return;
+    
+    document.getElementById('q-number-title').textContent = `Reading Question 5 (${currentQuestionIdx + 1}/${qList.length})`;
+    document.getElementById('exam-right-title').textContent = `Reading Question ${currentQuestionIdx + 1}`;
+    document.getElementById('q-instruction').textContent = `Choose the correct heading for each paragraph from the dropdown list.`;
+    
+    const headings = (q.headings && q.headings.length) ? q.headings : (q.paragraphs || []).map(p => p.correct).filter(Boolean);
+    let html = `<div style="font-weight: bold; margin-bottom: 15px;">Topic: ${renderAnnotatableText(`p5-q${currentQuestionIdx}-topic`, q.topic || 'General', 'topic-text')}</div>`;
+    html += `<div class="part5-paragraphs">`;
+    
+    (q.paragraphs || []).forEach((p, idx) => {
+      const key = `p5_q${currentQuestionIdx}_p${idx}`;
+      const savedVal = userAnswers[key] || "";
+      
+      html += `
+        <div class="part5-card">
+          <div class="part5-header-row">
+            <span class="part5-num">Paragraph ${escapeHtml(p.num)}</span>
+            <select class="part5-select" id="${key}" onchange="saveSelection('${key}', this.value)">
+              <option value="">— Chọn tiêu đề thích hợp —</option>
+      `;
+      
+      headings.forEach(heading => {
+        const selected = (savedVal === heading) ? "selected" : "";
+        html += `<option value="${escapeAttr(heading)}" ${selected}>${escapeHtml(heading)}</option>`;
+      });
+      
+      const noteId = `p5-q${currentQuestionIdx}-p${idx}`;
+      html += `
+            </select>
+          </div>
+          ${renderAnnotatableText(`p5-q${currentQuestionIdx}-p${idx}`, p.text, 'part5-text', 'div')}
+          ${renderStudyToggle(noteId)}
+        </div>
+      `;
+    });
+    
+    html += `</div>`;
+    document.getElementById('dynamic-exam-content').innerHTML = html;
+  }
+
+  function saveSelection(key, value) {
+    userAnswers[key] = value;
+  }
+
+  // Check answers logic depending on active part
+  function checkAnswers() {
+    markReadingComplete();
+    const review = collectAnswerReview();
+    showResultModal(review);
+  }
+
+  function normalizeAnswer(value) {
+    return String(value ?? '').trim();
+  }
+
+  function addReviewRow(rows, label, userAnswer, correctAnswer) {
+    const normalizedUser = normalizeAnswer(userAnswer);
+    const normalizedCorrect = normalizeAnswer(correctAnswer);
+    rows.push({
+      label,
+      userAnswer: normalizedUser || EMPTY_ANSWER_TEXT,
+      correctAnswer: normalizedCorrect || EMPTY_ANSWER_TEXT,
+      isCorrect: normalizedUser !== '' && normalizedUser === normalizedCorrect
+    });
+  }
+
+  function collectAnswerReview() {
+    const rows = [];
+
+    if (activePart === 1) {
+      const q = (readingDB.part1 || [])[currentQuestionIdx];
+      (q?.gaps || []).forEach((gap, idx) => {
+        const key = `p1_q${currentQuestionIdx}_g${idx}`;
+        addReviewRow(rows, rows.length + 1, userAnswers[key], gap.correct);
+      });
+    } else if (activePart === 2) {
+      syncPart2OrderFromDom();
+      const q = (readingDB.part2_3 || [])[currentQuestionIdx];
+      (q?.correctOrder || []).forEach((correctSentence, idx) => {
+        addReviewRow(rows, idx + 1, currentPart2Order[idx], correctSentence);
+      });
+    } else if (activePart === 4) {
+      const q = (readingDB.part4 || [])[currentQuestionIdx];
+      (q?.statements || []).forEach((item, idx) => {
+        const key = `p4_q${currentQuestionIdx}_s${idx}`;
+        addReviewRow(rows, idx + 1, userAnswers[key], item.correct);
+      });
+    } else if (activePart === 5) {
+      const q = (readingDB.part5 || [])[currentQuestionIdx];
+      (q?.paragraphs || []).forEach((p, idx) => {
+        const key = `p5_q${currentQuestionIdx}_p${idx}`;
+        addReviewRow(rows, `P${p.num}`, userAnswers[key], p.correct);
+      });
+    }
+
+    const correctCount = rows.filter(row => row.isCorrect).length;
+    return {
+      rows,
+      correctCount,
+      totalItems: rows.length,
+      title: `Test and Answer Review keys ${String(currentQuestionIdx + 1).padStart(3, '0')}`
+    };
+  }
+
+  function getResultClassification(correctCount, totalItems) {
+    const percent = totalItems ? (correctCount / totalItems) * 100 : 0;
+    if (percent >= 90) return 'Classification: Xuất sắc!';
+    if (percent >= 70) return 'Classification: Khá tốt!';
+    if (percent >= 50) return 'Classification: Sắp ổn rồi!';
+    return 'Classification: Cố gắng thêm nhé!';
+  }
+
+  function showResultModal(review) {
+    document.getElementById('result-modal-title').textContent = review.title;
+    document.getElementById('result-modal-score').textContent = `Your Score: ${review.correctCount} / ${review.totalItems}`;
+    document.getElementById('result-modal-classification').textContent = getResultClassification(review.correctCount, review.totalItems);
+
+    const tbody = document.getElementById('result-review-body');
+    if (!review.rows.length) {
+      tbody.innerHTML = `<tr><td colspan="3" class="review-answer-user">${EMPTY_ANSWER_TEXT}</td></tr>`;
+    } else {
+      tbody.innerHTML = review.rows.map(row => {
+        const userClass = row.isCorrect ? 'review-answer-user review-answer-ok' : 'review-answer-user';
+        return `
+          <tr>
+            <td class="review-item-col">${escapeHtml(row.label)}</td>
+            <td class="${userClass}">${escapeHtml(row.userAnswer)}</td>
+            <td class="review-answer-correct">${escapeHtml(row.correctAnswer)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    const modal = document.getElementById('result-modal');
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeResultModal() {
+    const modal = document.getElementById('result-modal');
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  function handleResultOverlayClick(event) {
+    if (event.target && event.target.id === 'result-modal') {
+      closeResultModal();
+    }
+  }
+
+  // Next / Prev Questions
+  function nextQuestion() {
+    const qList = getActiveQuestionList();
+    
+    if (currentQuestionIdx < qList.length - 1) {
+      currentQuestionIdx++;
+      loadQuestion();
+      rememberSession('reading', activePart, currentQuestionIdx);
+    } else {
+      alert("Bạn đã hoàn thành câu hỏi cuối cùng của phần này.");
+    }
+  }
+
+  function prevQuestion() {
+    if (currentQuestionIdx > 0) {
+      currentQuestionIdx--;
+      loadQuestion();
+      rememberSession('reading', activePart, currentQuestionIdx);
+    } else {
+      showView('dashboard-view');
+    }
+  }
+
+  // Full Screen Toggle
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        alert(`Không thể kích hoạt chế độ toàn màn hình: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // ===== APTIS STUDIO DASHBOARD + SPEAKING ENGINE =====
+  const SPEAKING_COMPLETE_PREFIX = 'aptisSpeakingComplete';
+  const READING_COMPLETE_PREFIX = 'aptisReadingComplete';
+  const SPEAKING_NOTE_PREFIX = 'aptisSpeakingNote';
+  let speakingPart = 1;
+  let speakingQuestionIdx = 0;
+  let speakingAnswersVisible = false;
+  let speakingTimerInterval = null;
+  let speakingTimerRemaining = 30;
+  let speakingTimerDuration = 30;
+  let speakingTimerRunning = false;
+  let appToastTimer = null;
+
+  function getSpeakingList() {
+    return speakingDB?.[`part${speakingPart}`] || [];
+  }
+
+  function getSpeakingDuration(part = speakingPart) {
+    return ({ 1: 30, 2: 45, 3: 45, 4: 120 })[part] || 45;
+  }
+
+  function getSpeakingMeta(part = speakingPart) {
+    return ({
+      1: ['Câu hỏi cá nhân', 'Trả lời trực tiếp, tự nhiên và có một chi tiết thật về bạn.'],
+      2: ['Mô tả hình và mở rộng', 'Quan sát từ tổng quát đến chi tiết rồi trả lời đủ ba câu hỏi.'],
+      3: ['So sánh hai hình', 'Nêu điểm giống, khác và kết luận bằng sở thích hoặc quan điểm.'],
+      4: ['Kể một trải nghiệm', 'Dùng trình tự: bối cảnh → hành động → cảm xúc → kết quả.']
+    })[part];
+  }
+
+  function cleanSpeakingText(value) {
+    const raw = String(value ?? '')
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<li\b[^>]*>/gi, '\n• ')
+      .replace(/<\/(?:li|p|ul|ol|div|h[1-6])>/gi, '\n')
+      .replace(/<[^>]+>/g, '');
+    const decoder = document.createElement('textarea');
+    decoder.innerHTML = raw;
+    return decoder.value
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .replace(/[ \t]+\n/g, '\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+
+  function speakingQaCard(label, question, answer) {
+    return `
+      <article class="speaking-qa">
+        <div class="speaking-qa-question"><b>${escapeHtml(label)}</b>${escapeHtml(cleanSpeakingText(question))}</div>
+        <div class="speaking-answer"><div><strong>Đáp án mẫu</strong>\n${escapeHtml(cleanSpeakingText(answer))}</div></div>
+      </article>`;
+  }
+
+  function renderSpeakingQuestion() {
+    const list = getSpeakingList();
+    if (!list.length) {
+      document.getElementById('speaking-content').innerHTML = '<p>Chưa có dữ liệu cho phần này.</p>';
+      return;
+    }
+    speakingQuestionIdx = Math.max(0, Math.min(speakingQuestionIdx, list.length - 1));
+    const item = list[speakingQuestionIdx];
+    const [title, tip] = getSpeakingMeta();
+    const content = document.getElementById('speaking-content');
+    const images = [];
+    if (item.urlpic1) images.push(item.urlpic1);
+    if (item.urlpic2) images.push(item.urlpic2);
+
+    let html = '';
+    if (speakingPart === 1) {
+      html = `
+        <span class="speaking-collection">${escapeHtml(item.collection || 'Câu hỏi cá nhân')}</span>
+        <div class="speaking-prompt-label">Câu hỏi</div>
+        <div class="speaking-main-prompt">${escapeHtml(cleanSpeakingText(item.question))}</div>
+        <div class="speaking-qa-list">
+          ${speakingQaCard('Mẫu 1 · ', 'Cách trả lời thứ nhất', item.answer1)}
+          ${speakingQaCard('Mẫu 2 · ', 'Cách trả lời thứ hai', item.answer2)}
+        </div>`;
+    } else if (speakingPart === 2 || speakingPart === 3) {
+      html = `
+        <div class="speaking-photo-grid ${images.length === 1 ? 'single' : ''}">
+          ${images.map((src, index) => `<img src="${escapeAttr(src)}" alt="Hình luyện Speaking ${speakingPart}.${speakingQuestionIdx + 1}.${index + 1}" loading="eager"/>`).join('')}
+        </div>
+        <div class="speaking-qa-list">
+          ${[1, 2, 3].map(number => speakingQaCard(`Câu ${number} · `, item[`question${number}`], item[`question${number}_answer`])).join('')}
+        </div>`;
+    } else {
+      html = `
+        <div class="speaking-prompt-label">Chủ đề kể trải nghiệm</div>
+        <div class="speaking-main-prompt">${escapeHtml(cleanSpeakingText(item.question))}</div>
+        <div class="speaking-qa-list">
+          ${speakingQaCard('Gợi ý · ', 'Bài mẫu và cách triển khai', item.answer1)}
+        </div>`;
+    }
+
+    content.classList.toggle('show-answers', speakingAnswersVisible);
+    content.innerHTML = html;
+    document.getElementById('speaking-part-label').textContent = `SPEAKING · PART ${speakingPart}`;
+    document.getElementById('speaking-title').textContent = title;
+    document.getElementById('speaking-coach-tip').textContent = tip;
+    document.getElementById('speaking-counter').textContent = `${speakingQuestionIdx + 1} / ${list.length}`;
+    document.querySelectorAll('[data-speaking-part]').forEach(button => {
+      button.classList.toggle('active', Number(button.dataset.speakingPart) === speakingPart);
+    });
+    updateSpeakingAnswerButton();
+    loadSpeakingNote();
+    updateSpeakingCompleteButton();
+    resetSpeakingTimer();
+    rememberSession('speaking', speakingPart, speakingQuestionIdx);
+    document.querySelector('.speaking-stage')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function startSpeakingPart(partNum, questionIndex = 0) {
+    speakingPart = Number(partNum) || 1;
+    speakingQuestionIdx = Math.max(0, Number(questionIndex) || 0);
+    speakingAnswersVisible = false;
+    showView('speaking-view');
+    renderSpeakingQuestion();
+  }
+
+  function toggleSpeakingAnswers() {
+    speakingAnswersVisible = !speakingAnswersVisible;
+    document.getElementById('speaking-content').classList.toggle('show-answers', speakingAnswersVisible);
+    updateSpeakingAnswerButton();
+  }
+
+  function updateSpeakingAnswerButton() {
+    const button = document.getElementById('answer-toggle-btn');
+    if (!button) return;
+    button.innerHTML = speakingAnswersVisible
+      ? '<i class="bi bi-eye-slash"></i> Ẩn đáp án mẫu'
+      : '<i class="bi bi-eye"></i> Xem đáp án mẫu';
+  }
+
+  function nextSpeakingQuestion() {
+    const list = getSpeakingList();
+    if (!list.length) return;
+    speakingQuestionIdx = (speakingQuestionIdx + 1) % list.length;
+    speakingAnswersVisible = false;
+    renderSpeakingQuestion();
+  }
+
+  function prevSpeakingQuestion() {
+    const list = getSpeakingList();
+    if (!list.length) return;
+    speakingQuestionIdx = (speakingQuestionIdx - 1 + list.length) % list.length;
+    speakingAnswersVisible = false;
+    renderSpeakingQuestion();
+  }
+
+  function randomSpeakingQuestion() {
+    const list = getSpeakingList();
+    if (list.length < 2) return;
+    let next = speakingQuestionIdx;
+    while (next === speakingQuestionIdx) next = Math.floor(Math.random() * list.length);
+    speakingQuestionIdx = next;
+    speakingAnswersVisible = false;
+    renderSpeakingQuestion();
+  }
+
+  function formatClock(seconds) {
+    const min = Math.floor(Math.max(0, seconds) / 60);
+    const sec = Math.max(0, seconds) % 60;
+    return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  }
+
+  function updateSpeakingTimer() {
+    const display = document.getElementById('voice-timer-display');
+    const timer = document.getElementById('voice-timer');
+    if (!display || !timer) return;
+    display.textContent = formatClock(speakingTimerRemaining);
+    const elapsed = speakingTimerDuration - speakingTimerRemaining;
+    const degrees = speakingTimerDuration ? (elapsed / speakingTimerDuration) * 360 : 0;
+    timer.style.setProperty('--timer-progress', `${degrees}deg`);
+  }
+
+  function stopSpeakingTimer() {
+    clearInterval(speakingTimerInterval);
+    speakingTimerInterval = null;
+    speakingTimerRunning = false;
+  }
+
+  function resetSpeakingTimer() {
+    stopSpeakingTimer();
+    speakingTimerDuration = getSpeakingDuration();
+    speakingTimerRemaining = speakingTimerDuration;
+    const button = document.getElementById('voice-timer-btn');
+    if (button) button.innerHTML = '<i class="bi bi-play-fill"></i> Bắt đầu';
+    updateSpeakingTimer();
+  }
+
+  function toggleSpeakingTimer() {
+    const button = document.getElementById('voice-timer-btn');
+    if (speakingTimerRunning) {
+      stopSpeakingTimer();
+      button.innerHTML = '<i class="bi bi-play-fill"></i> Tiếp tục';
+      return;
+    }
+    if (speakingTimerRemaining <= 0) resetSpeakingTimer();
+    speakingTimerRunning = true;
+    button.innerHTML = '<i class="bi bi-pause-fill"></i> Tạm dừng';
+    speakingTimerInterval = setInterval(() => {
+      speakingTimerRemaining--;
+      updateSpeakingTimer();
+      if (speakingTimerRemaining <= 0) {
+        stopSpeakingTimer();
+        button.innerHTML = '<i class="bi bi-check2"></i> Hết giờ';
+        showToast('Hết giờ. Hãy ghi lại một ý bạn muốn nói tốt hơn ở lần sau.');
+        try {
+          const audio = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audio.createOscillator();
+          oscillator.frequency.value = 740;
+          oscillator.connect(audio.destination);
+          oscillator.start();
+          setTimeout(() => { oscillator.stop(); audio.close(); }, 260);
+        } catch (err) {}
+      }
+    }, 1000);
+  }
+
+  function speakingStorageKey(prefix) {
+    return `${prefix}:p${speakingPart}:q${speakingQuestionIdx}`;
+  }
+
+  function saveSpeakingNote() {
+    const note = document.getElementById('speaking-note');
+    try {
+      localStorage.setItem(speakingStorageKey(SPEAKING_NOTE_PREFIX), note.value);
+      document.getElementById('speaking-note-status').textContent = 'Đã lưu trên máy';
+    } catch (err) {
+      document.getElementById('speaking-note-status').textContent = 'Không thể lưu trong trình duyệt';
+    }
+  }
+
+  function loadSpeakingNote() {
+    const note = document.getElementById('speaking-note');
+    if (!note) return;
+    try { note.value = localStorage.getItem(speakingStorageKey(SPEAKING_NOTE_PREFIX)) || ''; }
+    catch (err) { note.value = ''; }
+    document.getElementById('speaking-note-status').textContent = 'Tự động lưu trên máy';
+  }
+
+  function updateSpeakingCompleteButton() {
+    const button = document.getElementById('speaking-complete-btn');
+    if (!button) return;
+    let complete = false;
+    try { complete = localStorage.getItem(speakingStorageKey(SPEAKING_COMPLETE_PREFIX)) === '1'; }
+    catch (err) {}
+    button.classList.toggle('completed', complete);
+    button.title = complete ? 'Đã học — bấm để bỏ đánh dấu' : 'Đánh dấu đã học';
+  }
+
+  function toggleSpeakingComplete() {
+    const key = speakingStorageKey(SPEAKING_COMPLETE_PREFIX);
+    try {
+      const complete = localStorage.getItem(key) === '1';
+      if (complete) localStorage.removeItem(key); else localStorage.setItem(key, '1');
+      updateSpeakingCompleteButton();
+      updateDashboardStats();
+      showToast(complete ? 'Đã bỏ đánh dấu mục này.' : 'Đã ghi nhận mục này là đã học.');
+    } catch (err) { showToast('Trình duyệt đang chặn lưu tiến độ.'); }
+  }
+
+  function markReadingComplete() {
+    try {
+      localStorage.setItem(`${READING_COMPLETE_PREFIX}:p${activePart}:q${currentQuestionIdx}`, '1');
+      updateDashboardStats();
+    } catch (err) {}
+  }
+
+  function countStoragePrefix(prefix) {
+    let count = 0;
+    try {
+      for (let index = 0; index < localStorage.length; index++) {
+        const key = localStorage.key(index) || '';
+        if (key.startsWith(`${prefix}:`) && localStorage.getItem(key) === '1') count++;
+      }
+    } catch (err) {}
+    return count;
+  }
+
+  function updateDashboardStats() {
+    const readingDone = countStoragePrefix(READING_COMPLETE_PREFIX);
+    const speakingDone = countStoragePrefix(SPEAKING_COMPLETE_PREFIX);
+    const totalDone = readingDone + speakingDone;
+    const total = 77 + 171;
+    const overall = Math.round((totalDone / total) * 100);
+    const readingPercent = Math.round((readingDone / 77) * 100);
+    const speakingPercent = Math.round((speakingDone / 171) * 100);
+    const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+    const setWidth = (id, value) => { const el = document.getElementById(id); if (el) el.style.width = `${value}%`; };
+    setText('overall-progress', `${overall}%`);
+    setText('learned-count', totalDone);
+    setText('reading-progress-text', readingDone ? `${readingDone}/77 mục đã học` : 'Bắt đầu luyện');
+    setText('speaking-progress-text', speakingDone ? `${speakingDone}/171 mục đã học` : 'Bắt đầu luyện');
+    setWidth('reading-progress-bar', readingPercent);
+    setWidth('speaking-progress-bar', speakingPercent);
+  }
+
+  function rememberSession(mode, part, index) {
+    try { localStorage.setItem('aptisLastSession', JSON.stringify({ mode, part, index })); }
+    catch (err) {}
+  }
+
+  function continueLearning() {
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem('aptisLastSession') || 'null'); }
+    catch (err) {}
+    if (!session) { startReadingPart(1); return; }
+    if (session.mode === 'speaking') startSpeakingPart(session.part, session.index);
+    else {
+      activePart = Number(session.part) || 1;
+      currentQuestionIdx = Math.max(0, Number(session.index) || 0);
+      showView('practice-view');
+      loadQuestion();
+      startTimer();
+    }
+  }
+
+  function initializeStudyStreak() {
+    const today = new Date();
+    const todayKey = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    let streak = 1;
+    try {
+      const previous = localStorage.getItem('aptisStudyDate');
+      streak = Number(localStorage.getItem('aptisStudyStreak') || 1);
+      if (previous && previous !== todayKey) {
+        const previousDate = new Date(previous.replace(/-/g, '/'));
+        const dayDiff = Math.round((today.setHours(0,0,0,0) - previousDate.setHours(0,0,0,0)) / 86400000);
+        streak = dayDiff === 1 ? streak + 1 : 1;
+      }
+      localStorage.setItem('aptisStudyDate', todayKey);
+      localStorage.setItem('aptisStudyStreak', String(streak));
+    } catch (err) {}
+    const el = document.getElementById('study-streak');
+    if (el) el.textContent = streak;
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('app-toast');
+    if (!toast) return;
+    clearTimeout(appToastTimer);
+    toast.textContent = message;
+    toast.classList.add('show');
+    appToastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function toggleFocusMode() {
+    document.body.classList.toggle('focus-mode');
+    document.body.classList.remove('sidebar-open');
+    showToast(document.body.classList.contains('focus-mode') ? 'Đã bật chế độ tập trung.' : 'Đã thoát chế độ tập trung.');
+  }
+
+  function showShortcutHelp() {
+    showToast('Speaking: ←/→ chuyển câu · A xem đáp án · Space chạy giờ · Esc về trang chủ.');
+  }
+
+  initializeStudyStreak();
+  updateDashboardStats();
+
+  const initialRoute = window.location.hash;
+  const readingRoute = initialRoute.match(/^#reading-part-(1|2|4|5)$/);
+  const speakingRoute = initialRoute.match(/^#speaking-part-(1|2|3|4)$/);
+  if (readingRoute) startReadingPart(Number(readingRoute[1]));
+  else if (speakingRoute) startSpeakingPart(Number(speakingRoute[1]));
+
+  document.addEventListener('keydown', event => {
+    const speakingActive = document.getElementById('speaking-view')?.classList.contains('active');
+    if (!speakingActive) return;
+    const tag = event.target?.tagName?.toLowerCase();
+    if (['input', 'textarea', 'select'].includes(tag)) return;
+    if (event.key === 'ArrowRight') { event.preventDefault(); nextSpeakingQuestion(); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); prevSpeakingQuestion(); }
+    if (event.key.toLowerCase() === 'a') { event.preventDefault(); toggleSpeakingAnswers(); }
+    if (event.code === 'Space') { event.preventDefault(); toggleSpeakingTimer(); }
+    if (event.key === 'Escape') { event.preventDefault(); showView('dashboard-view'); }
+  });
+
+  document.addEventListener('selectionchange', scheduleAnnotationToolbarUpdate);
+  document.addEventListener('mouseup', scheduleAnnotationToolbarUpdate);
+  document.addEventListener('keyup', event => {
+    if (event.key === 'Escape') {
+      hideAnnotationToolbar();
+      closeResultModal();
+      return;
+    }
+    scheduleAnnotationToolbarUpdate();
+  });
+  document.addEventListener('mousedown', event => {
+    if (!event.target.closest('#selection-format-toolbar')) hideAnnotationToolbar();
+  });
+  document.addEventListener('scroll', hideAnnotationToolbar, true);
+</script>
+
+</body>
+</html>

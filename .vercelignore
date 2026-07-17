@@ -1,0 +1,8 @@
+# Local workspace and source-generation artifacts are not part of the static site.
+.agents/
+.codex/
+.tmp/
+__pycache__/
+*.py[cod]
+.git/
+.vercel/

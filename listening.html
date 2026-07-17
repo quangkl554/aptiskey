@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#17233d" />
+  <title>Listening Studio — Aptis Studio</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/course-pages.css?v=20260717" />
+  <script src="js/listening_db.js?v=20260717"></script>
+</head>
+<body class="course-page listening-course">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="index.html"><span class="logo-icon">A</span><span>Aptis keys Studio</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Trang chủ</a></li>
+        <li><a href="index.html#reading-part-1">Reading</a></li>
+        <li><a href="listening.html" class="active">Listening</a></li>
+        <li><a href="index.html#speaking-part-1">Speaking</a></li>
+        <li><a href="writing.html">Writing</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="listening-studio">
+    <section class="page-header listening-hero">
+      <div class="page-header-inner">
+        <a href="index.html" class="back-btn">← Trang chủ</a>
+        <div class="page-icon">♫</div>
+        <div class="page-title-area">
+          <h2>Listening Studio</h2>
+          <p>299 bài nghe Aptis · Audio offline · Transcript · Chấm đáp án · Tiến độ lưu trên máy</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="listening-intro-grid">
+      <div class="listen-intro-card primary">
+        <span>APTIS LISTENING</span>
+        <strong>Nghe chủ động, nhớ lâu hơn.</strong>
+        <p>Nghe trước, trả lời sau. Sau khi kiểm tra, dùng transcript để bắt từ khóa và nghe lại có mục tiêu.</p>
+      </div>
+      <div class="listen-intro-card stats">
+        <span>Kho dữ liệu offline</span>
+        <strong id="listening-progress-summary">0 / 299 bài đã đánh dấu</strong>
+        <p>Question 1–13 · 14 · 15 · 16–17</p>
+      </div>
+    </section>
+
+    <section class="listening-control-row">
+      <div>
+        <span class="listen-overline">Luyện theo dạng câu hỏi</span>
+        <h1 id="listening-part-title">Question 1–13</h1>
+        <p id="listening-part-subtitle">Chọn đáp án đúng sau khi nghe một đoạn ngắn.</p>
+      </div>
+      <label class="listen-set-picker">
+        <span>Chọn bài</span>
+        <select id="listening-set-select" onchange="changeListeningSet(this.value)"></select>
+      </label>
+    </section>
+
+    <div id="listening-part-tabs" class="listening-part-tabs" role="tablist" aria-label="Các dạng Listening"></div>
+
+    <section class="listening-studio-grid">
+      <section class="listening-workspace" id="listening-workspace" aria-live="polite"></section>
+
+      <aside class="listening-side">
+        <div class="listening-side-label">Listening focus</div>
+        <div class="listening-timer" id="listening-timer">25:00</div>
+        <button id="listening-timer-toggle" onclick="toggleListeningTimer()">Bắt đầu</button>
+        <button class="secondary" onclick="resetListeningTimer()">Đặt lại giờ</button>
+        <button class="secondary" onclick="randomListeningSet()">Bài ngẫu nhiên</button>
+        <button class="secondary" id="listening-complete" onclick="toggleListeningComplete()">○ Đánh dấu đã học</button>
+        <small>Phím tắt: ← → đổi bài · T xem transcript · A kiểm tra đáp án · Space bật/tạm dừng giờ.</small>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="container"><p>Aptis Studio · Listening dữ liệu và audio lưu offline trên máy</p></div></footer>
+  <script src="js/listening_app.js?v=20260717"></script>
+</body>
+</html>

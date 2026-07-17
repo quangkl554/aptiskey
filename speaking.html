@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Speaking — AptisKey</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-icon">📚</span> AptisKey</a>
+    <ul class="nav-links">
+      <li><a href="index.html">🏠 Trang chủ</a></li>
+      <li><a href="index.html#reading-part-1">Reading</a></li>
+      <li><a href="listening.html">Listening</a></li>
+      <li><a href="speaking.html" class="active">Speaking</a></li>
+      <li><a href="writing.html">Writing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <a href="index.html" class="back-btn">← Trang chủ</a>
+      <div class="page-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;border:1px solid rgba(59,130,246,0.25)">🎤</div>
+      <div class="page-title-area">
+        <h2 style="color:#3b82f6">Speaking — Học theo câu hỏi</h2>
+        <p>4 phần luyện nói · Timer chuẩn APTIS · Phát âm và ý tưởng</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="instr" style="margin-bottom:24px">
+    <strong>🎙 Cách luyện:</strong> Đọc câu hỏi, nhấn <strong style="color:#3b82f6">▶ Bắt đầu</strong> để đếm giờ, nói to câu trả lời của bạn. Xem <strong>Gợi ý trả lời</strong> sau khi đã tự trả lời xong. Luyện ít nhất 3 lần mỗi câu.
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(0)">Part 1 · Cá nhân</button>
+    <button class="tab-btn" onclick="switchTab(1)">Part 2 · Mô tả ảnh</button>
+    <button class="tab-btn" onclick="switchTab(2)">Part 3 · Thảo luận</button>
+    <button class="tab-btn" onclick="switchTab(3)">Part 4 · Mở rộng</button>
+  </div>
+
+  <!-- ========== PART 1 — Personal questions ========== -->
+  <div class="tab-panel active" id="panel-0">
+    <div class="instr">
+      <strong>📋 Part 1 — Câu hỏi cá nhân:</strong> Bạn sẽ được hỏi 4 câu hỏi về bản thân. Mỗi câu trả lời khoảng <strong>30–60 giây</strong>. Nói về trải nghiệm thực tế của bạn.
+    </div>
+
+    <!-- Timer -->
+    <div class="timer-card">
+      <div class="timer-ring">
+        <div class="timer-num" id="t1-display">60</div>
+        <div class="timer-sec-label">giây</div>
+      </div>
+      <div style="margin-bottom:16px;font-size:0.875rem;color:var(--text2)">Timer cho mỗi câu trả lời</div>
+      <div class="timer-controls">
+        <button class="tbtn tbtn-start" id="t1-btn" onclick="toggleTimer('t1')">▶ Bắt đầu</button>
+        <button class="tbtn tbtn-reset" onclick="resetTimer('t1',60)">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="prompt-card">
+      <div class="prompt-num">Question 1 of 4</div>
+      <div class="prompt-text">❓ Tell me about your daily routine. What do you usually do from morning to evening?</div>
+      <div class="prompt-tip">
+        <strong>💡 Gợi ý:</strong> Nói về giờ thức dậy, ăn sáng, đi làm/học, buổi tối. Dùng adverbs: <em>usually, often, sometimes, always, rarely</em>. Thêm chi tiết cụ thể để câu trả lời tự nhiên hơn.
+      </div>
+    </div>
+    <div class="q-card" style="display:none" id="sa1">
+      <div class="q-num">📝 Câu trả lời mẫu</div>
+      <div class="q-text" style="font-style:italic">"My day usually starts around six thirty in the morning. I have breakfast — normally just toast and coffee — and then I spend about thirty minutes reading the news online. I go to work at around eight and usually finish at five. In the evenings, I like to cook dinner and relax by watching series or reading a book. I try to go to bed before eleven to make sure I get enough sleep."</div>
+    </div>
+    <button class="model-btn" style="margin-bottom:20px" onclick="toggleSample('sa1',this)">👁 Xem câu trả lời mẫu</button>
+
+    <!-- Q2 -->
+    <div class="prompt-card">
+      <div class="prompt-num">Question 2 of 4</div>
+      <div class="prompt-text">❓ What do you enjoy doing in your free time? Why do you enjoy these activities?</div>
+      <div class="prompt-tip">
+        <strong>💡 Gợi ý:</strong> Đề cập ít nhất 2 hoạt động, giải thích lý do thích. Dùng: <em>I really enjoy…, I'm passionate about…, One of my favourite hobbies is…</em>
+      </div>
+    </div>
+    <div class="q-card" style="display:none" id="sa2">
+      <div class="q-num">📝 Câu trả lời mẫu</div>
+      <div class="q-text" style="font-style:italic">"In my free time, I really enjoy listening to music and going for walks in the park. Music helps me relax after a long day, and I particularly love jazz and indie pop. I also enjoy cooking — trying out new recipes at the weekend is something I look forward to. I find it very creative and satisfying when a dish turns out well. I think hobbies are really important for mental wellbeing."</div>
+    </div>
+    <button class="model-btn" style="margin-bottom:20px" onclick="toggleSample('sa2',this)">👁 Xem câu trả lời mẫu</button>
+
+    <!-- Q3 -->
+    <div class="prompt-card">
+      <div class="prompt-num">Question 3 of 4</div>
+      <div class="prompt-text">❓ Describe your hometown or the city where you live. What do you like and dislike about it?</div>
+      <div class="prompt-tip">
+        <strong>💡 Gợi ý:</strong> Mô tả vị trí, kích thước, đặc điểm nổi bật. Dùng cả điểm tích cực và tiêu cực để câu trả lời cân bằng: <em>One thing I love about… / On the downside…</em>
+      </div>
+    </div>
+    <div class="q-card" style="display:none" id="sa3">
+      <div class="q-num">📝 Câu trả lời mẫu</div>
+      <div class="q-text" style="font-style:italic">"I live in Hanoi, which is the capital of Vietnam. It's a large, vibrant city with a population of about eight million people. One thing I love about it is the street food culture — you can find amazing food on every corner, from pho to banh mi. The Old Quarter is also beautiful and full of history. On the downside, traffic congestion can be quite frustrating, especially during rush hour, and the air quality isn't always great. Overall though, I'm proud to call it home."</div>
+    </div>
+    <button class="model-btn" style="margin-bottom:20px" onclick="toggleSample('sa3',this)">👁 Xem câu trả lời mẫu</button>
+
+    <!-- Q4 -->
+    <div class="prompt-card">
+      <div class="prompt-num">Question 4 of 4</div>
+      <div class="prompt-text">❓ What are your plans or goals for the next few years? How do you plan to achieve them?</div>
+      <div class="prompt-tip">
+        <strong>💡 Gợi ý:</strong> Đề cập mục tiêu nghề nghiệp, học tập hoặc cá nhân. Dùng future forms: <em>I'm planning to…, I hope to…, My goal is to…, I intend to…</em>
+      </div>
+    </div>
+    <div class="q-card" style="display:none" id="sa4">
+      <div class="q-num">📝 Câu trả lời mẫu</div>
+      <div class="q-text" style="font-style:italic">"In the next few years, my main goal is to improve my English to a C1 level and hopefully work for an international company. I'm planning to take a language course and practise speaking with native speakers online. I also hope to travel to the UK to experience English in a real-life context. On a personal level, I'd like to start saving money to buy my own apartment. I think having clear goals really helps you stay motivated and focused."</div>
+    </div>
+    <button class="model-btn" style="margin-bottom:20px" onclick="toggleSample('sa4',this)">👁 Xem câu trả lời mẫu</button>
+  </div>
+
+  <!-- ========== PART 2 — Photo description ========== -->
+  <div class="tab-panel" id="panel-1">
+    <div class="instr">
+      <strong>📋 Part 2 — Mô tả ảnh:</strong> Nhìn vào ảnh được mô tả bên dưới và nói trong <strong>2 phút</strong> về những gì bạn thấy. Mô tả chi tiết: người, địa điểm, hoạt động, cảm xúc.
+    </div>
+
+    <!-- Timer 2 min -->
+    <div class="timer-card">
+      <div class="timer-ring">
+        <div class="timer-num" id="t2-display">2:00</div>
+        <div class="timer-sec-label">phút</div>
+      </div>
+      <div style="margin-bottom:16px;font-size:0.875rem;color:var(--text2)">Timer 2 phút — mô tả ảnh</div>
+      <div class="timer-controls">
+        <button class="tbtn tbtn-start" id="t2-btn" onclick="toggleTimer('t2')">▶ Bắt đầu</button>
+        <button class="tbtn tbtn-reset" onclick="resetTimer('t2',120)">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Photo 1 -->
+    <div class="q-card" style="border-left:4px solid #3b82f6;margin-bottom:20px">
+      <div class="q-num">🖼 Ảnh 1 — Describe this scene</div>
+      <div style="background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(168,85,247,0.08));border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:24px;text-align:center;margin:12px 0;font-size:0.9rem;color:var(--text2);line-height:1.8">
+        🏙️ <strong style="color:var(--text);display:block;font-size:1rem;margin-bottom:8px">A busy outdoor market in a city</strong>
+        The photo shows a crowded outdoor market on a sunny day. There are many colourful stalls selling fruit, vegetables, and handmade goods. In the foreground, a woman in a red dress is examining some vegetables. There are children running between the stalls, and an elderly man is sitting on a stool reading a newspaper. In the background, tall modern buildings contrast with the traditional market atmosphere.
+      </div>
+    </div>
+
+    <div class="prompt-tip" style="border-left:4px solid #3b82f6;background:var(--speaking-bg);border:1px solid var(--speaking-border);border-radius:var(--radius);padding:16px 20px;margin-bottom:16px">
+      <strong>💡 Cấu trúc mô tả ảnh (2 phút):</strong><br/>
+      <span style="font-size:0.85rem;color:var(--text2)">
+        <strong style="color:#60a5fa">1. Tổng quát</strong> (15s): "This photo shows / The picture depicts…"<br/>
+        <strong style="color:#60a5fa">2. Chi tiết foreground</strong> (30s): "In the foreground, I can see…"<br/>
+        <strong style="color:#60a5fa">3. Chi tiết background</strong> (30s): "In the background, there are…"<br/>
+        <strong style="color:#60a5fa">4. Người và hoạt động</strong> (25s): "The people look… / They seem to be…"<br/>
+        <strong style="color:#60a5fa">5. Cảm xúc/nhận xét</strong> (20s): "The atmosphere seems… / I think this photo was taken…"
+      </span>
+    </div>
+
+    <div class="q-card" style="display:none" id="sa-p2">
+      <div class="q-num">📝 Câu trả lời mẫu (2 phút)</div>
+      <div class="q-text" style="font-style:italic">"This photo shows a very lively outdoor market in what appears to be a city centre. The scene is very colourful and vibrant, with lots of activity going on.
+      <br/><br/>In the foreground, there's a woman wearing a red dress who seems to be carefully looking at some vegetables — she looks quite focused, as if she's trying to choose the best quality produce. There are also some children running between the stalls, which adds a sense of energy to the scene.
+      <br/><br/>In the background, I can see tall, modern glass buildings which create an interesting contrast with the traditional market atmosphere. The stalls seem to be selling a variety of goods including fresh fruit, vegetables, and handmade items.
+      <br/><br/>There's also an elderly man sitting on a stool reading a newspaper, which suggests he might be a stall owner taking a short break. The overall atmosphere looks busy but cheerful — people seem to be enjoying their shopping experience.
+      <br/><br/>I think this photo was probably taken in the morning, which is typically when markets are busiest. It reminds me of the markets in my own city, which have a very similar atmosphere."</div>
+    </div>
+    <button class="model-btn" onclick="toggleSample('sa-p2',this)">👁 Xem câu trả lời mẫu</button>
+
+    <!-- Photo 2 -->
+    <div class="q-card" style="border-left:4px solid #3b82f6;margin-top:24px;margin-bottom:20px">
+      <div class="q-num">🖼 Ảnh 2 — Describe this scene</div>
+      <div style="background:linear-gradient(135deg,rgba(34,197,94,0.08),rgba(59,130,246,0.08));border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:24px;text-align:center;font-size:0.9rem;color:var(--text2);line-height:1.8">
+        🏢 <strong style="color:var(--text);display:block;font-size:1rem;margin-bottom:8px">A modern office meeting room</strong>
+        The photo shows a bright, modern meeting room in an office building. Around a large oval table, six people are sitting — three men and three women. They all appear to be in their thirties. One person is standing at a whiteboard, presenting something with charts and graphs. The others are taking notes on laptops or looking at printed documents. Large floor-to-ceiling windows in the background show a cityscape.
+      </div>
+    </div>
+    <div class="prompt-tip" style="border-left:4px solid #22c55e;background:var(--reading-bg);border:1px solid var(--reading-border);border-radius:var(--radius);padding:14px 18px">
+      <strong>💡 Từ vựng hữu ích:</strong>
+      <span style="font-size:0.85rem;color:var(--text2);display:block;margin-top:6px">
+        <em>presenting · taking notes · collaborating · engaged · professional · attentive · formal setting · in the foreground/background · on the left/right · it appears that · this suggests that</em>
+      </span>
+    </div>
+  </div>
+
+  <!-- ========== PART 3 — Respond to prompts ========== -->
+  <div class="tab-panel" id="panel-2">
+    <div class="instr">
+      <strong>📋 Part 3 — Thảo luận chủ đề:</strong> Trả lời 4 câu hỏi liên quan đến một chủ đề. Mỗi câu khoảng <strong>45 giây</strong>. Đưa ra ý kiến cá nhân, giải thích và ví dụ.
+    </div>
+
+    <div class="timer-card">
+      <div class="timer-ring">
+        <div class="timer-num" id="t3-display">45</div>
+        <div class="timer-sec-label">giây</div>
+      </div>
+      <div style="margin-bottom:16px;font-size:0.875rem;color:var(--text2)">Timer 45 giây mỗi câu hỏi</div>
+      <div class="timer-controls">
+        <button class="tbtn tbtn-start" id="t3-btn" onclick="toggleTimer('t3')">▶ Bắt đầu</button>
+        <button class="tbtn tbtn-reset" onclick="resetTimer('t3',45)">↺ Reset</button>
+      </div>
+    </div>
+
+    <div class="q-card" style="background:var(--bg3);border:1px solid rgba(59,130,246,0.2);margin-bottom:20px">
+      <div class="q-num" style="color:#60a5fa">🎯 Chủ đề: Social Media & Communication</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-num">Question 1 of 4</div>
+      <div class="prompt-text">❓ How has social media changed the way people communicate with each other?</div>
+      <div class="prompt-tip"><strong>💡 Gợi ý:</strong> So sánh trước đây và hiện nay. Dùng: <em>In the past… / Nowadays… / One major change is… / Social media has made it easier to…</em></div>
+    </div>
+    <div class="q-card" style="display:none" id="sp3s1">
+      <div class="q-num">📝 Ý tưởng tham khảo</div>
+      <div class="q-text">"Social media has completely transformed communication. In the past, staying in touch with people meant making phone calls or writing letters. Nowadays, we can instantly send messages, photos or videos to anyone in the world. Platforms like Instagram and Facebook have made it easy to maintain friendships across long distances. However, some argue that communication has become more superficial — people prefer to send a quick emoji rather than have a proper conversation."</div>
+    </div>
+    <button class="model-btn" style="margin-bottom:20px" onclick="toggleSample('sp3s1',this)">👁 Xem ý tưởng tham khảo</button>
+
+    <div class="prompt-card">
+      <div class="prompt-num">Question 2 of 4</div>
+      <div class="prompt-text">❓ What are the negative effects of spending too much time on social media, especially for young people?</div>
+      <div class="prompt-tip"><strong>💡 Gợi ý:</strong> Đề cập tác hại: <em>mental health, sleep deprivation, cyberbullying, unrealistic expectations, addiction</em>. Dùng: <em>One serious concern is… / Research has shown that…</em></div>
+    </div>
+    <div class="q-card" style="display:none" id="sp3s2">
+      <div class="q-num">📝 Ý tưởng tham khảo</div>
+      <div class="q-text">"Excessive social media use can have serious consequences for young people. Research has shown a strong link between heavy social media use and anxiety and depression, particularly because young people often compare themselves to the unrealistic images they see online. Another major concern is sleep deprivation — many teenagers stay up late scrolling through their feeds. Cyberbullying is also a significant problem. The addictive design of these platforms makes it very difficult for young people to simply switch off."</div>
+    </div>
+    <button class="model-btn" style="margin-bottom:20px" onclick="toggleSample('sp3s2',this)">👁 Xem ý tưởng tham khảo</button>
+
+    <div class="prompt-card">
+      <div class="prompt-num">Question 3 of 4</div>
+      <div class="prompt-text">❓ Do you think social media is more helpful or harmful to society overall? Why?</div>
+      <div class="prompt-tip"><strong>💡 Gợi ý:</strong> Đưa ra quan điểm rõ ràng rồi giải thích. Cấu trúc: <em>I believe… because… For example… On the other hand… Overall, I think…</em></div>
+    </div>
+    <div class="q-card" style="display:none" id="sp3s3">
+      <div class="q-num">📝 Ý tưởng tham khảo</div>
+      <div class="q-text">"I believe social media is, on balance, more helpful than harmful — provided it's used responsibly. It has given ordinary people a voice, enabled social movements, and connected communities that would otherwise never have met. For example, during the pandemic, social media was essential for people to stay connected. On the other hand, the harms are real and can't be ignored. I think the key issue is regulation and education — we need to teach people, especially children, how to use these tools mindfully."</div>
+    </div>
+    <button class="model-btn" style="margin-bottom:20px" onclick="toggleSample('sp3s3',this)">👁 Xem ý tưởng tham khảo</button>
+
+    <div class="prompt-card">
+      <div class="prompt-num">Question 4 of 4</div>
+      <div class="prompt-text">❓ How do you personally use social media, and have you ever tried to reduce your usage? What happened?</div>
+      <div class="prompt-tip"><strong>💡 Gợi ý:</strong> Câu hỏi về kinh nghiệm cá nhân — nói thật về cách bạn dùng. Dùng past simple/present perfect khi kể trải nghiệm.</div>
+    </div>
+    <div class="q-card" style="display:none" id="sp3s4">
+      <div class="q-num">📝 Câu trả lời mẫu</div>
+      <div class="q-text">"I mainly use social media to stay in contact with friends and family, and to follow news and educational content. I'm on Instagram and YouTube quite regularly. Last year, I actually tried to do a one-week digital detox — I deleted all social media apps from my phone. At first it was quite challenging because I kept reaching for my phone out of habit. But after a couple of days, I felt much more relaxed and focused. I ended up reinstalling them, but now I try to set time limits — no more than one hour per day."</div>
+    </div>
+    <button class="model-btn" onclick="toggleSample('sp3s4',this)">👁 Xem câu trả lời mẫu</button>
+  </div>
+
+  <!-- ========== PART 4 — Extended discussion ========== -->
+  <div class="tab-panel" id="panel-3">
+    <div class="instr">
+      <strong>📋 Part 4 — Nói mở rộng:</strong> Nói về chủ đề trong <strong>3 phút</strong> không dừng. Bao gồm: tầm quan trọng, thách thức, giải pháp, ý kiến cá nhân.
+    </div>
+
+    <!-- 3-min timer -->
+    <div class="timer-card">
+      <div class="timer-ring" style="border-color:#8b5cf6;box-shadow:0 0 24px rgba(139,92,246,0.2)">
+        <div class="timer-num" id="t4-display" style="color:#8b5cf6">3:00</div>
+        <div class="timer-sec-label">phút</div>
+      </div>
+      <div style="margin-bottom:16px;font-size:0.875rem;color:var(--text2)">Timer 3 phút — nói liên tục</div>
+      <div class="timer-controls">
+        <button class="tbtn" style="background:#8b5cf6;color:#fff" id="t4-btn" onclick="toggleTimer('t4')">▶ Bắt đầu</button>
+        <button class="tbtn tbtn-reset" onclick="resetTimer('t4',180)">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Topic 1 -->
+    <div class="q-card" style="border-left:4px solid #8b5cf6;margin-bottom:16px">
+      <div class="q-num" style="color:#a855f7">🎯 Chủ đề nói mở rộng 1</div>
+      <div class="q-text" style="font-size:1.05rem;font-weight:600">
+        "Talk about the importance of learning foreign languages in today's world."
+      </div>
+      <div style="margin-top:12px;padding:14px;background:var(--writing-bg);border:1px solid var(--writing-border);border-radius:8px;font-size:0.84rem;color:var(--text2)">
+        <strong style="color:#a855f7">Cần đề cập:</strong><br/>
+        ✦ Tại sao ngoại ngữ quan trọng (công việc, du lịch, văn hóa)<br/>
+        ✦ Thách thức khi học ngoại ngữ<br/>
+        ✦ Cách học hiệu quả nhất theo bạn<br/>
+        ✦ Ngôn ngữ nào bạn muốn học tiếp và tại sao
+      </div>
+    </div>
+    <div class="q-card" style="display:none" id="sp4s1">
+      <div class="q-num">📝 Dàn ý tham khảo (3 phút)</div>
+      <div class="q-text">
+        <strong>Mở đầu (30s):</strong> "In today's globalised world, being able to speak more than one language is no longer just a personal achievement — it's a professional necessity."<br/><br/>
+        <strong>Tầm quan trọng (60s):</strong> Job opportunities / International communication / Cultural understanding / Travel / Access to more content / Brain benefits<br/><br/>
+        <strong>Thách thức (45s):</strong> Time commitment / Fear of making mistakes / Finding practice partners / Different learning styles<br/><br/>
+        <strong>Giải pháp (30s):</strong> Consistent daily practice / Language apps / Immersion / Speaking clubs<br/><br/>
+        <strong>Cá nhân (15s):</strong> "Personally, I'm learning English because…"
+      </div>
+    </div>
+    <button class="model-btn" style="margin-bottom:24px" onclick="toggleSample('sp4s1',this)">👁 Xem dàn ý tham khảo</button>
+
+    <!-- Topic 2 -->
+    <div class="q-card" style="border-left:4px solid #8b5cf6;margin-bottom:16px">
+      <div class="q-num" style="color:#a855f7">🎯 Chủ đề nói mở rộng 2</div>
+      <div class="q-text" style="font-size:1.05rem;font-weight:600">
+        "Talk about the advantages and disadvantages of living in a big city compared to a small town."
+      </div>
+      <div style="margin-top:12px;padding:14px;background:var(--writing-bg);border:1px solid var(--writing-border);border-radius:8px;font-size:0.84rem;color:var(--text2)">
+        <strong style="color:#a855f7">Cần đề cập:</strong><br/>
+        ✦ Ưu điểm của thành phố lớn<br/>
+        ✦ Nhược điểm của thành phố lớn<br/>
+        ✦ Cuộc sống ở thành phố nhỏ / nông thôn<br/>
+        ✦ Bạn thích sống ở đâu hơn và tại sao
+      </div>
+    </div>
+    <div class="q-card" style="display:none" id="sp4s2">
+      <div class="q-num">📝 Dàn ý tham khảo (3 phút)</div>
+      <div class="q-text">
+        <strong>Ưu điểm thành phố (45s):</strong> Career opportunities / Entertainment / Transport / Diversity / Services<br/><br/>
+        <strong>Nhược điểm thành phố (45s):</strong> High cost of living / Pollution / Traffic / Stress / Less community spirit<br/><br/>
+        <strong>Ưu điểm nông thôn (30s):</strong> Clean air / Lower cost / Sense of community / Slower pace<br/><br/>
+        <strong>Nhược điểm nông thôn (20s):</strong> Fewer job opportunities / Less entertainment<br/><br/>
+        <strong>Kết luận cá nhân (20s):</strong> "Personally, I prefer… because…"
+      </div>
+    </div>
+    <button class="model-btn" onclick="toggleSample('sp4s2',this)">👁 Xem dàn ý tham khảo</button>
+
+    <!-- Key phrases panel -->
+    <div style="margin-top:28px">
+      <div style="font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">🗣 Cụm từ hữu ích khi nói APTIS</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+        <div class="q-card" style="padding:14px">
+          <div class="q-num">Đưa ra ý kiến</div>
+          <div style="font-size:0.82rem;color:var(--text2);line-height:1.9">
+            I believe / think that…<br/>
+            In my opinion…<br/>
+            From my perspective…<br/>
+            Personally, I feel that…
+          </div>
+        </div>
+        <div class="q-card" style="padding:14px">
+          <div class="q-num">Thêm ý kiến</div>
+          <div style="font-size:0.82rem;color:var(--text2);line-height:1.9">
+            Furthermore…<br/>
+            In addition to this…<br/>
+            Another point is…<br/>
+            What's more…
+          </div>
+        </div>
+        <div class="q-card" style="padding:14px">
+          <div class="q-num">Đối lập ý kiến</div>
+          <div style="font-size:0.82rem;color:var(--text2);line-height:1.9">
+            However…<br/>
+            On the other hand…<br/>
+            Having said that…<br/>
+            Despite this…
+          </div>
+        </div>
+        <div class="q-card" style="padding:14px">
+          <div class="q-num">Đưa ví dụ</div>
+          <div style="font-size:0.82rem;color:var(--text2);line-height:1.9">
+            For example…<br/>
+            For instance…<br/>
+            A good example of this is…<br/>
+            Take… as an example.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="container"><p>🎤 AptisKey · Speaking Practice · Timer chuẩn format APTIS</p></div>
+</footer>
+
+<script>
+// ===== TABS =====
+const panels = document.querySelectorAll('.tab-panel');
+const tabs = document.querySelectorAll('.tab-btn');
+function switchTab(i) {
+  panels.forEach((p,j)=>p.classList.toggle('active',j===i));
+  tabs.forEach((t,j)=>t.classList.toggle('active',j===i));
+}
+
+// ===== TIMER ENGINE =====
+const timers = {};
+function toggleTimer(id) {
+  if (timers[id] && timers[id].running) {
+    clearInterval(timers[id].interval);
+    timers[id].running = false;
+    document.getElementById(id+'-btn').textContent = '▶ Tiếp tục';
+  } else {
+    if (!timers[id]) return;
+    timers[id].running = true;
+    document.getElementById(id+'-btn').textContent = '⏸ Dừng';
+    timers[id].interval = setInterval(() => {
+      timers[id].remaining--;
+      updateDisplay(id);
+      if (timers[id].remaining <= 0) {
+        clearInterval(timers[id].interval);
+        timers[id].running = false;
+        document.getElementById(id+'-btn').textContent = '✅ Hết giờ!';
+        document.getElementById(id+'-display').style.color = '#ef4444';
+        // Beep alert
+        try {
+          const ctx = new (window.AudioContext||window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          osc.connect(ctx.destination); osc.frequency.value = 880;
+          osc.start(); setTimeout(()=>osc.stop(),400);
+        } catch(e){}
+      }
+      if (timers[id].remaining <= 10) {
+        document.getElementById(id+'-display').style.color = '#ef4444';
+      }
+    }, 1000);
+  }
+}
+function resetTimer(id, seconds) {
+  if (timers[id]) clearInterval(timers[id].interval);
+  timers[id] = { remaining: seconds, running: false, interval: null };
+  document.getElementById(id+'-btn').textContent = '▶ Bắt đầu';
+  const disp = document.getElementById(id+'-display');
+  disp.style.color = id === 't4' ? '#8b5cf6' : 'var(--speaking)';
+  updateDisplay(id);
+}
+function updateDisplay(id) {
+  const r = timers[id].remaining;
+  const el = document.getElementById(id+'-display');
+  if (r >= 60) {
+    const m = Math.floor(r/60), s = r%60;
+    el.textContent = m + ':' + (s<10?'0':'')+s;
+  } else {
+    el.textContent = r;
+  }
+}
+// Init timers
+resetTimer('t1',60);
+resetTimer('t2',120);
+resetTimer('t3',45);
+resetTimer('t4',180);
+
+// ===== SAMPLE ANSWER TOGGLE =====
+function toggleSample(id, btn) {
+  const el = document.getElementById(id);
+  if (el.style.display === 'none') {
+    el.style.display = 'block'; btn.textContent = '🙈 Ẩn câu trả lời';
+  } else {
+    el.style.display = 'none'; btn.textContent = '👁 Xem câu trả lời mẫu';
+  }
+}
+</script>
+</body>
+</html>
