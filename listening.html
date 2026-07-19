@@ -1,19 +1,21 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#17233d" />
+  <meta name="theme-color" content="#f6f8fc" />
   <title>Listening Studio — Aptis Studio</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/course-pages.css?v=20260717" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="css/style.css?v=20260718b" />
+  <link rel="stylesheet" href="css/course-pages.css?v=20260718b" />
   <script src="js/listening_db.js?v=20260717"></script>
 </head>
 <body class="course-page listening-course">
   <nav class="nav">
     <div class="nav-inner">
-      <a class="nav-logo" href="index.html"><span class="logo-icon">A</span><span>Aptis keys Studio</span></a>
-      <ul class="nav-links">
+      <a class="nav-logo" href="index.html"><span class="logo-icon" aria-hidden="true">A</span><span>AptisKey Studio</span></a>
+      <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="listening-nav-links" aria-label="Mở menu điều hướng" onclick="toggleCourseNav(this)"><span aria-hidden="true">☰</span></button>
+      <ul class="nav-links" id="listening-nav-links">
         <li><a href="index.html">Trang chủ</a></li>
         <li><a href="index.html#reading-part-1">Reading</a></li>
         <li><a href="listening.html" class="active">Listening</a></li>
@@ -27,7 +29,7 @@
     <section class="page-header listening-hero">
       <div class="page-header-inner">
         <a href="index.html" class="back-btn">← Trang chủ</a>
-        <div class="page-icon">♫</div>
+        <div class="page-icon" aria-hidden="true">♫</div>
         <div class="page-title-area">
           <h2>Listening Studio</h2>
           <p>299 bài nghe Aptis · Audio offline · Transcript · Chấm đáp án · Tiến độ lưu trên máy</p>
@@ -63,11 +65,11 @@
     <div id="listening-part-tabs" class="listening-part-tabs" role="tablist" aria-label="Các dạng Listening"></div>
 
     <section class="listening-studio-grid">
-      <section class="listening-workspace" id="listening-workspace" aria-live="polite"></section>
+      <section class="listening-workspace" id="listening-workspace" role="tabpanel" tabindex="-1" aria-label="Bài luyện Listening"></section>
 
       <aside class="listening-side">
         <div class="listening-side-label">Listening focus</div>
-        <div class="listening-timer" id="listening-timer">25:00</div>
+        <div class="listening-timer" id="listening-timer" role="timer" aria-live="off">25:00</div>
         <button id="listening-timer-toggle" onclick="toggleListeningTimer()">Bắt đầu</button>
         <button class="secondary" onclick="resetListeningTimer()">Đặt lại giờ</button>
         <button class="secondary" onclick="randomListeningSet()">Bài ngẫu nhiên</button>
@@ -78,6 +80,6 @@
   </main>
 
   <footer class="footer"><div class="container"><p>Aptis Studio · Listening dữ liệu và audio lưu offline trên máy</p></div></footer>
-  <script src="js/listening_app.js?v=20260717"></script>
+  <script src="js/listening_app.js?v=20260718b"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
+import argparse
 import json
 import re
 from pathlib import Path
@@ -29,7 +30,7 @@ WHITE = "FFFFFF"
 GRID = "CAD5E0"
 
 CONTENT_WIDTH_DXA = 9360
-TABLE_INDENT_DXA = 120
+TABLE_INDENT_DXA = 0
 
 
 def load_database() -> dict:
@@ -39,24 +40,10 @@ def load_database() -> dict:
         raise RuntimeError(f"Cannot parse Reading database: {SOURCE}")
     payload = match.group(1)
     # The file is JSON-compatible apart from four unquoted top-level JS keys.
-    payload = re.sub(r'(?m)^(\s*)(part1|part2_3|part4|part5):', r'\1"\2":', payload)
+    payload = re.sub(r'(?m)^(\s*)(meta|part1|part2_3|part4|part5):', r'\1"\2":', payload)
+    payload = re.sub(r'(?m)^(\s*)(part1Version):', r'\1"\2":', payload)
     database = json.loads(payload)
 
-    # Correct two clear capture typos so the offline study copy does not teach them.
-    for item in database["part1"]:
-        if item["id"] == 11:
-            item["gaps"][0]["options"] = ["boring", "healthy", "small"]
-    for item in database["part5"]:
-        for paragraph in item["paragraphs"]:
-            paragraph["text"] = paragraph["text"].replace(
-                "a disturbing relevant", "a disturbing correlation"
-            )
-            if paragraph["correct"] == "A disturbing relevant":
-                paragraph["correct"] = "A disturbing correlation"
-        item["headings"] = [
-            "A disturbing correlation" if heading == "A disturbing relevant" else heading
-            for heading in item["headings"]
-        ]
     return database
 
 
@@ -237,7 +224,7 @@ def add_editorial_header(doc: Document, title: str, subtitle: str, count_label: 
     meta = doc.add_paragraph()
     meta.paragraph_format.space_after = Pt(10)
     meta.add_run(count_label + "  ·  ").bold = True
-    meta.add_run("Nguồn bản ghi: AptisKey  ·  Cập nhật tài liệu: 17/07/2026")
+    meta.add_run("Nguồn bản ghi: AptisKey  ·  Cập nhật tài liệu: 18/07/2026")
     for run in meta.runs:
         run.font.size = Pt(9.5)
         run.font.color.rgb = RGBColor.from_string(MUTED)
@@ -508,16 +495,44 @@ def add_part5(doc: Document, items: list[dict]) -> None:
 
 
 def validate_database(db: dict) -> dict:
-    expected_counts = {"part1": 13, "part2_3": 39, "part4": 14, "part5": 11}
+    expected_counts = {"part1": 45, "part2_3": 39, "part4": 14, "part5": 11}
     actual_counts = {key: len(db.get(key, [])) for key in expected_counts}
     if actual_counts != expected_counts:
         raise AssertionError(f"Unexpected Reading counts: {actual_counts}")
 
+    expected_ids = list(range(1, expected_counts["part1"] + 1))
+    actual_ids = [item.get("id") for item in db["part1"]]
+    if actual_ids != expected_ids:
+        raise AssertionError(f"Part 1 ids must be sequential 1-45; found {actual_ids}")
+
+    seen_part1_sets = set()
     for item in db["part1"]:
-        assert len(item["gaps"]) == 5
-        assert len(item["template"]) == 6
-        for gap in item["gaps"]:
-            assert gap["correct"] in gap["options"]
+        fingerprint = json.dumps(
+            {key: value for key, value in item.items() if key != "id"},
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        if fingerprint in seen_part1_sets:
+            raise AssertionError(f"Duplicate Part 1 question set at id {item.get('id')}")
+        seen_part1_sets.add(fingerprint)
+        if not item.get("sender"):
+            raise AssertionError(f"Part 1 question {item.get('id')} has no sender")
+        if len(item.get("gaps", [])) != 5 or len(item.get("template", [])) != 6:
+            raise AssertionError(
+                f"Part 1 question {item.get('id')} must have 5 gaps and 6 template segments"
+            )
+        for gap_index, gap in enumerate(item["gaps"], 1):
+            options = gap.get("options", [])
+            if len(options) != 3 or len(set(options)) != 3:
+                raise AssertionError(
+                    f"Part 1 question {item['id']}, gap {gap_index} must have "
+                    f"exactly 3 unique options"
+                )
+            if options.count(gap.get("correct")) != 1:
+                raise AssertionError(
+                    f"Part 1 question {item['id']}, gap {gap_index} has an invalid correct answer"
+                )
 
     for item in db["part2_3"]:
         assert item["topic"]
@@ -541,15 +556,44 @@ def validate_database(db: dict) -> dict:
     return actual_counts
 
 
-def save_and_reopen(doc: Document, path: Path) -> None:
+def save_and_reopen(doc: Document, path: Path, part_key: str, expected_items: int) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     doc.save(path)
     check = Document(path)
     if not check.paragraphs:
         raise AssertionError(f"Generated document is empty: {path}")
+    if part_key == "part1":
+        heading_count = sum(
+            1
+            for paragraph in check.paragraphs
+            if paragraph.style and paragraph.style.name == "Heading 2"
+        )
+        question_tables = [
+            table
+            for table in check.tables
+            if len(table.columns) == 3
+            and len(table.rows) >= 1
+            and [cell.text.strip() for cell in table.rows[0].cells]
+            == ["Chỗ trống", "Các lựa chọn", "Đáp án đúng"]
+        ]
+        answer_rows = sum(len(table.rows) - 1 for table in question_tables)
+        expected_answer_rows = expected_items * 5
+        if heading_count != expected_items or len(question_tables) != expected_items:
+            raise AssertionError(
+                f"Part 1 DOCX structure mismatch: headings={heading_count}, "
+                f"tables={len(question_tables)}, expected={expected_items}"
+            )
+        if answer_rows != expected_answer_rows:
+            raise AssertionError(
+                f"Part 1 DOCX answer rows={answer_rows}, expected={expected_answer_rows}"
+            )
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate Reading DOCX study banks")
+    parser.add_argument("--part", choices=("part1", "all"), default="part1")
+    args = parser.parse_args()
+
     db = load_database()
     counts = validate_database(db)
 
@@ -559,7 +603,10 @@ def main() -> None:
             "Reading aptis part 1.docx",
             "APTIS READING – PART 1",
             "Sentence comprehension · Chọn từ phù hợp với chỗ trống",
-            "13 bộ câu hỏi · 65 chỗ trống",
+            (
+                f"{counts['part1']} bộ câu hỏi · "
+                f"{counts['part1'] * 5} chỗ trống"
+            ),
             add_part1,
         ),
         (
@@ -567,7 +614,7 @@ def main() -> None:
             "Reading aptis part 2&3.docx",
             "APTIS READING – PART 2 & 3",
             "Text cohesion · Sắp xếp câu theo đúng trình tự",
-            "39 chủ đề · 195 câu",
+            f"{counts['part2_3']} chủ đề · {counts['part2_3'] * 5} câu",
             add_part2_3,
         ),
         (
@@ -575,7 +622,7 @@ def main() -> None:
             "Reading aptis part 4.docx",
             "APTIS READING – PART 4",
             "Opinion matching · Ghép quan điểm với người nói",
-            "14 chủ đề · 98 câu hỏi",
+            f"{counts['part4']} chủ đề · {counts['part4'] * 7} câu hỏi",
             add_part4,
         ),
         (
@@ -583,17 +630,19 @@ def main() -> None:
             "Reading aptis part 5.docx",
             "APTIS READING – PART 5",
             "Long text comprehension · Ghép tiêu đề với đoạn văn",
-            "11 chủ đề · 77 đoạn văn",
+            f"{counts['part5']} chủ đề · {counts['part5'] * 7} đoạn văn",
             add_part5,
         ),
     ]
+    if args.part == "part1":
+        specs = [specs[0]]
 
     outputs = []
     for key, filename, title, subtitle, count_label, builder in specs:
         doc = make_document(title, subtitle, count_label)
         builder(doc, db[key])
         path = OUTPUT_DIR / filename
-        save_and_reopen(doc, path)
+        save_and_reopen(doc, path, key, counts[key])
         outputs.append({"path": str(path), "bytes": path.stat().st_size, "items": counts[key]})
 
     print(json.dumps({"source": str(SOURCE), "counts": counts, "outputs": outputs}, ensure_ascii=False, indent=2))

@@ -1,16 +1,19 @@
 // Database of Reading questions parsed from markdown documents
 const readingDB = {
+  meta: {
+    part1Version: "p1-ca37ffc77e7e"
+  },
   part1: [
   {
     "id": 1,
     "sender": "Hey Lewis,",
     "template": [
-      "Where is the train ",
-      " in this town?\nThe bus ",
-      " here every morning.\nThe traffic light is ",
-      " so you can go now.\nWe usually have ",
-      " at 7 p.m.\nDo you like watching ",
-      " on weekends?\nLove,\nHelen"
+      "You can catch the next train at the ",
+      " near the city center.\nThe number 5 bus ",
+      " right in front of my house.\nWait until the light turns ",
+      " before you cross the street.\nMy family likes to eat ",
+      " together in the evening.\nMy little brother loves watching ",
+      " every Saturday night.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -50,10 +53,10 @@ const readingDB = {
         "readonly": false
       },
       {
-        "correct": "movies",
+        "correct": "films",
         "options": [
           "books",
-          "movies",
+          "films",
           "hotdog"
         ],
         "readonly": false
@@ -64,12 +67,12 @@ const readingDB = {
     "id": 2,
     "sender": "Hey Lewis,",
     "template": [
-      "I always study in the ",
-      " before school.\nMy ",
-      " and I play football after class.\nI always ",
-      " my bag on the chair.\nApples are very ",
-      " for your health.\nWe eat rice and ",
-      " every day.\nLove,\nHelen"
+      "She likes to go jogging in the ",
+      " before breakfast.\nAll of my ",
+      " came to my birthday party.\nPlease don't ",
+      " your shoes in the hallway.\nFresh vegetables are really ",
+      " for children.\nThe restaurant serves delicious ",
+      " at a fair price.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -123,12 +126,12 @@ const readingDB = {
     "id": 3,
     "sender": "Hey Lewis,",
     "template": [
-      "Where is your ",
-      " ?\nDo you talk to ",
-      " at work?\nIs the task ",
-      " for you?\nWhat do you ",
-      " in the morning?\nWhat do you like to ",
-      " on TV?\nLove,\nHelen"
+      "What time will you be ",
+      " tonight?\nThe shop assistant was very polite to the ",
+      " this morning.\nThis exercise looks quite ",
+      " to me.\nWhat time do you usually ",
+      " lunch for your kids?\nI like to ",
+      " the news before going to bed.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -144,7 +147,7 @@ const readingDB = {
         "correct": "customers",
         "options": [
           "customers",
-          "bus",
+          "bird",
           "chair"
         ],
         "readonly": false
@@ -182,12 +185,12 @@ const readingDB = {
     "id": 4,
     "sender": "Hey Lewis,",
     "template": [
-      "Do you jog in the ",
-      "in the morning?\nDoes the gym offer ",
-      " for yoga?\nIs English ",
-      "for you?\nWhat do you eat for",
-      " every day?\nDo you practice ",
-      " to relax?\nLove,\nHelen"
+      "Children love to play in the ",
+      " after school.\nThe new gym offers dance ",
+      " every weekend.\nThis math problem is quite ",
+      " to solve.\nWhat do you usually cook for ",
+      " on weekends?\nMy mother does ",
+      " every morning to feel calm.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -213,7 +216,7 @@ const readingDB = {
         "options": [
           "easy",
           "try",
-          "buy"
+          "bye"
         ],
         "readonly": false
       },
@@ -241,12 +244,12 @@ const readingDB = {
     "id": 5,
     "sender": "Hey Lewis,",
     "template": [
-      "Is your neighborhood ",
-      "?\nHow do you usually ",
-      "to work?\nWhen did you meet your friend ",
-      "?\nCan you ",
-      " French?\nDo you like going out ",
-      " with your friends?\nLove,\nHelen"
+      "The people in my hometown are very ",
+      " to visitors.\nI prefer to ",
+      " to the market instead of driving.\nWhere did you meet your best friend ",
+      "?\nCan your sister ",
+      " Japanese fluently?\nWe usually go camping ",
+      " every summer.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -300,12 +303,12 @@ const readingDB = {
     "id": 6,
     "sender": "Hey Lewis,",
     "template": [
-      "I go to school by ",
-      ".\nThe buildings in my city are very",
-      ".\nThere are many green ",
-      "near my home.\nI eat ",
-      " with my family every morning.\nI play ",
-      "to feel relaxed.\nLove,\nHelen"
+      "Every morning, he rides his ",
+      " to the office.\nThe trees in this forest are extremely ",
+      ".\nThere are lots of tall ",
+      " along this street.\nWe always have ",
+      " together before work.\nOn weekends, I enjoy playing board ",
+      " with my siblings.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -322,7 +325,7 @@ const readingDB = {
         "options": [
           "hate",
           "tall",
-          "when"
+          "went"
         ],
         "readonly": false
       },
@@ -331,7 +334,6 @@ const readingDB = {
         "options": [
           "road",
           "buy",
-          "tree",
           "trees"
         ],
         "readonly": false
@@ -360,12 +362,12 @@ const readingDB = {
     "id": 7,
     "sender": "Hey Lewis,",
     "template": [
-      "I want to ",
-      "my grandparents this weekend.\nMy ",
-      " is very clean and bright.\nThe weather is ",
-      " today.\nWe went to the city by ",
-      ".\nI can ",
-      "English very well.\nLove,\nHelen"
+      "Next month, I plan to ",
+      " my old university friends.\nMy ",
+      " has a large window facing the garden.\nIt has been extremely ",
+      " this whole week.\nWe traveled to the countryside by ",
+      ".\nMy cousin can ",
+      " three languages fluently.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -419,12 +421,12 @@ const readingDB = {
     "id": 8,
     "sender": "Hey Lewis,",
     "template": [
-      "My uncle works on a ",
-      ".\nThe children were very ",
-      "about the trip.\nTurn ",
-      "at the next corner.\nWe walked along the ",
-      "to the park.\nI usually ",
-      "milk in the morning.\nLove,\nHelen"
+      "My grandparents own a small ",
+      " outside the city.\nEveryone in the class felt very ",
+      " about the field trip.\nPlease turn ",
+      " when you reach the traffic light.\nWe strolled along the busy ",
+      " near the market.\nI always ",
+      " a glass of juice before breakfast.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -478,12 +480,12 @@ const readingDB = {
     "id": 9,
     "sender": "Hey Lewis,",
     "template": [
-      "I usually stay at ",
-      " on Sundays.\nMy father can ",
-      "very well.\nI like spending time with my ",
-      "after school.\nLet’s go for a ",
-      "in the park.\nYour sister looks very ",
-      " today.\nLove,\nHelen"
+      "My whole family stays ",
+      " on public holidays.\nMy older brother can ",
+      " a truck safely.\nI really enjoy chatting with my ",
+      " during lunch break.\nLet's take a short ",
+      " along the riverside.\nThe garden looks really ",
+      " in spring.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -537,12 +539,12 @@ const readingDB = {
     "id": 10,
     "sender": "Hey Lewis,",
     "template": [
-      "I want to travel to the ",
-      "this summer.\nPlease keep your room ",
-      ".\nWe have English ",
-      "on Monday.\nI like helping ",
-      " people.\nCan you spell these ",
-      "for me?\nLove,\nHelen"
+      "I would like to visit a different ",
+      " next year.\nPlease make sure to keep the kitchen ",
+      " after cooking.\nWe have a math ",
+      " every Tuesday morning.\nI really enjoy volunteering to help ",
+      " students with homework.\nCould you please explain these new ",
+      " in the lesson?\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -585,7 +587,7 @@ const readingDB = {
         "correct": "words",
         "options": [
           "small",
-          "boring",
+          "bring",
           "words"
         ],
         "readonly": false
@@ -596,20 +598,20 @@ const readingDB = {
     "id": 11,
     "sender": "Hey Lewis,",
     "template": [
-      "My bedroom is very ",
+      "The apartment we rented last year was quite ",
       ".\nWe usually ",
-      " at a hotel on vacation.\nThere are many flowers in the ",
-      " .\nSome ",
-      " near my home are very tall.\nMy grandfather is very ",
-      "but still strong.\nLove,\nHelen"
+      " at my aunt's house during the holidays.\nShe planted colorful roses in the ",
+      ".\nSeveral old ",
+      " were cut down last week.\nThat wooden bridge looks very ",
+      " but it's still safe.\nLove,\nHelen"
     ],
     "gaps": [
       {
         "correct": "small",
         "options": [
           "boring",
-          "healthy",
-          "small"
+          "small",
+          "healthy"
         ],
         "readonly": true
       },
@@ -655,12 +657,12 @@ const readingDB = {
     "id": 12,
     "sender": "Hey Lewis,",
     "template": [
-      "I ",
-      "reading books in the library.\nMy bag is a bit ",
-      "for my laptop.\nCan you go to the ",
-      "to buy some milk?\nThere are many ",
-      "in the class.\nThey want to ",
-      "the class.\nLove,\nHelen"
+      "I really ",
+      " spending my weekends painting.\nThis jacket feels a little too ",
+      " for me now.\nCould you go to the ",
+      " and buy some bread?\nThere were so many ",
+      " waiting outside the cinema.\nMy grandparents plan to ",
+      " us during the summer break.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -714,12 +716,12 @@ const readingDB = {
     "id": 13,
     "sender": "Hey Lewis,",
     "template": [
-      "I drink coffee in the ",
-      ".\nChildren play in the ",
-      ".\nWhat time do you ",
-      "home?\nWe eat bread for ",
-      ".\nNice to ",
-      "you.\nLove,\nHelen"
+      "I usually go for a run early in the ",
+      ".\nThe kids are flying kites in the ",
+      ".\nWhat time does your flight ",
+      " the airport?\nWe usually eat toast and eggs for ",
+      ".\nIt was great to ",
+      " you at the conference.\nLove,\nHelen"
     ],
     "gaps": [
       {
@@ -764,6 +766,1894 @@ const readingDB = {
           "meet",
           "hate",
           "look"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "sender": "Hey Lewis,",
+    "template": [
+      "Every morning, my mother ",
+      " the newspaper before breakfast.\nMy father usually rides his ",
+      " to work.\nI always ",
+      " my teeth twice a day.\nThe children usually ",
+      " breakfast before school.\nWe often ",
+      " the morning news together.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "reads",
+        "options": [
+          "drives",
+          "reads",
+          "paints"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "bicycle",
+        "options": [
+          "kite",
+          "boat",
+          "bicycle"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "brush",
+        "options": [
+          "brush",
+          "cook",
+          "drive"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "eat",
+        "options": [
+          "sell",
+          "swim",
+          "eat"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "watch",
+        "options": [
+          "watch",
+          "drive",
+          "sleep"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "sender": "Hey Lewis,",
+    "template": [
+      "It usually ",
+      " a lot in this region during autumn.\nThe weather here is quite ",
+      " in summer.\nPeople usually wear ",
+      " when it snows.\nThe sky looks quite ",
+      " today.\nIn spring, flowers usually ",
+      " in the garden.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "rains",
+        "options": [
+          "cooks",
+          "rains",
+          "sings"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "hot",
+        "options": [
+          "hot",
+          "cheap",
+          "polite"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "coats",
+        "options": [
+          "shorts",
+          "coats",
+          "sandals"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "cloudy",
+        "options": [
+          "cheap",
+          "cloudy",
+          "friendly"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "grow",
+        "options": [
+          "melt",
+          "freeze",
+          "grow"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "sender": "Hey Lewis,",
+    "template": [
+      "On Sundays, my family usually ",
+      " for a big lunch.\nMy grandparents like to tell ",
+      " about their childhood.\nMy little sister often ",
+      " pictures of animals.\nWe usually spend the holidays with our ",
+      ".\nMy parents always ",
+      " my decisions.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "gathers",
+        "options": [
+          "travels",
+          "gathers",
+          "argues"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "stories",
+        "options": [
+          "lies",
+          "stories",
+          "jokes"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "draws",
+        "options": [
+          "cooks",
+          "draws",
+          "drives"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "relatives",
+        "options": [
+          "strangers",
+          "relatives",
+          "colleagues"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "support",
+        "options": [
+          "forget",
+          "ignore",
+          "support"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "sender": "Hey Lewis,",
+    "template": [
+      "Our school starts every day at ",
+      " o'clock.\nStudents usually wear a ",
+      " to school.\nMy teacher always ",
+      " the lesson clearly.\nWe usually have ",
+      " at the end of each term.\nDuring break time, students often ",
+      " with their friends.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "seven",
+        "options": [
+          "seven",
+          "midnight",
+          "noon"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "uniform",
+        "options": [
+          "uniform",
+          "costume",
+          "helmet"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "explains",
+        "options": [
+          "ignores",
+          "hides",
+          "explains"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "exams",
+        "options": [
+          "exams",
+          "parties",
+          "holidays"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "chat",
+        "options": [
+          "chat",
+          "cook",
+          "sleep"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My mother usually ",
+      " dinner for the whole family.\nWe often add a little ",
+      " to the soup.\nThis bakery sells fresh ",
+      " every morning.\nI usually drink a glass of ",
+      " before bed.\nMy favorite dish is quite ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "cooks",
+        "options": [
+          "paints",
+          "cooks",
+          "drives"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "salt",
+        "options": [
+          "glue",
+          "sand",
+          "salt"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "bread",
+        "options": [
+          "shoes",
+          "bread",
+          "toys"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "milk",
+        "options": [
+          "milk",
+          "paint",
+          "oil"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "spicy",
+        "options": [
+          "heavy",
+          "loud",
+          "spicy"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "sender": "Hey Lewis,",
+    "template": [
+      "Our dog usually ",
+      " when someone knocks on the door.\nMy cat likes to sleep on the ",
+      " all afternoon.\nWe feed our fish ",
+      " a day.\nRabbits usually eat ",
+      " and other vegetables.\nMy brother takes the dog for a ",
+      " every evening.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "barks",
+        "options": [
+          "barks",
+          "cooks",
+          "sings"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "sofa",
+        "options": [
+          "stove",
+          "roof",
+          "sofa"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "twice",
+        "options": [
+          "never",
+          "twice",
+          "rarely"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "carrots",
+        "options": [
+          "carrots",
+          "meat",
+          "bread"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "walk",
+        "options": [
+          "swim",
+          "walk",
+          "ride"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My mother usually goes ",
+      " on Saturday mornings.\nThis shop offers a big ",
+      " every weekend.\nI usually pay by ",
+      " instead of cash.\nThe market sells fresh ",
+      " every day.\nWe usually make a shopping ",
+      " before going to the store.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "shopping",
+        "options": [
+          "swimming",
+          "shopping",
+          "hiking"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "discount",
+        "options": [
+          "delay",
+          "punishment",
+          "discount"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "card",
+        "options": [
+          "foot",
+          "hand",
+          "card"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "vegetables",
+        "options": [
+          "vegetables",
+          "furniture",
+          "electronics"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "list",
+        "options": [
+          "speech",
+          "song",
+          "list"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My brother plays ",
+      " every weekend.\nI usually go ",
+      " in the park before work.\nOur gym offers yoga ",
+      " every evening.\nSwimming helps keep my body ",
+      ".\nWe usually train as a ",
+      " twice a week.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "football",
+        "options": [
+          "piano",
+          "chess",
+          "football"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "jogging",
+        "options": [
+          "sleeping",
+          "shopping",
+          "jogging"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "classes",
+        "options": [
+          "meals",
+          "classes",
+          "uniforms"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "fit",
+        "options": [
+          "tired",
+          "fit",
+          "heavy"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "team",
+        "options": [
+          "crowd",
+          "audience",
+          "team"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I usually check my ",
+      " first thing in the morning.\nThis app helps me ",
+      " my daily schedule.\nMy phone battery usually ",
+      " all day.\nWe often ",
+      " our relatives abroad through video chat.\nThis laptop is quite ",
+      " and easy to carry.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "email",
+        "options": [
+          "shoes",
+          "email",
+          "garden"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "organize",
+        "options": [
+          "destroy",
+          "organize",
+          "ignore"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "lasts",
+        "options": [
+          "grows",
+          "lasts",
+          "melts"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "call",
+        "options": [
+          "cook",
+          "paint",
+          "call"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "light",
+        "options": [
+          "heavy",
+          "old",
+          "light"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "sender": "Hey Lewis,",
+    "template": [
+      "The bus usually ",
+      " on time.\nI usually take the ",
+      " to work every day.\nDuring rush hour, the roads are usually quite ",
+      ".\nPassengers must buy a ",
+      " before boarding.\nThe subway station is very close to my ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "arrives",
+        "options": [
+          "disappears",
+          "explodes",
+          "arrives"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "train",
+        "options": [
+          "helicopter",
+          "boat",
+          "train"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "crowded",
+        "options": [
+          "empty",
+          "crowded",
+          "quiet"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "ticket",
+        "options": [
+          "ticket",
+          "uniform",
+          "gift"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "house",
+        "options": [
+          "farm",
+          "house",
+          "forest"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "sender": "Hey Lewis,",
+    "template": [
+      "Our neighborhood has a small ",
+      " where children play.\nThe local bakery always smells ",
+      " in the morning.\nOur neighbors are always very ",
+      " to us.\nThere is a small ",
+      " near my house.\nThe streets in our town are usually quite ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "park",
+        "options": [
+          "park",
+          "factory",
+          "airport"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "delicious",
+        "options": [
+          "delicious",
+          "strange",
+          "terrible"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "friendly",
+        "options": [
+          "noisy",
+          "friendly",
+          "rude"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "library",
+        "options": [
+          "volcano",
+          "library",
+          "desert"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "clean",
+        "options": [
+          "dirty",
+          "flooded",
+          "clean"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My colleagues and I usually have a ",
+      " every Monday morning.\nI usually finish my ",
+      " before lunchtime.\nMy boss is usually quite ",
+      " about deadlines.\nThe office usually opens at ",
+      " o'clock.\nWe usually take a short ",
+      " in the middle of the day.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "meeting",
+        "options": [
+          "holiday",
+          "meeting",
+          "party"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "report",
+        "options": [
+          "dinner",
+          "report",
+          "vacation"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "strict",
+        "options": [
+          "strict",
+          "lazy",
+          "careless"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "eight",
+        "options": [
+          "noon",
+          "midnight",
+          "eight"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "break",
+        "options": [
+          "nap",
+          "break",
+          "trip"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I usually drink plenty of ",
+      " every day.\nMy grandmother goes for a check-up ",
+      ".\nEating too much sugar is not very ",
+      ".\nI usually go to bed ",
+      " on weekdays.\nWe always wash our hands before ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "water",
+        "options": [
+          "paint",
+          "water",
+          "oil"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "regularly",
+        "options": [
+          "regularly",
+          "rarely",
+          "never"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "healthy",
+        "options": [
+          "cheap",
+          "healthy",
+          "quiet"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "early",
+        "options": [
+          "early",
+          "late",
+          "never"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "eating",
+        "options": [
+          "eating",
+          "sleeping",
+          "singing"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My sister enjoys playing the ",
+      " every afternoon.\nI usually read a ",
+      " before going to sleep.\nMy father likes to collect old ",
+      ".\nWe usually listen to ",
+      " while doing housework.\nPainting helps me feel very ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "piano",
+        "options": [
+          "computer",
+          "football",
+          "piano"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "novel",
+        "options": [
+          "recipe",
+          "novel",
+          "map"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "stamps",
+        "options": [
+          "plates",
+          "shoes",
+          "stamps"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "music",
+        "options": [
+          "music",
+          "traffic",
+          "silence"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "relaxed",
+        "options": [
+          "tired",
+          "relaxed",
+          "nervous"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "sender": "Hey Lewis,",
+    "template": [
+      "We usually go ",
+      " in the mountains on weekends.\nMy family likes to have a ",
+      " in the park.\nOn Saturdays, I usually clean my ",
+      ".\nWe usually watch a ",
+      " together on Friday night.\nMy friends and I like to meet at the ",
+      " on weekends.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "hiking",
+        "options": [
+          "sleeping",
+          "hiking",
+          "working"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "picnic",
+        "options": [
+          "exam",
+          "picnic",
+          "meeting"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "room",
+        "options": [
+          "office",
+          "room",
+          "garden"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "movie",
+        "options": [
+          "meeting",
+          "movie",
+          "lecture"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "cafe",
+        "options": [
+          "cafe",
+          "office",
+          "hospital"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "sender": "Hey Lewis,",
+    "template": [
+      "Birds usually sing early in the ",
+      ".\nThe forest near our town is very ",
+      ".\nWe usually go camping near the ",
+      " in summer.\nBees usually fly around the colorful ",
+      " in the garden.\nThe mountain air always feels quite ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "morning",
+        "options": [
+          "storm",
+          "morning",
+          "night"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "peaceful",
+        "options": [
+          "peaceful",
+          "loud",
+          "crowded"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "lake",
+        "options": [
+          "airport",
+          "mall",
+          "lake"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "flowers",
+        "options": [
+          "books",
+          "cars",
+          "flowers"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "fresh",
+        "options": [
+          "fresh",
+          "heavy",
+          "dirty"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I usually ",
+      " the living room every weekend.\nMy brother always takes out the ",
+      " every evening.\nWe usually do the ",
+      " on Sunday mornings.\nMy mother likes to keep the kitchen very ",
+      ".\nI usually water the ",
+      " every morning.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "vacuum",
+        "options": [
+          "cook",
+          "vacuum",
+          "paint"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "trash",
+        "options": [
+          "trash",
+          "furniture",
+          "carpet"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "laundry",
+        "options": [
+          "laundry",
+          "shopping",
+          "homework"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "tidy",
+        "options": [
+          "messy",
+          "dark",
+          "tidy"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "plants",
+        "options": [
+          "windows",
+          "plants",
+          "furniture"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My family usually travels ",
+      " once a year.\nBefore any trip, I always check the ",
+      " forecast.\nWe usually pack our ",
+      " the night before a trip.\nMy father prefers to book flights ",
+      ".\nTravelling by train is usually quite ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "abroad",
+        "options": [
+          "backwards",
+          "underground",
+          "abroad"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "weather",
+        "options": [
+          "weather",
+          "homework",
+          "furniture"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "suitcase",
+        "options": [
+          "suitcase",
+          "kitchen",
+          "garden"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "online",
+        "options": [
+          "underground",
+          "loudly",
+          "online"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "relaxing",
+        "options": [
+          "expensive",
+          "relaxing",
+          "dangerous"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My cousin plays the ",
+      " in a local band.\nThis museum usually displays modern ",
+      ".\nI usually sing in the school ",
+      " on Fridays.\nClassical music always makes me feel quite ",
+      ".\nMy sister takes dance ",
+      " every Tuesday.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "guitar",
+        "options": [
+          "chess",
+          "football",
+          "guitar"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "paintings",
+        "options": [
+          "vegetables",
+          "paintings",
+          "furniture"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "choir",
+        "options": [
+          "choir",
+          "garden",
+          "kitchen"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "calm",
+        "options": [
+          "angry",
+          "calm",
+          "hungry"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "lessons",
+        "options": [
+          "lessons",
+          "medicine",
+          "exams"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My grandmother usually bakes ",
+      " every weekend.\nThis recipe needs a pinch of ",
+      ".\nWe usually preheat the ",
+      " before baking a cake.\nI always add fresh ",
+      " to my salads.\nThis cake usually takes an hour to ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "bread",
+        "options": [
+          "bread",
+          "shoes",
+          "furniture"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "salt",
+        "options": [
+          "paint",
+          "salt",
+          "sand"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "oven",
+        "options": [
+          "fridge",
+          "garden",
+          "oven"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "herbs",
+        "options": [
+          "rocks",
+          "paper",
+          "herbs"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "bake",
+        "options": [
+          "bake",
+          "melt",
+          "freeze"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My mother grows several ",
+      " in our backyard.\nThese flowers need plenty of ",
+      " to grow well.\nI usually water the garden every ",
+      ".\nOur garden always looks quite ",
+      " in spring.\nMy father likes to cut the ",
+      " every month.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "vegetables",
+        "options": [
+          "rocks",
+          "animals",
+          "vegetables"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "sunlight",
+        "options": [
+          "snow",
+          "sunlight",
+          "shade"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "morning",
+        "options": [
+          "winter",
+          "morning",
+          "midnight"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "colorful",
+        "options": [
+          "dusty",
+          "colorful",
+          "empty"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "grass",
+        "options": [
+          "grass",
+          "carpets",
+          "windows"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I usually study at the ",
+      " after school.\nMy classmates and I often ",
+      " our lessons together.\nThis library usually stays open until ",
+      " in the evening.\nI always take careful ",
+      " during lectures.\nGroup study usually helps me stay ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "library",
+        "options": [
+          "stadium",
+          "library",
+          "cinema"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "review",
+        "options": [
+          "review",
+          "skip",
+          "forget"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "nine",
+        "options": [
+          "nine",
+          "noon",
+          "dawn"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "notes",
+        "options": [
+          "naps",
+          "notes",
+          "photos"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "focused",
+        "options": [
+          "tired",
+          "bored",
+          "focused"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "sender": "Hey Lewis,",
+    "template": [
+      "My friends and I usually meet at the ",
+      " after class.\nI always ",
+      " my friends when they need help.\nWe usually chat about our ",
+      " for the weekend.\nMy best friend always tells the truth and never ",
+      ".\nWe usually celebrate birthdays with a small ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "cafe",
+        "options": [
+          "cafe",
+          "airport",
+          "hospital"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "support",
+        "options": [
+          "ignore",
+          "support",
+          "avoid"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "plans",
+        "options": [
+          "enemies",
+          "plans",
+          "chores"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "lies",
+        "options": [
+          "lies",
+          "helps",
+          "smiles"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "party",
+        "options": [
+          "party",
+          "meeting",
+          "exam"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "sender": "Hey Lewis,",
+    "template": [
+      "This restaurant usually serves the best ",
+      " in town.\nWe usually book a ",
+      " in advance on weekends.\nThe waiter always brings the ",
+      " first.\nThis cafe usually plays soft ",
+      " in the background.\nI always leave a small ",
+      " for good service.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "seafood",
+        "options": [
+          "furniture",
+          "clothes",
+          "seafood"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "table",
+        "options": [
+          "ticket",
+          "flight",
+          "table"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "menu",
+        "options": [
+          "bill",
+          "menu",
+          "receipt"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "music",
+        "options": [
+          "thunder",
+          "music",
+          "traffic"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "tip",
+        "options": [
+          "tip",
+          "gift",
+          "note"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I usually save some ",
+      " every month.\nMy parents always compare ",
+      " before buying anything expensive.\nThis store usually offers free ",
+      " for large orders.\nI always keep my ",
+      " just in case I need a refund.\nWe usually pay our bills ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "money",
+        "options": [
+          "clothes",
+          "food",
+          "money"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "prices",
+        "options": [
+          "colors",
+          "shapes",
+          "prices"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "delivery",
+        "options": [
+          "delivery",
+          "punishment",
+          "noise"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "receipts",
+        "options": [
+          "receipts",
+          "shoes",
+          "keys"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "online",
+        "options": [
+          "loudly",
+          "online",
+          "underground"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "sender": "Hey Lewis,",
+    "template": [
+      "We always ",
+      " paper and plastic at home.\nOur town usually collects the ",
+      " every Tuesday.\nTurning off the lights helps save ",
+      ".\nMany people now prefer cloth ",
+      " instead of plastic ones.\nPlanting more trees helps keep the air ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "recycle",
+        "options": [
+          "waste",
+          "burn",
+          "recycle"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "trash",
+        "options": [
+          "vehicles",
+          "trash",
+          "furniture"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "energy",
+        "options": [
+          "energy",
+          "paper",
+          "noise"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "bags",
+        "options": [
+          "phones",
+          "bags",
+          "cars"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "clean",
+        "options": [
+          "dirty",
+          "heavy",
+          "clean"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I usually go to ",
+      " around ten o'clock.\nMy brother always takes a short ",
+      " after lunch.\nA quiet room usually helps me sleep quite ",
+      ".\nI always read a little before ",
+      ".\nToo much coffee usually keeps me ",
+      " at night.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "sleep",
+        "options": [
+          "school",
+          "work",
+          "sleep"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "nap",
+        "options": [
+          "walk",
+          "nap",
+          "shower"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "well",
+        "options": [
+          "loudly",
+          "well",
+          "badly"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "bedtime",
+        "options": [
+          "lunchtime",
+          "breakfast",
+          "bedtime"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "awake",
+        "options": [
+          "calm",
+          "awake",
+          "asleep"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I usually call my parents ",
+      " to check on them.\nWe often send each other funny ",
+      " during the day.\nMy grandmother prefers to talk on the ",
+      " rather than text.\nI always reply to important ",
+      " right away.\nWe usually keep our conversations quite ",
+      " during work hours.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "daily",
+        "options": [
+          "daily",
+          "hourly",
+          "yearly"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "messages",
+        "options": [
+          "bills",
+          "messages",
+          "reports"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "phone",
+        "options": [
+          "bridge",
+          "roof",
+          "phone"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "emails",
+        "options": [
+          "movies",
+          "emails",
+          "songs"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "short",
+        "options": [
+          "short",
+          "silent",
+          "endless"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "sender": "Hey Lewis,",
+    "template": [
+      "She always adds a little ",
+      " to season the soup.\nThe bakery down the street sells fresh ",
+      " every morning.\nI usually ",
+      " the eggs for about ten minutes.\nThis recipe needs two cups of ",
+      " and one egg.\nThe soup tastes a bit too ",
+      " for my liking.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "salt",
+        "options": [
+          "salt",
+          "sugar",
+          "oil"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "bread",
+        "options": [
+          "bread",
+          "shoes",
+          "paper"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "boil",
+        "options": [
+          "boil",
+          "paint",
+          "drive"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "flour",
+        "options": [
+          "flour",
+          "stone",
+          "paper"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "salty",
+        "options": [
+          "salty",
+          "loud",
+          "heavy"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "sender": "Hey Lewis,",
+    "template": [
+      "It looks like it might ",
+      " later this afternoon.\nRemember to bring an ",
+      " if you go outside.\nThe weather has been really ",
+      " these past few days.\nA cold ",
+      " blew through the town last night.\nWe canceled the picnic because of the sudden ",
+      ".\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "rain",
+        "options": [
+          "rain",
+          "sing",
+          "cook"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "umbrella",
+        "options": [
+          "umbrella",
+          "oven",
+          "pillow"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "humid",
+        "options": [
+          "humid",
+          "quiet",
+          "cheap"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "wind",
+        "options": [
+          "wind",
+          "song",
+          "bill"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "storm",
+        "options": [
+          "storm",
+          "concert",
+          "exam"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I need to ",
+      " these shoes because they don't fit.\nThe store is offering a big ",
+      " this weekend.\nCould you check if this jacket comes in a smaller ",
+      "?\nI paid in ",
+      " instead of using my card.\nThe cashier gave me the wrong ",
+      " by mistake.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "return",
+        "options": [
+          "return",
+          "cook",
+          "sleep"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "discount",
+        "options": [
+          "discount",
+          "lecture",
+          "recipe"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "size",
+        "options": [
+          "size",
+          "flavor",
+          "weight"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "cash",
+        "options": [
+          "cash",
+          "paint",
+          "sand"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "receipt",
+        "options": [
+          "receipt",
+          "umbrella",
+          "engine"
+        ],
+        "readonly": false
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "sender": "Hey Lewis,",
+    "template": [
+      "I try to ",
+      " at least three times a week.\nDrinking enough ",
+      " keeps you healthy.\nMy doctor advised me to get more ",
+      " after the surgery.\nJogging every morning makes me feel more ",
+      ".\nHe pulled a muscle while ",
+      " before the race.\nLove,\nHelen"
+    ],
+    "gaps": [
+      {
+        "correct": "exercise",
+        "options": [
+          "exercise",
+          "argue",
+          "paint"
+        ],
+        "readonly": true
+      },
+      {
+        "correct": "water",
+        "options": [
+          "water",
+          "oil",
+          "ink"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "rest",
+        "options": [
+          "rest",
+          "noise",
+          "debt"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "energetic",
+        "options": [
+          "energetic",
+          "forgetful",
+          "nervous"
+        ],
+        "readonly": false
+      },
+      {
+        "correct": "stretching",
+        "options": [
+          "stretching",
+          "cooking",
+          "reading"
         ],
         "readonly": false
       }

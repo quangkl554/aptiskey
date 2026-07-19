@@ -1,19 +1,21 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#17233d" />
+  <meta name="theme-color" content="#f6f8fc" />
   <title>Writing Studio — Aptis Studio</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/course-pages.css?v=20260717" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="stylesheet" href="css/style.css?v=20260718b" />
+  <link rel="stylesheet" href="css/course-pages.css?v=20260718b" />
   <script src="js/writing_db.js?v=20260717"></script>
 </head>
 <body class="course-page writing-course">
   <nav class="nav">
     <div class="nav-inner">
-      <a class="nav-logo" href="index.html"><span class="logo-icon">A</span><span>Aptis keys Studio</span></a>
-      <ul class="nav-links">
+      <a class="nav-logo" href="index.html"><span class="logo-icon" aria-hidden="true">A</span><span>AptisKey Studio</span></a>
+      <button class="nav-menu-toggle" type="button" aria-expanded="false" aria-controls="writing-nav-links" aria-label="Mở menu điều hướng" onclick="toggleCourseNav(this)"><span aria-hidden="true">☰</span></button>
+      <ul class="nav-links" id="writing-nav-links">
         <li><a href="index.html">Trang chủ</a></li>
         <li><a href="index.html#reading-part-1">Reading</a></li>
         <li><a href="listening.html">Listening</a></li>
@@ -27,7 +29,7 @@
     <section class="page-header">
       <div class="page-header-inner">
         <a href="index.html" class="back-btn">← Trang chủ</a>
-        <div class="page-icon">✍</div>
+        <div class="page-icon" aria-hidden="true">✍</div>
         <div class="page-title-area">
           <h2>Writing Studio</h2>
           <p>40 câu lạc bộ · 4 phần thi · Viết trực tiếp · Đếm từ · Đáp án mẫu · Tự lưu offline</p>
@@ -48,14 +50,14 @@
     </section>
 
     <div class="writing-part-tabs" role="tablist" aria-label="Các phần Writing">
-      <button class="active" data-writing-part="1" onclick="startWritingPart(1)">Part 1 · Trả lời ngắn</button>
-      <button data-writing-part="2" onclick="startWritingPart(2)">Part 2 · Bài viết ngắn</button>
-      <button data-writing-part="3" onclick="startWritingPart(3)">Part 3 · Trao đổi</button>
-      <button data-writing-part="4" onclick="startWritingPart(4)">Part 4 · Hai email</button>
+      <button class="active" role="tab" aria-selected="true" aria-controls="writing-workspace" data-writing-part="1" onclick="startWritingPart(1)">Part 1 · Trả lời ngắn</button>
+      <button role="tab" aria-selected="false" aria-controls="writing-workspace" tabindex="-1" data-writing-part="2" onclick="startWritingPart(2)">Part 2 · Bài viết ngắn</button>
+      <button role="tab" aria-selected="false" aria-controls="writing-workspace" tabindex="-1" data-writing-part="3" onclick="startWritingPart(3)">Part 3 · Trao đổi</button>
+      <button role="tab" aria-selected="false" aria-controls="writing-workspace" tabindex="-1" data-writing-part="4" onclick="startWritingPart(4)">Part 4 · Hai email</button>
     </div>
 
     <div class="writing-studio-grid">
-      <section class="writing-workspace" id="writing-workspace">
+      <section class="writing-workspace" id="writing-workspace" role="tabpanel" tabindex="-1" aria-labelledby="writing-part-title">
         <div class="writing-progress-row">
           <div><h2 id="writing-part-title">Part 1 · Trả lời ngắn</h2><span id="writing-part-subtitle">5 câu · mỗi câu 1–5 từ</span></div>
           <span id="writing-counter">1 / 40</span>
@@ -63,14 +65,14 @@
         <div id="writing-question-list" class="writing-question-list"></div>
         <div class="writing-actions">
           <button onclick="moveWritingClub(-1)">← Bộ trước</button>
-          <button class="primary" id="writing-answer-toggle" onclick="toggleWritingAnswers()">👁 Xem đáp án mẫu</button>
+          <button class="primary" id="writing-answer-toggle" aria-expanded="false" aria-controls="writing-question-list" onclick="toggleWritingAnswers()">Xem đáp án mẫu</button>
           <button onclick="moveWritingClub(1)">Bộ tiếp →</button>
         </div>
       </section>
 
       <aside class="writing-side">
         <div class="writing-side-label">Writing focus</div>
-        <div class="writing-timer" id="writing-timer">03:00</div>
+        <div class="writing-timer" id="writing-timer" role="timer" aria-live="off">03:00</div>
         <button id="writing-timer-toggle" onclick="toggleWritingTimer()">Bắt đầu</button>
         <button class="secondary" onclick="resetWritingTimer()">Đặt lại giờ</button>
         <button class="secondary" onclick="randomWritingClub()">Bộ ngẫu nhiên</button>
@@ -81,6 +83,6 @@
   </main>
 
   <footer class="footer"><div class="container"><p>Aptis Studio · Writing dữ liệu lưu trên máy · 40 câu lạc bộ</p></div></footer>
-  <script src="js/writing_app.js?v=20260717"></script>
+  <script src="js/writing_app.js?v=20260718b"></script>
 </body>
 </html>

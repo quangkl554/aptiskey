@@ -1,16 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aptis Keys — Ôn luyện Aptis hiệu quả</title>
-  <!-- Google Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap"/>
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
-  <link rel="stylesheet" href="css/style.css?v=20260717"/>
+  <title>AptisKey Studio — Không gian tự học Aptis</title>
+  <meta name="theme-color" content="#f7f8fb"/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="css/style.css?v=20260718b"/>
   <!-- Load Reading Database -->
-  <script src="js/reading_db.js?v=20260717"></script>
+  <script src="js/reading_db.js?v=20260718b"></script>
   <script src="js/speaking_db.js?v=20260717"></script>
   <style>
     /* Add extra styles for Parts 2-5 */
@@ -217,14 +215,14 @@
       color: #212529;
     }
   </style>
-  <link rel="stylesheet" href="css/experience.css"/>
+  <link rel="stylesheet" href="css/experience.css?v=20260718b"/>
 </head>
 <body>
 
 <div class="app-wrapper">
   
   <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="app-sidebar" aria-label="Điều hướng chính">
     <a href="#" class="sidebar-logo" onclick="showView('dashboard-view')">
       <span class="logo-icon">A</span>
       <span class="logo-text">Aptis keys</span>
@@ -241,7 +239,7 @@
       </li>
       
       <li class="menu-item">
-        <a href="#" class="menu-link" id="menu-reading" onclick="toggleSubmenu('reading-submenu')">
+        <a href="#" class="menu-link" id="menu-reading" aria-expanded="false" aria-controls="reading-submenu" onclick="toggleSubmenu('reading-submenu', this); return false;">
           <span class="menu-link-left">
             <i class="bi bi-book"></i>
             Học reading
@@ -257,7 +255,7 @@
       </li>
       
       <li class="menu-item">
-        <a href="#" class="menu-link" id="menu-speaking" onclick="toggleSubmenu('speaking-submenu')">
+        <a href="#" class="menu-link" id="menu-speaking" aria-expanded="false" aria-controls="speaking-submenu" onclick="toggleSubmenu('speaking-submenu', this); return false;">
           <span class="menu-link-left">
             <i class="bi bi-mic"></i>
             Học Speaking
@@ -318,6 +316,7 @@
       </li>
     </ul>
   </aside>
+  <button type="button" class="sidebar-scrim" aria-label="Đóng menu" onclick="closeSidebar()"></button>
   
   <!-- ===== MAIN CONTENT ===== -->
   <main class="main-content">
@@ -325,7 +324,7 @@
     <!-- ===== TOP HEADER ===== -->
     <header class="navbar">
       <div class="navbar-left">
-        <button class="navbar-toggle" onclick="toggleSidebar()">
+        <button class="navbar-toggle" type="button" aria-label="Mở menu" aria-controls="app-sidebar" aria-expanded="true" onclick="toggleSidebar()">
           <i class="bi bi-list"></i>
         </button>
         <a href="#" class="navbar-link" onclick="showView('dashboard-view')">Trang chủ</a>
@@ -362,16 +361,16 @@
             </div>
           </div>
           <div class="hero-orbit" aria-hidden="true">
-            <div class="orbit-core"><span id="overall-progress">0%</span><small>đã học</small></div>
+            <div class="orbit-core"><span id="overall-progress">0%</span><small>Reading + Speaking</small></div>
             <span class="orbit-dot dot-one"></span><span class="orbit-dot dot-two"></span><span class="orbit-dot dot-three"></span>
           </div>
         </section>
 
         <section class="dashboard-stats" aria-label="Thống kê nội dung">
-          <div><strong>77</strong><span>bộ Reading</span></div>
-          <div><strong>171</strong><span>bộ Speaking</span></div>
+          <div><strong id="reading-total-count">0</strong><span>bộ Reading</span></div>
+          <div><strong id="speaking-total-count">0</strong><span>bộ Speaking</span></div>
           <div><strong>87</strong><span>hình offline</span></div>
-          <div><strong id="learned-count">0</strong><span>mục đã học</span></div>
+          <div><strong id="learned-count">0</strong><span>Reading + Speaking đã học</span></div>
         </section>
 
         <div class="section-heading">
@@ -380,14 +379,14 @@
         </div>
 
         <div class="skill-grid">
-          <article class="skill-card reading-skill" onclick="startReadingPart(1)">
-            <div class="skill-top"><span class="skill-icon"><i class="bi bi-book-half"></i></span><span class="skill-pill">77 bộ</span></div>
+          <article class="skill-card reading-skill" role="button" tabindex="0" onclick="startReadingPart(1)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startReadingPart(1)}">
+            <div class="skill-top"><span class="skill-icon"><i class="bi bi-book-half"></i></span><span class="skill-pill" id="reading-total-pill">0 bộ</span></div>
             <h3>Reading</h3><p>Điền từ, sắp xếp câu, nối ý kiến và nối tiêu đề.</p>
             <div class="skill-progress"><span id="reading-progress-bar"></span></div>
             <div class="skill-footer"><span id="reading-progress-text">Bắt đầu luyện</span><i class="bi bi-arrow-up-right"></i></div>
           </article>
-          <article class="skill-card speaking-skill" onclick="startSpeakingPart(1)">
-            <div class="skill-top"><span class="skill-icon"><i class="bi bi-soundwave"></i></span><span class="skill-pill">171 bộ</span></div>
+          <article class="skill-card speaking-skill" role="button" tabindex="0" onclick="startSpeakingPart(1)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();startSpeakingPart(1)}">
+            <div class="skill-top"><span class="skill-icon"><i class="bi bi-soundwave"></i></span><span class="skill-pill" id="speaking-total-pill">0 bộ</span></div>
             <h3>Speaking</h3><p>Câu hỏi cá nhân, mô tả hình, so sánh và kể trải nghiệm.</p>
             <div class="skill-progress"><span id="speaking-progress-bar"></span></div>
             <div class="skill-footer"><span id="speaking-progress-text">Bắt đầu luyện</span><i class="bi bi-arrow-up-right"></i></div>
@@ -412,7 +411,7 @@
         <div class="exam-layout">
           <div class="exam-header">
             <div class="exam-header-left">
-              <i class="bi bi-house-door-fill" style="cursor:pointer;" onclick="showView('dashboard-view')"></i>
+              <button type="button" class="exam-home-btn" aria-label="Về trang chủ" onclick="showView('dashboard-view')"><i class="bi bi-house-door-fill"></i></button>
               <span>Aptis Keys</span>
             </div>
             <div class="exam-header-center">
@@ -426,13 +425,13 @@
           <div class="exam-body">
             <div class="exam-content-area">
               <div class="reading-part-tabs" role="tablist" aria-label="Các phần Reading">
-                <button class="active" data-reading-part="1" onclick="startReadingPart(1)">Part 1 · Điền từ</button>
-                <button data-reading-part="2" onclick="startReadingPart(2)">Part 2 &amp; 3 · Sắp xếp câu</button>
-                <button data-reading-part="4" onclick="startReadingPart(4)">Part 4 · Nối ý kiến</button>
-                <button data-reading-part="5" onclick="startReadingPart(5)">Part 5 · Nối tiêu đề</button>
+                <button id="reading-tab-1" class="active" role="tab" aria-controls="reading-tabpanel" aria-selected="true" tabindex="0" data-reading-part="1" onclick="startReadingPart(1)">Part 1 · Điền từ</button>
+                <button id="reading-tab-2" role="tab" aria-controls="reading-tabpanel" aria-selected="false" tabindex="-1" data-reading-part="2" onclick="startReadingPart(2)">Part 2 &amp; 3 · Sắp xếp câu</button>
+                <button id="reading-tab-4" role="tab" aria-controls="reading-tabpanel" aria-selected="false" tabindex="-1" data-reading-part="4" onclick="startReadingPart(4)">Part 4 · Nối ý kiến</button>
+                <button id="reading-tab-5" role="tab" aria-controls="reading-tabpanel" aria-selected="false" tabindex="-1" data-reading-part="5" onclick="startReadingPart(5)">Part 5 · Nối tiêu đề</button>
               </div>
-              <div class="exam-card">
-                <div class="exam-question-title" id="q-number-title">Reading Question 1 of 13</div>
+              <div class="exam-card" id="reading-tabpanel" role="tabpanel" aria-labelledby="reading-tab-1" tabindex="0">
+                <div class="exam-question-title" id="q-number-title">Reading Question 1</div>
                 <div class="exam-instruction" id="q-instruction">Choose the word that fits in each gap.</div>
                 
                 <!-- DYNAMIC CONTENT BOX -->
@@ -449,7 +448,13 @@
           
           <div class="exam-footer-bar">
             <button class="exam-btn exam-btn-back" onclick="prevQuestion()">Back</button>
-            <button class="exam-btn exam-btn-check" onclick="checkAnswers()">Check result</button>
+            <div class="exam-footer-center">
+              <label class="exam-jump" for="reading-question-jump">Đến đề
+                <input id="reading-question-jump" type="number" inputmode="numeric" min="1" value="1" aria-label="Nhảy đến đề Reading" onchange="jumpToReadingQuestion(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();jumpToReadingQuestion(this.value)}"/>
+                <span id="reading-jump-total">/ 1</span>
+              </label>
+              <button class="exam-btn exam-btn-check" onclick="checkAnswers()">Check result</button>
+            </div>
             <button class="exam-btn exam-btn-next" onclick="nextQuestion()">Next</button>
           </div>
         </div>
@@ -460,11 +465,11 @@
         <div class="speaking-shell">
           <header class="speaking-header">
             <button class="speaking-home" onclick="showView('dashboard-view')"><i class="bi bi-grid-1x2-fill"></i><span>Trang chủ</span></button>
-            <div class="speaking-part-tabs" role="tablist">
-              <button onclick="startSpeakingPart(1)" data-speaking-part="1">Part 1</button>
-              <button onclick="startSpeakingPart(2)" data-speaking-part="2">Part 2</button>
-              <button onclick="startSpeakingPart(3)" data-speaking-part="3">Part 3</button>
-              <button onclick="startSpeakingPart(4)" data-speaking-part="4">Part 4</button>
+            <div class="speaking-part-tabs" role="tablist" aria-label="Các phần Speaking">
+              <button id="speaking-tab-1" role="tab" aria-controls="speaking-tabpanel" aria-selected="false" tabindex="0" onclick="startSpeakingPart(1)" data-speaking-part="1">Part 1</button>
+              <button id="speaking-tab-2" role="tab" aria-controls="speaking-tabpanel" aria-selected="false" tabindex="-1" onclick="startSpeakingPart(2)" data-speaking-part="2">Part 2</button>
+              <button id="speaking-tab-3" role="tab" aria-controls="speaking-tabpanel" aria-selected="false" tabindex="-1" onclick="startSpeakingPart(3)" data-speaking-part="3">Part 3</button>
+              <button id="speaking-tab-4" role="tab" aria-controls="speaking-tabpanel" aria-selected="false" tabindex="-1" onclick="startSpeakingPart(4)" data-speaking-part="4">Part 4</button>
             </div>
             <div class="speaking-counter" id="speaking-counter">1 / 56</div>
           </header>
@@ -481,7 +486,7 @@
               <div class="shortcut-mini"><kbd>←</kbd><kbd>→</kbd> chuyển câu · <kbd>A</kbd> đáp án · <kbd>Space</kbd> giờ</div>
             </aside>
 
-            <main class="speaking-workspace">
+            <main class="speaking-workspace" id="speaking-tabpanel" role="tabpanel" aria-labelledby="speaking-tab-1" tabindex="0">
               <div class="speaking-question-head">
                 <div><span id="speaking-part-label">SPEAKING · PART 1</span><h2 id="speaking-title">Câu hỏi cá nhân</h2></div>
                 <div class="speaking-head-actions">
@@ -513,10 +518,12 @@
   </main>
 </div>
 
+<button type="button" class="focus-exit-btn" onclick="toggleFocusMode()" aria-label="Thoát chế độ tập trung"><i class="bi bi-eye-slash"></i> Thoát tập trung <kbd>Esc</kbd></button>
+
 <div class="app-toast" id="app-toast" role="status" aria-live="polite"></div>
 
 <div class="result-modal-overlay" id="result-modal" aria-hidden="true" onclick="handleResultOverlayClick(event)">
-  <div class="result-modal" role="dialog" aria-modal="true" aria-labelledby="result-modal-title">
+  <div class="result-modal" role="dialog" aria-modal="true" aria-labelledby="result-modal-title" aria-describedby="result-modal-score" tabindex="-1" onkeydown="handleResultModalKeydown(event)">
     <div class="result-modal-header">
       <h3 class="result-modal-title" id="result-modal-title">Test and Answer Review keys 001</h3>
       <button type="button" class="result-modal-close" onclick="closeResultModal()" aria-label="Close result review">×</button>
@@ -559,12 +566,14 @@
   const NOTE_STORAGE_PREFIX = 'aptisReadingStudyNote';
   const DRAWING_STORAGE_PREFIX = 'aptisReadingDrawing';
   const ANNOTATION_STORAGE_PREFIX = 'aptisReadingTextAnnotation';
+  const READING_SESSION_PREFIX = 'aptisReadingSession';
   const EMPTY_ANSWER_TEXT = '(không chọn)';
   let noteStatusTimer = null;
   let activeDrawingState = { isDrawing: false, lastX: 0, lastY: 0 };
   let activeAnnotationRange = null;
   let activeAnnotationTarget = null;
   let annotationToolbarTimer = null;
+  let resultModalReturnFocus = null;
 
   function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -588,8 +597,26 @@
     return [];
   }
 
+  function getReadingPart1Version() {
+    let declaredVersion = '';
+    if (typeof READING_PART1_CONTENT_VERSION !== 'undefined') declaredVersion = READING_PART1_CONTENT_VERSION;
+    return String(declaredVersion || readingDB?.meta?.part1Version || readingDB?.part1Version || 'part1-v1');
+  }
+
+  function getPart1StableItemId(index = currentQuestionIdx) {
+    const item = (readingDB?.part1 || [])[index];
+    return `id-${makeStableId(item?.id ?? `${index + 1}:${(item?.template || []).join('|')}`)}`;
+  }
+
+  function getScopedStudyId(noteId) {
+    const rawId = String(noteId ?? '');
+    if (!rawId.startsWith('p1-')) return rawId;
+    const stableId = getPart1StableItemId();
+    return `v${getReadingPart1Version()}:${rawId.replace(/^p1-q\d+/, `p1-${stableId}`)}`;
+  }
+
   function getStudyStorageKey(prefix, noteId) {
-    return `${prefix}:${noteId}`;
+    return `${prefix}:${getScopedStudyId(noteId)}`;
   }
 
   function makeStableId(value) {
@@ -746,7 +773,7 @@
   function renderStudyToggle(noteId) {
     return `
       <div class="inline-note" data-note-id="${escapeAttr(noteId)}">
-        <button type="button" class="inline-note-toggle" onclick="toggleStudyBox('${noteId}')">
+        <button type="button" class="inline-note-toggle" aria-expanded="false" aria-controls="note-panel-${noteId}" onclick="toggleStudyBox('${noteId}', this)">
           <i class="bi bi-chevron-right" id="note-icon-${noteId}"></i>
           <span>Ghi chú / dịch / vẽ</span>
         </button>
@@ -781,12 +808,13 @@
     `;
   }
 
-  function toggleStudyBox(noteId) {
+  function toggleStudyBox(noteId, trigger = null) {
     const panel = document.getElementById(`note-panel-${noteId}`);
     const icon = document.getElementById(`note-icon-${noteId}`);
     if (!panel) return;
     const willOpen = panel.hidden;
     panel.hidden = !willOpen;
+    trigger?.setAttribute('aria-expanded', String(willOpen));
     if (icon) {
       icon.classList.toggle('bi-chevron-right', !willOpen);
       icon.classList.toggle('bi-chevron-down', willOpen);
@@ -1004,40 +1032,67 @@
 
   // UI Navigation
   function showView(viewId) {
-    document.querySelectorAll('.view-panel').forEach(panel => {
-      panel.classList.remove('active');
-    });
-    document.getElementById(viewId).classList.add('active');
-    
-    // Manage sidebar active class
+    document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active'));
+    const nextView = document.getElementById(viewId);
+    if (!nextView) return;
+    nextView.classList.add('active');
+
+    if (viewId !== 'practice-view') clearInterval(timerInterval);
+    if (viewId !== 'speaking-view') stopSpeakingTimer();
+
     const dashboardLink = document.getElementById('menu-dashboard');
+    dashboardLink?.classList.toggle('active', viewId === 'dashboard-view');
     if (viewId === 'dashboard-view') {
-      dashboardLink.classList.add('active');
-      clearInterval(timerInterval);
-      stopSpeakingTimer();
       document.body.classList.remove('focus-mode');
       updateDashboardStats();
-    } else {
-      dashboardLink.classList.remove('active');
     }
+    closeSidebar();
+    const workspace = viewId === 'speaking-view'
+      ? document.querySelector('.speaking-workspace')
+      : viewId === 'practice-view' ? document.querySelector('.exam-content-area') : nextView;
+    requestAnimationFrame(() => {
+      if (!workspace) return;
+      workspace.tabIndex = -1;
+      workspace.focus({ preventScroll: true });
+      workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  function updateSidebarToggleState() {
+    const toggle = document.querySelector('.navbar-toggle');
+    if (!toggle) return;
+    const expanded = window.innerWidth > 860 ? !document.body.classList.contains('sidebar-collapsed') : document.body.classList.contains('sidebar-open');
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.setAttribute('aria-label', expanded ? 'Đóng menu' : 'Mở menu');
+  }
+
+  function closeSidebar() {
     document.body.classList.remove('sidebar-open');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateSidebarToggleState();
   }
 
   function toggleSidebar() {
     if (window.innerWidth <= 860) {
-      document.body.classList.toggle('sidebar-open');
-      return;
+      const willOpen = !document.body.classList.contains('sidebar-open');
+      document.body.classList.toggle('sidebar-open', willOpen);
+      if (willOpen) requestAnimationFrame(() => document.querySelector('#app-sidebar a, #app-sidebar button')?.focus());
+    } else {
+      document.body.classList.toggle('sidebar-collapsed');
     }
-    document.body.classList.toggle('focus-mode');
+    updateSidebarToggleState();
   }
 
-  function toggleSubmenu(submenuId) {
+  function toggleSubmenu(submenuId, trigger = null) {
     const submenu = document.getElementById(submenuId);
-    submenu.classList.toggle('open');
-    const icon = submenu.previousElementSibling.querySelector('.bi-chevron-right');
+    if (!submenu) return;
+    const open = !submenu.classList.contains('open');
+    submenu.classList.toggle('open', open);
+    const control = trigger || submenu.previousElementSibling;
+    control?.setAttribute('aria-expanded', String(open));
+    const icon = control?.querySelector('.bi-chevron-right, .bi-chevron-down');
     if (icon) {
-      icon.classList.toggle('bi-chevron-down');
+      icon.classList.toggle('bi-chevron-right', !open);
+      icon.classList.toggle('bi-chevron-down', open);
     }
   }
 
@@ -1077,8 +1132,13 @@
 
   function updateReadingPartTabs() {
     document.querySelectorAll('[data-reading-part]').forEach(button => {
-      button.classList.toggle('active', Number(button.dataset.readingPart) === Number(activePart));
+      const selected = Number(button.dataset.readingPart) === Number(activePart);
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-selected', String(selected));
+      button.tabIndex = selected ? 0 : -1;
     });
+    const activeTab = document.querySelector('[data-reading-part][aria-selected="true"]');
+    if (activeTab) document.getElementById('reading-tabpanel')?.setAttribute('aria-labelledby', activeTab.id);
   }
 
   // Master Question Loader
@@ -1100,6 +1160,14 @@
     }
 
     if (currentQuestionIdx >= qList.length) currentQuestionIdx = 0;
+    currentQuestionIdx = Math.max(0, currentQuestionIdx);
+    const jumpInput = document.getElementById('reading-question-jump');
+    const jumpTotal = document.getElementById('reading-jump-total');
+    if (jumpInput) {
+      jumpInput.max = String(qList.length);
+      jumpInput.value = String(currentQuestionIdx + 1);
+    }
+    if (jumpTotal) jumpTotal.textContent = `/ ${qList.length}`;
 
     if (activePart === 1) {
       loadPart1();
@@ -1121,7 +1189,7 @@
     
     document.getElementById('q-number-title').textContent = `Reading Question ${currentQuestionIdx + 1} of ${qList.length}`;
     document.getElementById('exam-right-title').textContent = `Reading Question ${currentQuestionIdx + 1}`;
-    document.getElementById('q-instruction').textContent = `Choose the word that fits in each gap.`;
+    document.getElementById('q-instruction').textContent = `Choose the word that fits in each gap. The first gap is a worked example; answer the remaining four.`;
     
     const template = q.template || [];
     const gaps = q.gaps || [];
@@ -1147,16 +1215,21 @@
 
     function appendPart1Gap(gap, idx) {
       const key = `p1_q${currentQuestionIdx}_g${idx}`;
-      const savedVal = userAnswers[key] || "";
-      let selectHtml = '';
-      selectHtml = ` <select class="exam-select" id="${key}" onchange="saveSelection('${key}', this.value)">`;
-      selectHtml += `<option value="">— Chọn —</option>`;
-      (gap.options || []).forEach(opt => {
-        const selected = (savedVal === opt) ? "selected" : "";
-        selectHtml += `<option value="${escapeAttr(opt)}" ${selected}>${escapeHtml(opt)}</option>`;
-      });
-      selectHtml += `</select> `;
-      currentLine += selectHtml;
+      const isWorkedExample = idx === 0 || gap.readonly === true;
+      if (isWorkedExample) {
+        userAnswers[key] = gap.correct;
+        currentLine += ` <span class="exam-example" aria-label="Ví dụ đã làm sẵn: ${escapeAttr(gap.correct)}"><small>Ví dụ</small>${escapeHtml(gap.correct)}</span> `;
+      } else {
+        const savedVal = userAnswers[key] || "";
+        let selectHtml = ` <select class="exam-select" id="${key}" aria-label="Khoảng trống ${idx + 1}" onchange="saveSelection('${key}', this.value)">`;
+        selectHtml += `<option value="">— Chọn —</option>`;
+        (gap.options || []).forEach(opt => {
+          const selected = (savedVal === opt) ? "selected" : "";
+          selectHtml += `<option value="${escapeAttr(opt)}" ${selected}>${escapeHtml(opt)}</option>`;
+        });
+        selectHtml += `</select> `;
+        currentLine += selectHtml;
+      }
       currentNoteIds.push(`p1-q${currentQuestionIdx}-g${idx}`);
     }
 
@@ -1452,8 +1525,9 @@
     if (activePart === 1) {
       const q = (readingDB.part1 || [])[currentQuestionIdx];
       (q?.gaps || []).forEach((gap, idx) => {
+        if (idx === 0 || gap.readonly === true) return;
         const key = `p1_q${currentQuestionIdx}_g${idx}`;
-        addReviewRow(rows, rows.length + 1, userAnswers[key], gap.correct);
+        addReviewRow(rows, idx + 1, userAnswers[key], gap.correct);
       });
     } else if (activePart === 2) {
       syncPart2OrderFromDom();
@@ -1514,22 +1588,53 @@
     }
 
     const modal = document.getElementById('result-modal');
+    resultModalReturnFocus = document.activeElement;
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
+    requestAnimationFrame(() => modal.querySelector('.result-modal-close')?.focus());
   }
 
   function closeResultModal() {
     const modal = document.getElementById('result-modal');
+    if (!modal?.classList.contains('show')) return;
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
+    if (resultModalReturnFocus?.focus) resultModalReturnFocus.focus();
+    resultModalReturnFocus = null;
+  }
+
+  function handleResultModalKeydown(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      closeResultModal();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const modal = event.currentTarget;
+    const focusable = [...modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter(el => !el.disabled && el.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   }
 
   function handleResultOverlayClick(event) {
-    if (event.target && event.target.id === 'result-modal') {
-      closeResultModal();
-    }
+    if (event.target && event.target.id === 'result-modal') closeResultModal();
+  }
+
+  function jumpToReadingQuestion(value) {
+    const qList = getActiveQuestionList();
+    if (!qList.length) return;
+    const requested = Number.parseInt(value, 10);
+    const target = Number.isFinite(requested) ? Math.min(qList.length, Math.max(1, requested)) : currentQuestionIdx + 1;
+    currentQuestionIdx = target - 1;
+    loadQuestion();
+    rememberSession('reading', activePart, currentQuestionIdx);
+    document.querySelector('.exam-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // Next / Prev Questions
@@ -1616,7 +1721,7 @@
     return `
       <article class="speaking-qa">
         <div class="speaking-qa-question"><b>${escapeHtml(label)}</b>${escapeHtml(cleanSpeakingText(question))}</div>
-        <div class="speaking-answer"><div><strong>Đáp án mẫu</strong>\n${escapeHtml(cleanSpeakingText(answer))}</div></div>
+        <div class="speaking-answer" aria-hidden="${String(!speakingAnswersVisible)}"><div><strong>Đáp án mẫu</strong>\n${escapeHtml(cleanSpeakingText(answer))}</div></div>
       </article>`;
   }
 
@@ -1668,14 +1773,19 @@
     document.getElementById('speaking-coach-tip').textContent = tip;
     document.getElementById('speaking-counter').textContent = `${speakingQuestionIdx + 1} / ${list.length}`;
     document.querySelectorAll('[data-speaking-part]').forEach(button => {
-      button.classList.toggle('active', Number(button.dataset.speakingPart) === speakingPart);
+      const selected = Number(button.dataset.speakingPart) === speakingPart;
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-selected', String(selected));
+      button.tabIndex = selected ? 0 : -1;
     });
+    const activeSpeakingTab = document.querySelector('[data-speaking-part][aria-selected="true"]');
+    if (activeSpeakingTab) document.getElementById('speaking-tabpanel')?.setAttribute('aria-labelledby', activeSpeakingTab.id);
     updateSpeakingAnswerButton();
     loadSpeakingNote();
     updateSpeakingCompleteButton();
     resetSpeakingTimer();
     rememberSession('speaking', speakingPart, speakingQuestionIdx);
-    document.querySelector('.speaking-stage')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelector('.speaking-workspace')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function startSpeakingPart(partNum, questionIndex = 0) {
@@ -1688,13 +1798,16 @@
 
   function toggleSpeakingAnswers() {
     speakingAnswersVisible = !speakingAnswersVisible;
-    document.getElementById('speaking-content').classList.toggle('show-answers', speakingAnswersVisible);
+    const content = document.getElementById('speaking-content');
+    content.classList.toggle('show-answers', speakingAnswersVisible);
+    content.querySelectorAll('.speaking-answer').forEach(answer => answer.setAttribute('aria-hidden', String(!speakingAnswersVisible)));
     updateSpeakingAnswerButton();
   }
 
   function updateSpeakingAnswerButton() {
     const button = document.getElementById('answer-toggle-btn');
     if (!button) return;
+    button.setAttribute('aria-expanded', String(speakingAnswersVisible));
     button.innerHTML = speakingAnswersVisible
       ? '<i class="bi bi-eye-slash"></i> Ẩn đáp án mẫu'
       : '<i class="bi bi-eye"></i> Xem đáp án mẫu';
@@ -1815,6 +1928,7 @@
     try { complete = localStorage.getItem(speakingStorageKey(SPEAKING_COMPLETE_PREFIX)) === '1'; }
     catch (err) {}
     button.classList.toggle('completed', complete);
+    button.setAttribute('aria-pressed', String(complete));
     button.title = complete ? 'Đã học — bấm để bỏ đánh dấu' : 'Đánh dấu đã học';
   }
 
@@ -1829,45 +1943,93 @@
     } catch (err) { showToast('Trình duyệt đang chặn lưu tiến độ.'); }
   }
 
+  function readingCompletionKey(part, index) {
+    if (Number(part) === 1) return `${READING_COMPLETE_PREFIX}:v${getReadingPart1Version()}:p1:${getPart1StableItemId(index)}`;
+    return `${READING_COMPLETE_PREFIX}:p${part}:q${index}`;
+  }
+
   function markReadingComplete() {
     try {
-      localStorage.setItem(`${READING_COMPLETE_PREFIX}:p${activePart}:q${currentQuestionIdx}`, '1');
+      localStorage.setItem(readingCompletionKey(activePart, currentQuestionIdx), '1');
       updateDashboardStats();
     } catch (err) {}
   }
 
-  function countStoragePrefix(prefix) {
+  function countCompletedItems(mode) {
     let count = 0;
     try {
-      for (let index = 0; index < localStorage.length; index++) {
-        const key = localStorage.key(index) || '';
-        if (key.startsWith(`${prefix}:`) && localStorage.getItem(key) === '1') count++;
+      if (mode === 'reading') {
+        [1, 2, 4, 5].forEach(part => {
+          const list = part === 1 ? (readingDB?.part1 || []) : part === 2 ? (readingDB?.part2_3 || []) : part === 4 ? (readingDB?.part4 || []) : (readingDB?.part5 || []);
+          list.forEach((_, index) => { if (localStorage.getItem(readingCompletionKey(part, index)) === '1') count++; });
+        });
+      } else {
+        [1, 2, 3, 4].forEach(part => {
+          const list = speakingDB?.[`part${part}`] || [];
+          list.forEach((_, index) => { if (localStorage.getItem(`${SPEAKING_COMPLETE_PREFIX}:p${part}:q${index}`) === '1') count++; });
+        });
       }
     } catch (err) {}
     return count;
   }
 
+  function getReadingTotal() {
+    return ['part1', 'part2_3', 'part4', 'part5'].reduce((total, key) => total + (readingDB?.[key]?.length || 0), 0);
+  }
+
+  function getSpeakingTotal() {
+    return [1, 2, 3, 4].reduce((total, part) => total + (speakingDB?.[`part${part}`]?.length || 0), 0);
+  }
+
   function updateDashboardStats() {
-    const readingDone = countStoragePrefix(READING_COMPLETE_PREFIX);
-    const speakingDone = countStoragePrefix(SPEAKING_COMPLETE_PREFIX);
+    const readingTotal = getReadingTotal();
+    const speakingTotal = getSpeakingTotal();
+    const readingDone = countCompletedItems('reading');
+    const speakingDone = countCompletedItems('speaking');
     const totalDone = readingDone + speakingDone;
-    const total = 77 + 171;
-    const overall = Math.round((totalDone / total) * 100);
-    const readingPercent = Math.round((readingDone / 77) * 100);
-    const speakingPercent = Math.round((speakingDone / 171) * 100);
+    const total = readingTotal + speakingTotal;
+    const overall = total ? Math.round((totalDone / total) * 100) : 0;
+    const readingPercent = readingTotal ? Math.round((readingDone / readingTotal) * 100) : 0;
+    const speakingPercent = speakingTotal ? Math.round((speakingDone / speakingTotal) * 100) : 0;
     const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
-    const setWidth = (id, value) => { const el = document.getElementById(id); if (el) el.style.width = `${value}%`; };
+    const setWidth = (id, value) => { const el = document.getElementById(id); if (el) el.style.width = `${Math.min(100, value)}%`; };
     setText('overall-progress', `${overall}%`);
     setText('learned-count', totalDone);
-    setText('reading-progress-text', readingDone ? `${readingDone}/77 mục đã học` : 'Bắt đầu luyện');
-    setText('speaking-progress-text', speakingDone ? `${speakingDone}/171 mục đã học` : 'Bắt đầu luyện');
+    setText('reading-total-count', readingTotal);
+    setText('speaking-total-count', speakingTotal);
+    setText('reading-total-pill', `${readingTotal} bộ`);
+    setText('speaking-total-pill', `${speakingTotal} bộ`);
+    setText('reading-progress-text', readingDone ? `${readingDone}/${readingTotal} mục đã học` : 'Bắt đầu luyện');
+    setText('speaking-progress-text', speakingDone ? `${speakingDone}/${speakingTotal} mục đã học` : 'Bắt đầu luyện');
     setWidth('reading-progress-bar', readingPercent);
     setWidth('speaking-progress-bar', speakingPercent);
   }
 
+  function part1SessionStorageKey(version = getReadingPart1Version()) {
+    return READING_SESSION_PREFIX + ':v' + String(version || 'legacy-unversioned');
+  }
+
+  function preservePart1Session(session) {
+    if (!session || session.mode !== 'reading' || Number(session.part) !== 1) return;
+    const version = session.contentVersion || 'legacy-unversioned';
+    const key = part1SessionStorageKey(version);
+    if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify(session));
+  }
+
   function rememberSession(mode, part, index) {
-    try { localStorage.setItem('aptisLastSession', JSON.stringify({ mode, part, index })); }
-    catch (err) {}
+    const session = { mode, part, index };
+    try {
+      if (mode === 'reading' && Number(part) === 1) {
+        session.contentVersion = getReadingPart1Version();
+        const previous = JSON.parse(localStorage.getItem('aptisLastSession') || 'null');
+        if (previous?.mode === 'reading' && Number(previous.part) === 1
+            && previous.contentVersion !== session.contentVersion) {
+          preservePart1Session(previous);
+        }
+        localStorage.setItem(part1SessionStorageKey(session.contentVersion), JSON.stringify(session));
+      }
+      localStorage.setItem('aptisLastSession', JSON.stringify(session));
+    } catch (err) {}
   }
 
   function continueLearning() {
@@ -1878,8 +2040,11 @@
     if (session.mode === 'speaking') startSpeakingPart(session.part, session.index);
     else {
       activePart = Number(session.part) || 1;
-      currentQuestionIdx = Math.max(0, Number(session.index) || 0);
+      const versionMatches = activePart !== 1 || session.contentVersion === getReadingPart1Version();
+      if (!versionMatches && activePart === 1) { try { preservePart1Session(session); } catch (err) {} }
+      currentQuestionIdx = versionMatches ? Math.max(0, Number(session.index) || 0) : 0;
       showView('practice-view');
+      updateReadingPartTabs();
       loadQuestion();
       startTimer();
     }
@@ -1914,8 +2079,13 @@
   }
 
   function toggleFocusMode() {
+    const activeStudyView = document.querySelector('#practice-view.active, #speaking-view.active');
+    if (!activeStudyView && !document.body.classList.contains('focus-mode')) {
+      showToast('Hãy mở một bài Reading hoặc Speaking để dùng chế độ tập trung.');
+      return;
+    }
     document.body.classList.toggle('focus-mode');
-    document.body.classList.remove('sidebar-open');
+    closeSidebar();
     showToast(document.body.classList.contains('focus-mode') ? 'Đã bật chế độ tập trung.' : 'Đã thoát chế độ tập trung.');
   }
 
@@ -1933,16 +2103,55 @@
   else if (speakingRoute) startSpeakingPart(Number(speakingRoute[1]));
 
   document.addEventListener('keydown', event => {
+    if (document.body.classList.contains('sidebar-open')) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeSidebar();
+        document.querySelector('.navbar-toggle')?.focus();
+        return;
+      }
+      if (event.key === 'Tab') {
+        const focusable = [...document.querySelectorAll('#app-sidebar a, #app-sidebar button')].filter(el => el.offsetParent !== null);
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    }
+    if (event.key === 'Escape' && document.body.classList.contains('focus-mode') && !document.getElementById('result-modal')?.classList.contains('show')) {
+      event.preventDefault();
+      toggleFocusMode();
+      return;
+    }
     const speakingActive = document.getElementById('speaking-view')?.classList.contains('active');
-    if (!speakingActive) return;
-    const tag = event.target?.tagName?.toLowerCase();
-    if (['input', 'textarea', 'select'].includes(tag)) return;
+    if (!speakingActive || event.altKey || event.ctrlKey || event.metaKey) return;
+    const target = event.target;
+    const tag = target?.tagName?.toLowerCase();
+    if (['input', 'textarea', 'select', 'button', 'a'].includes(tag) || target?.isContentEditable) return;
     if (event.key === 'ArrowRight') { event.preventDefault(); nextSpeakingQuestion(); }
     if (event.key === 'ArrowLeft') { event.preventDefault(); prevSpeakingQuestion(); }
     if (event.key.toLowerCase() === 'a') { event.preventDefault(); toggleSpeakingAnswers(); }
     if (event.code === 'Space') { event.preventDefault(); toggleSpeakingTimer(); }
     if (event.key === 'Escape') { event.preventDefault(); showView('dashboard-view'); }
   });
+
+  document.querySelectorAll('.reading-part-tabs, .speaking-part-tabs').forEach(tablist => {
+    tablist.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      const tabs = [...tablist.querySelectorAll('[role="tab"]')];
+      const current = Math.max(0, tabs.indexOf(document.activeElement));
+      let next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : event.key === 'ArrowRight' ? (current + 1) % tabs.length : (current - 1 + tabs.length) % tabs.length;
+      event.preventDefault();
+      tabs[next]?.focus();
+      tabs[next]?.click();
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) document.body.classList.remove('sidebar-open');
+    updateSidebarToggleState();
+  });
+  updateSidebarToggleState();
 
   document.addEventListener('selectionchange', scheduleAnnotationToolbarUpdate);
   document.addEventListener('mouseup', scheduleAnnotationToolbarUpdate);

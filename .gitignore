@@ -7,3 +7,5 @@ __pycache__/
 
 # Local Vercel metadata
 .vercel/
+
+.vercel

@@ -79,6 +79,8 @@
         prompt,
         answer: club.questions1_answer?.[`${key}_answer`] || "",
         target: "1–5 từ",
+        minWords: 1,
+        maxWords: 5,
         short: true,
       }));
     }
@@ -89,6 +91,8 @@
         prompt: item[1],
         answer: club.questions2_answer?.[item[0]] || "",
         target: "20–30 từ",
+        minWords: 20,
+        maxWords: 30,
       }];
     }
     if (activePart === 3) {
@@ -97,6 +101,8 @@
         prompt,
         answer: club.questions3_answer?.[`${key}_answer`] || "",
         target: "30–40 từ",
+        minWords: 30,
+        maxWords: 40,
       }));
     }
     return [
@@ -105,33 +111,56 @@
         prompt: club.question4_1_text || "",
         answer: club.question4_1_text_answer || "",
         target: "Khoảng 50 từ",
+        minWords: 45,
+        maxWords: 55,
       },
       {
         label: "Email cho quản lý câu lạc bộ",
         prompt: club.question4_2_text || "",
         answer: club.question4_2_text_answer || "",
         target: "120–150 từ",
+        minWords: 120,
+        maxWords: 150,
       },
     ];
   }
 
+  function getWordStatus(item, count) {
+    const min = Number(item.minWords) || 0;
+    const max = Number(item.maxWords) || Infinity;
+    if (count === 0) return { state: "neutral", text: `Mục tiêu: ${item.target}` };
+    if (count < min) return { state: "warning", text: `Cần thêm ${min - count} từ để đạt mục tiêu ${item.target}.` };
+    if (count > max) return { state: "warning", text: `Đang vượt ${count - max} từ so với mục tiêu ${item.target}.` };
+    return { state: "good", text: `Đúng mục tiêu ${item.target}.` };
+  }
   function renderQuestion(item, index) {
     const value = loadDraft(index);
     const answer = cleanText(item.answer);
     const modelWords = countWords(answer);
+    const words = countWords(value);
+    const status = getWordStatus(item, words);
+    const fieldId = `writing-response-${index}`;
+    const promptId = `writing-prompt-${index}`;
+    const targetId = `writing-target-${index}`;
+    const feedbackId = `writing-word-feedback-${index}`;
+    const describedBy = `${promptId} ${targetId} ${feedbackId}`;
     const response = item.short
-      ? `<input class="writing-short-input" id="writing-response-${index}" value="${escapeHtml(value)}" maxlength="120" placeholder="Nhập câu trả lời 1–5 từ..." oninput="handleWritingInput(${index})" />`
-      : `<textarea class="writing-area" id="writing-response-${index}" placeholder="Viết câu trả lời của bạn ở đây..." oninput="handleWritingInput(${index})">${escapeHtml(value)}</textarea>`;
+      ? `<input class="writing-short-input" id="${fieldId}" name="writing-response-${activeClub}-${activePart}-${index}" value="${escapeHtml(value)}" placeholder="Nhập câu trả lời 1–5 từ..." aria-describedby="${describedBy}" oninput="handleWritingInput(${index})" />`
+      : `<textarea class="writing-area" id="${fieldId}" name="writing-response-${activeClub}-${activePart}-${index}" placeholder="Viết câu trả lời của bạn ở đây..." aria-describedby="${describedBy}" oninput="handleWritingInput(${index})">${escapeHtml(value)}</textarea>`;
     return `
-      <article class="writing-question">
-        <div class="writing-question-head"><b>${escapeHtml(item.label)}</b><span>${escapeHtml(item.target)}</span></div>
-        <p>${escapeHtml(cleanText(item.prompt))}</p>
+      <article class="writing-question" aria-labelledby="${promptId}">
+        <div class="writing-question-head"><b>${escapeHtml(item.label)}</b><span id="${targetId}">${escapeHtml(item.target)}</span></div>
+        <p id="${promptId}">${escapeHtml(cleanText(item.prompt))}</p>
+        <label class="writing-response-label" for="${fieldId}">Phần trả lời của bạn — ${escapeHtml(item.label)}</label>
         ${response}
-        <div class="wc-row"><span class="wc-count">Số từ: <strong id="writing-word-count-${index}">${countWords(value)}</strong></span><span class="wc-count" id="writing-save-${index}">Tự động lưu trên máy</span></div>
+        <div class="wc-row">
+          <span class="wc-count">Số từ: <strong id="writing-word-count-${index}">${words}</strong></span>
+          <span class="wc-count writing-save-status" id="writing-save-${index}" role="status" aria-live="polite">Tự động lưu trên máy</span>
+        </div>
+        <p class="writing-word-feedback ${status.state}" id="${feedbackId}" role="status" aria-live="polite">${escapeHtml(status.text)}</p>
         <div class="writing-answer"><div class="writing-answer-head"><strong>Đáp án mẫu</strong><span>Mẫu tham khảo: ${modelWords} từ</span></div>${escapeHtml(answer)}</div>
       </article>`;
   }
-
   function renderWorkspace() {
     const club = clubs[activeClub];
     const meta = PART_META[activePart];
@@ -147,7 +176,8 @@
     byId("writing-club-select").value = String(activeClub);
     byId("writing-question-list").innerHTML = situation + questions.map(renderQuestion).join("");
     byId("writing-workspace").classList.toggle("show-answers", answersVisible);
-    byId("writing-answer-toggle").innerHTML = answersVisible ? "🙈 Ẩn đáp án mẫu" : "👁 Xem đáp án mẫu";
+    byId("writing-answer-toggle").textContent = answersVisible ? "Ẩn đáp án mẫu" : "Xem đáp án mẫu";
+    byId("writing-answer-toggle").setAttribute("aria-expanded", String(answersVisible));
     updatePartTabs();
     updateCompleteButton();
     updateTimerDisplay();
@@ -157,7 +187,10 @@
 
   function updatePartTabs() {
     document.querySelectorAll("[data-writing-part]").forEach((button) => {
-      button.classList.toggle("active", Number(button.dataset.writingPart) === activePart);
+      const selected = Number(button.dataset.writingPart) === activePart;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-selected", String(selected));
+      button.tabIndex = selected ? 0 : -1;
     });
   }
 
@@ -165,6 +198,7 @@
     const button = byId("writing-complete");
     const complete = isComplete();
     button.classList.toggle("secondary", !complete);
+    button.setAttribute("aria-pressed", String(complete));
     button.textContent = complete ? "✓ Đã học phần này" : "○ Đánh dấu đã học";
   }
 
@@ -220,6 +254,12 @@
     updateTimerDisplay();
   };
 
+  function focusWorkspace() {
+    const workspace = byId("writing-workspace");
+    if (!workspace) return;
+    workspace.focus({ preventScroll: true });
+    workspace.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   window.startWritingPart = function startWritingPart(part) {
     const next = Number(part);
     if (!PART_META[next]) return;
@@ -228,7 +268,7 @@
     stopTimer();
     timerSeconds = PART_META[activePart].duration;
     renderWorkspace();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    focusWorkspace();
   };
 
   window.changeWritingClub = function changeWritingClub(value) {
@@ -237,13 +277,14 @@
     activeClub = next;
     answersVisible = false;
     renderWorkspace();
+    focusWorkspace();
   };
 
   window.moveWritingClub = function moveWritingClub(direction) {
     activeClub = (activeClub + Number(direction) + clubs.length) % clubs.length;
     answersVisible = false;
     renderWorkspace();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    focusWorkspace();
   };
 
   window.randomWritingClub = function randomWritingClub() {
@@ -253,12 +294,14 @@
     activeClub = next;
     answersVisible = false;
     renderWorkspace();
+    focusWorkspace();
   };
 
   window.toggleWritingAnswers = function toggleWritingAnswers() {
     answersVisible = !answersVisible;
     byId("writing-workspace").classList.toggle("show-answers", answersVisible);
-    byId("writing-answer-toggle").innerHTML = answersVisible ? "🙈 Ẩn đáp án mẫu" : "👁 Xem đáp án mẫu";
+    byId("writing-answer-toggle").textContent = answersVisible ? "Ẩn đáp án mẫu" : "Xem đáp án mẫu";
+    byId("writing-answer-toggle").setAttribute("aria-expanded", String(answersVisible));
   };
 
   window.toggleWritingComplete = function toggleWritingComplete() {
@@ -271,13 +314,42 @@
     const field = byId(`writing-response-${index}`);
     if (!field) return;
     saveDraft(index, field.value);
-    byId(`writing-word-count-${index}`).textContent = String(countWords(field.value));
-    const status = byId(`writing-save-${index}`);
-    status.textContent = "Đã lưu";
-    clearTimeout(status._saveTimer);
-    status._saveTimer = setTimeout(() => { status.textContent = "Tự động lưu trên máy"; }, 1000);
+    const words = countWords(field.value);
+    byId(`writing-word-count-${index}`).textContent = String(words);
+    const item = getQuestions()[index];
+    const feedback = byId(`writing-word-feedback-${index}`);
+    if (item && feedback) {
+      const wordStatus = getWordStatus(item, words);
+      feedback.className = `writing-word-feedback ${wordStatus.state}`;
+      feedback.textContent = wordStatus.text;
+    }
+    const saveStatus = byId(`writing-save-${index}`);
+    saveStatus.textContent = "Đã lưu";
+    clearTimeout(saveStatus._saveTimer);
+    saveStatus._saveTimer = setTimeout(() => { saveStatus.textContent = "Tự động lưu trên máy"; }, 1000);
   };
 
+  window.toggleCourseNav = function toggleCourseNav(button) {
+    const nav = byId(button.getAttribute("aria-controls"));
+    if (!nav) return;
+    const open = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(open));
+    button.setAttribute("aria-label", open ? "Đóng menu điều hướng" : "Mở menu điều hướng");
+    nav.classList.toggle("open", open);
+    document.body.classList.toggle("course-nav-open", open);
+    if (open) requestAnimationFrame(() => nav.querySelector("a")?.focus());
+  };
+
+  function closeCourseNav(returnFocus = false) {
+    const button = document.querySelector(".nav-menu-toggle");
+    const nav = document.querySelector(".nav-links");
+    if (!button || !nav) return;
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Mở menu điều hướng");
+    nav.classList.remove("open");
+    document.body.classList.remove("course-nav-open");
+    if (returnFocus) button.focus();
+  }
   function init() {
     if (!clubs.length) {
       byId("writing-question-list").innerHTML = '<div class="instr">Không tìm thấy dữ liệu Writing.</div>';
@@ -288,13 +360,30 @@
     ).join("");
     renderWorkspace();
 
+    document.querySelector(".writing-part-tabs").addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const tabs = [...event.currentTarget.querySelectorAll('[role="tab"]')];
+      const current = tabs.indexOf(document.activeElement);
+      const next = (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[next].click();
+      requestAnimationFrame(() => document.querySelector('.writing-part-tabs [aria-selected="true"]')?.focus());
+    });
     document.addEventListener("keydown", (event) => {
-      const tag = document.activeElement?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (event.key === "Escape") { closeCourseNav(true); return; }
+      const target = event.target;
+      const interactive = target instanceof HTMLElement && (target.matches("input, select, textarea, button, a, [role=\"link\"]") || target.isContentEditable);
+      if (interactive || event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === "ArrowLeft") moveWritingClub(-1);
       if (event.key === "ArrowRight") moveWritingClub(1);
       if (event.key.toLowerCase() === "a") toggleWritingAnswers();
       if (event.code === "Space") { event.preventDefault(); toggleWritingTimer(); }
+    });
+    document.querySelectorAll(".nav-links a").forEach((link) => link.addEventListener("click", closeCourseNav));
+    document.addEventListener("click", (event) => {
+      if (!document.body.classList.contains("course-nav-open")) return;
+      if (event.target instanceof Element && event.target.closest(".nav-inner")) return;
+      closeCourseNav();
     });
   }
 

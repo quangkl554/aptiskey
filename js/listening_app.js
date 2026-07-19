@@ -92,7 +92,7 @@
     answers[name] = value;
     safeSet(answerKey(), answers);
     answersVisible = false;
-    renderWorkspace();
+    updateQuestionContent(name, value);
   }
 
   function isComplete() {
@@ -167,7 +167,7 @@
             <h3>Nghe trước, trả lời sau</h3>
             <p id="listening-play-count">Lượt phát trong phiên: ${audioPlays} · Khuyến nghị tối đa 2 lần</p>
           </div>
-          <button class="listen-transcript-toggle" onclick="toggleListeningTranscript()">${transcriptVisible ? "Ẩn transcript" : "Xem transcript"}</button>
+          <button class="listen-transcript-toggle" type="button" aria-expanded="${transcriptVisible}" aria-controls="listening-transcript-region" onclick="toggleListeningTranscript()">${transcriptVisible ? "Ẩn transcript" : "Xem transcript"}</button>
         </div>
         ${audioMarkup}
       </section>`;
@@ -177,7 +177,7 @@
     if (!transcriptVisible) return "";
     const transcript = cleanText(record?.transcript);
     return `
-      <article class="listen-transcript">
+      <article class="listen-transcript" aria-label="Transcript bài nghe">
         <div class="listen-card-label">Transcript</div>
         <div>${escapeHtml(transcript).replace(/\n/g, "<br/>") || "Chưa có transcript cho bài này."}</div>
       </article>`;
@@ -286,8 +286,10 @@
     byId("listening-set-select").value = String(activeIndex);
     byId("listening-topic").textContent = cleanText(record?.topic || (activePart === "part1_13" ? `Bài nghe ${recordIndex()}` : "Listening practice"));
     byId("listening-progress-summary").textContent = `${completedItems()} / ${totalItems()} bài đã đánh dấu`;
-    byId("listening-complete").textContent = isComplete() ? "✓ Đã học bài này" : "○ Đánh dấu đã học";
-    byId("listening-complete").classList.toggle("done", isComplete());
+    const complete = isComplete();
+    byId("listening-complete").textContent = complete ? "✓ Đã học bài này" : "○ Đánh dấu đã học";
+    byId("listening-complete").classList.toggle("done", complete);
+    byId("listening-complete").setAttribute("aria-pressed", String(complete));
     document.title = `${meta.title} · Bài ${activeIndex + 1} — Aptis Studio`;
   }
 
@@ -302,7 +304,8 @@
   function renderPartTabs() {
     byId("listening-part-tabs").innerHTML = Object.entries(PARTS).map(([id, meta]) => {
       const count = Array.isArray(db[id]) ? db[id].length : 0;
-      return `<button class="${id === activePart ? "active" : ""}" onclick="changeListeningPart('${id}')"><span>${meta.icon}</span>${meta.shortTitle}<small>${count}</small></button>`;
+      const selected = id === activePart;
+      return `<button type="button" role="tab" aria-selected="${selected}" aria-controls="listening-workspace" tabindex="${selected ? "0" : "-1"}" class="${selected ? "active" : ""}" onclick="changeListeningPart('${id}')"><span aria-hidden="true">${meta.icon}</span>${meta.shortTitle}<small>${count}</small></button>`;
     }).join("");
   }
 
@@ -320,6 +323,13 @@
     audio.addEventListener("ended", () => { playedThisRun = false; });
   }
 
+  function renderQuestionMarkup(record, answers) {
+    const kind = PARTS[activePart].kind;
+    if (kind === "single") return renderSingle(record, answers);
+    if (kind === "matching") return renderMatching(record, answers);
+    if (kind === "opinion") return renderOpinion(record, answers);
+    return renderDouble(record, answers);
+  }
   function renderWorkspace() {
     const record = currentRecord();
     const workspace = byId("listening-workspace");
@@ -328,12 +338,7 @@
       return;
     }
     const answers = getAnswers();
-    const kind = PARTS[activePart].kind;
-    let questionHtml = "";
-    if (kind === "single") questionHtml = renderSingle(record, answers);
-    else if (kind === "matching") questionHtml = renderMatching(record, answers);
-    else if (kind === "opinion") questionHtml = renderOpinion(record, answers);
-    else questionHtml = renderDouble(record, answers);
+    const questionHtml = renderQuestionMarkup(record, answers);
 
     workspace.innerHTML = `
       <div class="listen-workspace-head">
@@ -341,9 +346,9 @@
         <div class="listen-workspace-meta"><span class="listen-counter" id="listening-counter"></span><span class="listen-status-pill">Offline ready</span></div>
       </div>
       ${renderAudio(record)}
-      ${renderTranscript(record)}
+      <div id="listening-transcript-region">${renderTranscript(record)}</div>
       <div class="listen-question-zone">${questionHtml}</div>
-      ${renderFeedback(record, answers)}
+      <div id="listening-feedback-region" aria-live="polite">${renderFeedback(record, answers)}</div>
       <div class="listen-workspace-actions">
         <button class="listen-ghost" onclick="moveListeningSet(-1)">← Bài trước</button>
         <button class="listen-check" onclick="checkListeningAnswers()">Kiểm tra đáp án</button>
@@ -354,6 +359,27 @@
     updateTimer();
   }
 
+  function updateQuestionContent(focusName = "", focusValue = "") {
+    const record = currentRecord();
+    const zone = document.querySelector(".listen-question-zone");
+    const feedback = byId("listening-feedback-region");
+    if (!record || !zone || !feedback) return;
+    const answers = getAnswers();
+    zone.innerHTML = renderQuestionMarkup(record, answers);
+    feedback.innerHTML = renderFeedback(record, answers);
+    if (focusName) {
+      const controls = [...zone.querySelectorAll(`[name="${focusName}"]`)];
+      const control = controls.find((item) => item.value === focusValue) || controls[0];
+      if (control) control.focus({ preventScroll: true });
+    }
+  }
+
+  function focusWorkspace() {
+    const workspace = byId("listening-workspace");
+    if (!workspace) return;
+    workspace.focus({ preventScroll: true });
+    workspace.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   function resetRecordView() {
     answersVisible = false;
     transcriptVisible = false;
@@ -370,7 +396,7 @@
     populateSetSelect();
     renderPartTabs();
     renderWorkspace();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    focusWorkspace();
   };
 
   window.changeListeningSet = (value) => {
@@ -379,6 +405,7 @@
     activeIndex = next;
     resetRecordView();
     renderWorkspace();
+    focusWorkspace();
   };
 
   window.moveListeningSet = (direction) => {
@@ -387,7 +414,7 @@
     activeIndex = (activeIndex + Number(direction) + list.length) % list.length;
     resetRecordView();
     renderWorkspace();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    focusWorkspace();
   };
 
   window.randomListeningSet = () => {
@@ -398,18 +425,25 @@
     activeIndex = next;
     resetRecordView();
     renderWorkspace();
+    focusWorkspace();
   };
 
   window.setListeningAnswer = (name, value) => setAnswer(name, value);
 
   window.checkListeningAnswers = () => {
     answersVisible = true;
-    renderWorkspace();
+    updateQuestionContent();
   };
 
   window.toggleListeningTranscript = () => {
     transcriptVisible = !transcriptVisible;
-    renderWorkspace();
+    const region = byId("listening-transcript-region");
+    const button = document.querySelector(".listen-transcript-toggle");
+    if (region) region.innerHTML = renderTranscript(currentRecord());
+    if (button) {
+      button.textContent = transcriptVisible ? "Ẩn transcript" : "Xem transcript";
+      button.setAttribute("aria-expanded", String(transcriptVisible));
+    }
   };
 
   window.toggleListeningComplete = () => {
@@ -435,6 +469,27 @@
 
   window.resetListeningTimer = () => resetTimer();
 
+  window.toggleCourseNav = (button) => {
+    const nav = byId(button.getAttribute("aria-controls"));
+    if (!nav) return;
+    const open = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(open));
+    button.setAttribute("aria-label", open ? "Đóng menu điều hướng" : "Mở menu điều hướng");
+    nav.classList.toggle("open", open);
+    document.body.classList.toggle("course-nav-open", open);
+    if (open) requestAnimationFrame(() => nav.querySelector("a")?.focus());
+  };
+
+  function closeCourseNav(returnFocus = false) {
+    const button = document.querySelector(".nav-menu-toggle");
+    const nav = document.querySelector(".nav-links");
+    if (!button || !nav) return;
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Mở menu điều hướng");
+    nav.classList.remove("open");
+    document.body.classList.remove("course-nav-open");
+    if (returnFocus) button.focus();
+  }
   function init() {
     if (!Object.keys(PARTS).some((id) => currentItemsFor(id).length)) {
       byId("listening-workspace").innerHTML = '<div class="listen-empty">Đang chuẩn bị dữ liệu Listening offline…</div>';
@@ -443,14 +498,31 @@
     renderPartTabs();
     populateSetSelect();
     renderWorkspace();
+    byId("listening-part-tabs").addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      const tabs = [...event.currentTarget.querySelectorAll('[role="tab"]')];
+      const current = tabs.indexOf(document.activeElement);
+      const next = (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+      tabs[next].click();
+      requestAnimationFrame(() => document.querySelector('#listening-part-tabs [aria-selected="true"]')?.focus());
+    });
     document.addEventListener("keydown", (event) => {
-      const tag = document.activeElement?.tagName;
-      if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+      if (event.key === "Escape") { closeCourseNav(true); return; }
+      const target = event.target;
+      const interactive = target instanceof HTMLElement && (target.matches("input, select, textarea, button, audio, a, [role=\"link\"]") || target.isContentEditable);
+      if (interactive || event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === "ArrowLeft") moveListeningSet(-1);
       if (event.key === "ArrowRight") moveListeningSet(1);
       if (event.key.toLowerCase() === "t") toggleListeningTranscript();
       if (event.key.toLowerCase() === "a") checkListeningAnswers();
       if (event.code === "Space") { event.preventDefault(); toggleListeningTimer(); }
+    });
+    document.querySelectorAll(".nav-links a").forEach((link) => link.addEventListener("click", closeCourseNav));
+    document.addEventListener("click", (event) => {
+      if (!document.body.classList.contains("course-nav-open")) return;
+      if (event.target instanceof Element && event.target.closest(".nav-inner")) return;
+      closeCourseNav();
     });
   }
 
