@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
@@ -63,9 +63,11 @@
           <span id="writing-counter">1 / 40</span>
         </div>
         <div id="writing-question-list" class="writing-question-list"></div>
+        <div id="writing-grade-panel" class="writing-grade-panel" style="display:none; margin-bottom: 20px;"></div>
         <div class="writing-actions">
           <button onclick="moveWritingClub(-1)">← Bộ trước</button>
           <button class="primary" id="writing-answer-toggle" aria-expanded="false" aria-controls="writing-question-list" onclick="toggleWritingAnswers()">Xem đáp án mẫu</button>
+          <button class="primary font-bold" onclick="gradeCurrentPart()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">📊 Chấm điểm AI</button>
           <button onclick="moveWritingClub(1)">Bộ tiếp →</button>
         </div>
       </section>
@@ -83,6 +85,7 @@
   </main>
 
   <footer class="footer"><div class="container"><p>Aptis Studio · Writing dữ liệu lưu trên máy · 40 câu lạc bộ</p></div></footer>
+  <script src="js/writing_grader.js?v=20260721"></script>
   <script src="js/writing_app.js?v=20260718b"></script>
 </body>
 </html>

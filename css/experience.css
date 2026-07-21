@@ -707,6 +707,114 @@ kbd { color: #526075; border-color: #d5dce6; background: #f3f5f8; }
 .speaking-qa { border-radius: 13px; background: #fbfcfd; }.speaking-qa-question { padding: 17px 19px; font-size: 16px; }.speaking-answer { color: #3f4c61; background: #f2f4fb; font-size: 16px; line-height: 1.75; }.speaking-content.show-answers .speaking-answer { padding: 18px 19px; }
 .speaking-note-card { padding: 19px; border-radius: 14px; background: #fff; }.speaking-note-card label { font-size: 14px; }.speaking-note-card textarea { min-height: 100px; font-size: 16px; }.speaking-note-card span { font-size: 12px; }
 .speaking-nav-actions button { min-height: 48px; font-size: 15px; }.speaking-nav-actions .answer-toggle-btn { background: #4f5fc8; box-shadow: none; }
+.speaking-nav-actions .rubric-toggle-btn { color: #059669; border: 1px solid #a7f3d0; background: #ecfdf5; }
+.speaking-nav-actions .rubric-toggle-btn:hover { background: #d1fae5; }
+
+/* Speaking self-assessment rubric */
+.speaking-rubric-panel { animation: fadeInRubric 0.35s ease-out; }
+@keyframes fadeInRubric {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rubric-card {
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #dce2ea;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+.rubric-header h3 { margin: 0; color: #172033; font-size: 20px; }
+.rubric-header p { margin: 6px 0 0; color: #718096; font-size: 14px; }
+.rubric-criteria-list { display: flex; flex-direction: column; gap: 22px; margin-top: 22px; }
+.rubric-row { display: flex; flex-direction: column; gap: 10px; }
+.rubric-criterion-name { font-weight: 700; font-size: 15px; color: #1e293b; }
+.rubric-bands { display: flex; flex-wrap: wrap; gap: 8px; }
+.rubric-band-btn {
+  position: relative;
+  min-width: 48px;
+  padding: 8px 14px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  background: #f1f5f9;
+  color: #475569;
+}
+.rubric-band-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+.rubric-band-btn.active { border-color: currentColor; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12); transform: scale(1.05); }
+.rubric-band-btn.band-a1 { background: #fef2f2; color: #dc2626; }
+.rubric-band-btn.band-a2 { background: #fff7ed; color: #ea580c; }
+.rubric-band-btn.band-b1 { background: #fefbeb; color: #d97706; }
+.rubric-band-btn.band-b2 { background: #ecfdf5; color: #059669; }
+.rubric-band-btn.band-c1 { background: #eff6ff; color: #2563eb; }
+.rubric-band-btn.active.band-a1 { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
+.rubric-band-btn.active.band-a2 { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
+.rubric-band-btn.active.band-b1 { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+.rubric-band-btn.active.band-b2 { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+.rubric-band-btn.active.band-c1 { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; }
+.rubric-band-btn[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  z-index: 20;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 280px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #f8fafc;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+.rubric-band-btn[data-tooltip]:hover::after { opacity: 1; visibility: visible; }
+.rubric-descriptor {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border-left: 3px solid #6340bb;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #475569;
+}
+.rubric-footer { margin-top: 24px; padding-top: 20px; border-top: 1px solid #edf2f7; }
+.rubric-overall { font-size: 16px; font-weight: 700; color: #1e293b; }
+.rubric-overall-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 6px 16px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}
+.band-a1 { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff !important; }
+.band-a2 { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff !important; }
+.band-b1 { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff !important; }
+.band-b2 { background: linear-gradient(135deg, #10b981, #059669); color: #fff !important; }
+.band-c1 { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff !important; }
+.rubric-overall-empty { font-size: 14px; color: #94a3b8; font-style: italic; }
+.rubric-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+.rubric-btn.secondary { background: #f1f5f9; color: #475569; }
+.rubric-btn.secondary:hover { background: #e2e8f0; }
 
 .focus-exit-btn { display: none; position: fixed; z-index: 130; top: 14px; right: 14px; min-height: 44px; padding: 8px 13px; color: #fff; border: 0; border-radius: 10px; background: #203252; box-shadow: 0 8px 24px rgba(20,32,51,.2); cursor: pointer; }
 .focus-exit-btn kbd { margin-left: 6px; color: #fff; border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.12); }
@@ -741,5 +849,9 @@ body.focus-mode .exam-header,body.focus-mode .speaking-header { top: 0; padding-
   .voice-timer strong { font-size: 15px; }.voice-timer span { display: none; }
   .timer-main-btn,.timer-reset-btn { width: auto; min-width: 0; margin: 0; padding: 0 10px; }
   .speaking-question-head { align-items: flex-start; }.speaking-question-head h2 { font-size: 25px; }.speaking-content { padding: 20px 17px; }.speaking-answer { font-size: 15.5px; }.speaking-nav-actions button { padding: 0 11px; }
+  .rubric-bands { gap: 6px; }
+  .rubric-band-btn { min-width: 42px; padding: 7px 10px; font-size: 12px; }
+  .rubric-band-btn[data-tooltip]::after { max-width: 220px; font-size: 11px; }
+  .rubric-card { padding: 18px; }
   body.focus-mode .exam-header,body.focus-mode .speaking-header { padding-right: 12px; }.focus-exit-btn { top: auto; right: 12px; bottom: 98px; }.focus-exit-btn kbd { display: none; }
 }

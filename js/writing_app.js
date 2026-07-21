@@ -169,6 +169,10 @@
       ? `<div class="task-prompt"><strong>Tình huống chung</strong><br/>${escapeHtml(cleanText(club.questions4_main))}</div>`
       : "";
 
+    if (typeof window.clearGradeResult === "function") {
+      window.clearGradeResult();
+    }
+
     byId("writing-club-name").textContent = club?.club_name || "Writing Club";
     byId("writing-part-title").textContent = `Part ${activePart} · ${meta.title}`;
     byId("writing-part-subtitle").textContent = meta.subtitle;
