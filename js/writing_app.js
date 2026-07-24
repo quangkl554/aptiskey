@@ -3,7 +3,7 @@
     1: { title: "Trả lời ngắn", subtitle: "5 câu · mỗi câu 1–5 từ", duration: 3 * 60, targets: ["1–5 từ"] },
     2: { title: "Tin nhắn câu lạc bộ", subtitle: "1 câu trả lời · khoảng 20–30 từ", duration: 7 * 60, targets: ["20–30 từ"] },
     3: { title: "Trao đổi với thành viên", subtitle: "3 câu trả lời · khoảng 30–40 từ/câu", duration: 10 * 60, targets: ["30–40 từ"] },
-    4: { title: "Email thân mật & trang trọng", subtitle: "2 email · khoảng 50 từ và 120–150 từ", duration: 30 * 60, targets: ["Khoảng 50 từ", "120–150 từ"] },
+    4: { title: "Email thân mật & trang trọng", subtitle: "2 email · 40–50 từ và 120–150 từ", duration: 30 * 60, targets: ["40–50 từ", "120–150 từ"] },
   };
 
   let activePart = 1;
@@ -110,9 +110,9 @@
         label: "Email cho bạn bè",
         prompt: club.question4_1_text || "",
         answer: club.question4_1_text_answer || "",
-        target: "Khoảng 50 từ",
-        minWords: 45,
-        maxWords: 55,
+        target: "40–50 từ",
+        minWords: 40,
+        maxWords: 50,
       },
       {
         label: "Email cho quản lý câu lạc bộ",
