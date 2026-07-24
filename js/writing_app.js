@@ -14,8 +14,9 @@
   let timerHandle = null;
 
   const clubs = typeof writingDB !== "undefined" && Array.isArray(writingDB.clubs) ? writingDB.clubs : [];
-  const draftPrefix = "aptisWritingDraft";
   const completePrefix = "aptisWritingComplete";
+  const visitDrafts = new Map();
+  const visitedClubs = new Set();
 
   const byId = (id) => document.getElementById(id);
 
@@ -44,7 +45,7 @@
   }
 
   function draftKey(questionIndex) {
-    return `${draftPrefix}:${activeClub}:${activePart}:${questionIndex}`;
+    return `${activeClub}:${activePart}:${questionIndex}`;
   }
 
   function completeKey() {
@@ -52,11 +53,22 @@
   }
 
   function loadDraft(questionIndex) {
-    try { return localStorage.getItem(draftKey(questionIndex)) || ""; } catch (_) { return ""; }
+    return visitDrafts.get(draftKey(questionIndex)) || "";
   }
 
   function saveDraft(questionIndex, value) {
-    try { localStorage.setItem(draftKey(questionIndex), value); } catch (_) {}
+    const key = draftKey(questionIndex);
+    if (value) visitDrafts.set(key, value);
+    else visitDrafts.delete(key);
+  }
+
+  function clearLegacyDrafts() {
+    try {
+      for (let index = localStorage.length - 1; index >= 0; index -= 1) {
+        const key = localStorage.key(index);
+        if (key?.startsWith("aptisWritingDraft:")) localStorage.removeItem(key);
+      }
+    } catch (_) {}
   }
 
   function isComplete() {
@@ -155,7 +167,7 @@
         ${response}
         <div class="wc-row">
           <span class="wc-count">Số từ: <strong id="writing-word-count-${index}">${words}</strong></span>
-          <span class="wc-count writing-save-status" id="writing-save-${index}" role="status" aria-live="polite">Tự động lưu trên máy</span>
+          <span class="wc-count writing-save-status" id="writing-save-${index}" role="status" aria-live="polite">Lưu trong lượt này · F5 sẽ xóa</span>
         </div>
         <p class="writing-word-feedback ${status.state}" id="${feedbackId}" role="status" aria-live="polite">${escapeHtml(status.text)}</p>
         <div class="writing-answer"><div class="writing-answer-head"><strong>Đáp án mẫu</strong><span>Mẫu tham khảo: ${modelWords} từ</span></div>${escapeHtml(answer)}</div>
@@ -182,10 +194,12 @@
     byId("writing-workspace").classList.toggle("show-answers", answersVisible);
     byId("writing-answer-toggle").textContent = answersVisible ? "Ẩn đáp án mẫu" : "Xem đáp án mẫu";
     byId("writing-answer-toggle").setAttribute("aria-expanded", String(answersVisible));
+    visitedClubs.add(activeClub);
     updatePartTabs();
     updateCompleteButton();
     updateTimerDisplay();
     updateProgressSummary();
+    updateRandomButton();
     document.title = `${club?.club_name || "Writing"} · Part ${activePart} — Aptis Studio`;
   }
 
@@ -214,6 +228,16 @@
       }
     }
     byId("writing-progress-summary").textContent = `${done} / ${clubs.length * 4} mục đã học`;
+  }
+
+  function updateRandomButton() {
+    const button = byId("writing-random");
+    if (!button) return;
+    const remaining = Math.max(0, clubs.length - visitedClubs.size);
+    button.textContent = remaining > 0 ? `Bộ ngẫu nhiên · còn ${remaining}` : "Bộ ngẫu nhiên · vòng mới";
+    button.title = remaining > 0
+      ? `${remaining} bộ chưa xuất hiện trong lượt mở trang này`
+      : "Đã đi hết các bộ; lần bấm tiếp theo sẽ bắt đầu vòng mới";
   }
 
   function formatTime(seconds) {
@@ -293,8 +317,15 @@
 
   window.randomWritingClub = function randomWritingClub() {
     if (clubs.length < 2) return;
-    let next = activeClub;
-    while (next === activeClub) next = Math.floor(Math.random() * clubs.length);
+    let candidates = clubs
+      .map((_, index) => index)
+      .filter((index) => index !== activeClub && !visitedClubs.has(index));
+    if (!candidates.length) {
+      visitedClubs.clear();
+      visitedClubs.add(activeClub);
+      candidates = clubs.map((_, index) => index).filter((index) => index !== activeClub);
+    }
+    const next = candidates[Math.floor(Math.random() * candidates.length)];
     activeClub = next;
     answersVisible = false;
     renderWorkspace();
@@ -328,9 +359,9 @@
       feedback.textContent = wordStatus.text;
     }
     const saveStatus = byId(`writing-save-${index}`);
-    saveStatus.textContent = "Đã lưu";
+    saveStatus.textContent = "Đã lưu trong lượt này";
     clearTimeout(saveStatus._saveTimer);
-    saveStatus._saveTimer = setTimeout(() => { saveStatus.textContent = "Tự động lưu trên máy"; }, 1000);
+    saveStatus._saveTimer = setTimeout(() => { saveStatus.textContent = "Lưu trong lượt này · F5 sẽ xóa"; }, 1000);
   };
 
   window.toggleCourseNav = function toggleCourseNav(button) {
@@ -359,6 +390,7 @@
       byId("writing-question-list").innerHTML = '<div class="instr">Không tìm thấy dữ liệu Writing.</div>';
       return;
     }
+    clearLegacyDrafts();
     byId("writing-club-select").innerHTML = clubs.map((club, index) =>
       `<option value="${index}">Bộ ${String(index + 1).padStart(2, "0")} · ${escapeHtml(club.club_name || "Writing Club")}</option>`
     ).join("");

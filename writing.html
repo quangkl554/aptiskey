@@ -32,7 +32,7 @@
         <div class="page-icon" aria-hidden="true">✍</div>
         <div class="page-title-area">
           <h2>Writing Studio</h2>
-          <p>40 câu lạc bộ · 4 phần thi · Viết trực tiếp · Đếm từ · Đáp án mẫu · Tự lưu offline</p>
+          <p>40 câu lạc bộ · 4 phần thi · Viết trực tiếp · Đếm từ · Đáp án mẫu · Nháp xóa khi F5</p>
         </div>
       </div>
     </section>
@@ -67,7 +67,7 @@
         <div class="writing-actions">
           <button onclick="moveWritingClub(-1)">← Bộ trước</button>
           <button class="primary" id="writing-answer-toggle" aria-expanded="false" aria-controls="writing-question-list" onclick="toggleWritingAnswers()">Xem đáp án mẫu</button>
-          <button class="primary font-bold" onclick="gradeCurrentPart()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">📊 Chấm & xem từng câu</button>
+          <button class="primary font-bold" onclick="gradeCurrentPart()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">📊 Chấm band từng câu</button>
           <button onclick="moveWritingClub(1)">Bộ tiếp →</button>
         </div>
       </section>
@@ -77,15 +77,15 @@
         <div class="writing-timer" id="writing-timer" role="timer" aria-live="off">03:00</div>
         <button id="writing-timer-toggle" onclick="toggleWritingTimer()">Bắt đầu</button>
         <button class="secondary" onclick="resetWritingTimer()">Đặt lại giờ</button>
-        <button class="secondary" onclick="randomWritingClub()">Bộ ngẫu nhiên</button>
+        <button class="secondary" id="writing-random" onclick="randomWritingClub()">Bộ ngẫu nhiên</button>
         <button class="secondary" id="writing-complete" onclick="toggleWritingComplete()">○ Đánh dấu đã học</button>
-        <small>Phím tắt: ← → đổi bộ · A xem đáp án · Space bật/tạm dừng giờ. Bài viết được tự động lưu trên máy.</small>
+        <small>Phím tắt: ← → đổi bộ · A xem đáp án · Space bật/tạm dừng giờ. Nháp chỉ giữ trong lượt mở trang này; bấm F5 sẽ xóa toàn bộ câu trả lời.</small>
       </aside>
     </div>
   </main>
 
-  <footer class="footer"><div class="container"><p>Aptis Studio · Writing dữ liệu lưu trên máy · 40 câu lạc bộ</p></div></footer>
-  <script src="js/writing_grader.js?v=20260724"></script>
-  <script src="js/writing_app.js?v=20260724"></script>
+  <footer class="footer"><div class="container"><p>Aptis Studio · Writing nháp theo lượt truy cập · 40 câu lạc bộ</p></div></footer>
+  <script src="js/writing_grader.js?v=20260724b"></script>
+  <script src="js/writing_app.js?v=20260724b"></script>
 </body>
 </html>

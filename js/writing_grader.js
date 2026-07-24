@@ -15,9 +15,9 @@
     return /^(A0|A1|A2|B1|B2|C1)$/.test(band) ? band : 'A0';
   }
 
-  function safeScore(value, max = 5) {
-    const score = Number(value);
-    return Number.isFinite(score) ? Math.min(max, Math.max(0, score)) : 0;
+  function safeWordCount(value) {
+    const wordCount = Number(value);
+    return Number.isFinite(wordCount) ? Math.min(5000, Math.max(0, Math.round(wordCount))) : 0;
   }
 
   function renderList(items, emptyText = '') {
@@ -57,7 +57,7 @@
     });
 
     if (!hasInput) {
-      alert('Vui lòng nhập bài viết trước khi chấm điểm!');
+      alert('Vui lòng nhập bài viết trước khi chấm band!');
       return;
     }
 
@@ -66,7 +66,7 @@
     gradePanel.innerHTML = `
       <div class="grade-card grade-loading-card">
         <div class="grade-spinner" aria-hidden="true"></div>
-        <p>Đang chấm tổng thể và phân tích riêng từng câu của Writing Part ${part}...</p>
+        <p>Đang chấm band độc lập cho từng câu của Writing Part ${part}...</p>
       </div>
     `;
     gradePanel.style.display = 'block';
@@ -80,7 +80,7 @@
       });
 
       if (!response.ok) {
-        let errorText = 'Lỗi kết nối server.';
+        let errorText = 'Lỗi kết nối máy chủ.';
         try {
           const errorData = await response.json();
           errorText = errorData.error || errorText;
@@ -94,7 +94,7 @@
       console.error(error);
       gradePanel.innerHTML = `
         <div class="grade-card grade-error-card">
-          <h4>⚠️ Lỗi chấm điểm</h4>
+          <h4>⚠️ Lỗi chấm band</h4>
           <p>${escapeHtml(error.message || 'Không thể kết nối đến máy chủ chấm điểm.')}</p>
           <div class="grade-error-actions">
             <button onclick="gradeCurrentPart()" class="grade-btn primary">Thử lại</button>
@@ -116,7 +116,6 @@
 
   function renderResponseCard(response, position) {
     const band = safeBand(response?.band);
-    const score = safeScore(response?.score);
     const label = response?.label || `Câu ${position + 1}`;
     const errors = Array.isArray(response?.errors) ? response.errors : [];
     const strengths = Array.isArray(response?.strengths) ? response.strengths : [];
@@ -128,13 +127,13 @@
 
     const errorsHtml = errors.length
       ? `<div class="grade-response-block grade-errors">
-          <h6>Lỗi cụ thể và nguyên nhân mất điểm</h6>
+          <h6>Lỗi cụ thể</h6>
           <div class="grade-error-list">
             ${errors.map((error) => `
               <div class="grade-error-item">
                 <span class="grade-error-type">${escapeHtml(error?.type || 'Diễn đạt')}</span>
                 ${error?.quote ? `<code>${escapeHtml(error.quote)}</code>` : ''}
-                <p><strong>Vì sao mất điểm:</strong> ${escapeHtml(error?.why || 'Chưa đáp ứng đầy đủ tiêu chí.')}</p>
+                <p><strong>Vì sao:</strong> ${escapeHtml(error?.why || 'Chưa đáp ứng đầy đủ yêu cầu của câu.')}</p>
                 ${error?.fix ? `<p class="grade-error-fix"><strong>Sửa thành:</strong> ${escapeHtml(error.fix)}</p>` : ''}
               </div>
             `).join('')}
@@ -144,119 +143,68 @@
 
     const nextBandHtml = nextBand
       ? `<div class="grade-response-block grade-next-band">
-          <h6>Còn thiếu gì để lên ${escapeHtml(nextBand)}?</h6>
-          ${renderList(response?.missingForNextBand, `Cần thể hiện ổn định hơn các tiêu chí của band ${nextBand}.`)}
+          <h6>Còn thiếu gì để lên band ${escapeHtml(nextBand)}?</h6>
+          ${renderList(response?.missingForNextBand, `Cần thể hiện rõ hơn các đặc điểm của band ${nextBand}.`)}
         </div>`
-      : `<div class="grade-response-block grade-max-band"><strong>✓ Câu này đã chạm mức mục tiêu cao nhất của Part.</strong></div>`;
+      : `<div class="grade-response-block grade-max-band"><strong>✓ Câu này đã đạt band cao nhất áp dụng cho Part.</strong></div>`;
 
     const improvedAnswerHtml = response?.improvedAnswer
       ? `<div class="grade-improved-answer"><strong>Phiên bản nâng band gợi ý</strong><p>${escapeHtml(response.improvedAnswer)}</p></div>`
       : '';
 
     return `
-      <details class="grade-response-card" open>
-        <summary>
-          <span class="grade-response-title">${escapeHtml(label)}</span>
-          <span class="grade-response-meta">${safeScore(response?.wordCount, 5000)} từ · ${score}/5</span>
-          <span class="crit-band band-${band.toLowerCase()}">Band ${band}</span>
-        </summary>
+      <article class="grade-response-card">
+        <header class="grade-response-card-header">
+          <div>
+            <span class="grade-response-order">Câu ${position + 1}</span>
+            <h5>${escapeHtml(label)}</h5>
+            <span class="grade-response-meta">${safeWordCount(response?.wordCount)} từ${response?.target ? ` · Mục tiêu ${escapeHtml(response.target)}` : ''}</span>
+          </div>
+          <span class="grade-band-badge band-${band.toLowerCase()}">Band ${band}</span>
+        </header>
         <div class="grade-response-body">
-          <p class="grade-response-summary">${escapeHtml(response?.summary || 'Chưa có nhận xét cho câu này.')}</p>
+          ${response?.prompt ? `<div class="grade-response-question"><strong>Đề bài</strong><p>${escapeHtml(response.prompt)}</p></div>` : ''}
+          <div class="grade-response-answer">
+            <strong>Câu trả lời của bạn</strong>
+            <p>${response?.answer ? escapeHtml(response.answer) : '<em>Không có câu trả lời</em>'}</p>
+          </div>
+          <div class="grade-response-explanation">
+            <strong>Vì sao nhận band ${band}?</strong>
+            <p>${escapeHtml(response?.explanation || 'Chưa có giải thích cho câu này.')}</p>
+          </div>
           ${strengthsHtml}
           ${errorsHtml}
           ${nextBandHtml}
           ${improvedAnswerHtml}
         </div>
-      </details>
+      </article>
     `;
   }
 
   function renderGradeResult(container, result) {
-    const overallBand = safeBand(result?.overallBand);
-    const partMaxScore = safeScore(result?.partMaxScore, 10) || 5;
-    const partScore = safeScore(result?.partScore, partMaxScore);
-    const criteria = result?.criteria || {};
     const responses = Array.isArray(result?.responses) ? result.responses : [];
-
-    const criteriaList = [
-      { name: 'Hoàn thành nhiệm vụ', key: 'taskFulfillment' },
-      { name: 'Mạch lạc & liên kết', key: 'coherenceCohesion' },
-      { name: 'Từ vựng: độ rộng & chính xác', key: 'vocabularyRange' },
-      { name: 'Ngữ pháp: độ rộng & chính xác', key: 'grammaticalRange' },
-    ];
-
-    const criteriaHtml = criteriaList.map((item) => {
-      const criterion = criteria[item.key] || {};
-      const band = safeBand(criterion.band || overallBand);
-      const score = safeScore(criterion.score);
-      const percentage = Math.round((score / 5) * 100);
-      return `
-        <div class="grade-criterion-row">
-          <div class="grade-criterion-header">
-            <span class="crit-title">${escapeHtml(item.name)}</span>
-            <span class="crit-band band-${band.toLowerCase()}">Band ${band}</span>
-          </div>
-          <div class="grade-progress-bar-outer" aria-label="${escapeHtml(item.name)}: ${score}/5">
-            <div class="grade-progress-bar-inner band-${band.toLowerCase()}" style="width: ${percentage}%"></div>
-          </div>
-          <p class="grade-criterion-feedback">${escapeHtml(criterion.feedback || 'Chưa có nhận xét chi tiết.')}</p>
-        </div>
-      `;
-    }).join('');
-
     const responsesHtml = responses.length
       ? responses.map(renderResponseCard).join('')
-      : '<p class="grade-empty-note">Máy chấm chưa trả về phân tích từng câu. Hãy bấm Chấm lại.</p>';
-
-    const improvements = Array.isArray(result?.improvements) ? result.improvements : [];
-    const improvementsHtml = improvements.length
-      ? `<div class="grade-improvements-section"><h4>💡 Ưu tiên cải thiện toàn Part</h4>${renderList(improvements)}</div>`
-      : '';
+      : '<p class="grade-empty-note">Máy chấm chưa trả về band cho từng câu. Hãy bấm Chấm lại.</p>';
 
     container.setAttribute('role', 'region');
-    container.setAttribute('aria-label', 'Kết quả chấm Writing');
+    container.setAttribute('aria-label', 'Kết quả band từng câu Writing');
     container.innerHTML = `
       <div class="grade-card grade-result-card">
         <div class="grade-result-header">
           <div>
-            <h3>📊 Kết quả Writing Part</h3>
-            <p>Điểm tổng theo nhiệm vụ + chẩn đoán chi tiết từng câu</p>
+            <h3>📋 Kết quả band từng câu</h3>
+            <p>Mỗi câu được chấm độc lập; không gộp thành điểm tổng của Part.</p>
           </div>
-          <div class="grade-overall-stack">
-            <div class="grade-overall-badge band-${overallBand.toLowerCase()}">Band ${overallBand}</div>
-            <strong>Điểm Part: ${partScore}/${partMaxScore}</strong>
-          </div>
+          <span class="grade-response-count">${responses.length} câu/email</span>
         </div>
 
-        <div class="grade-general-feedback">
-          <strong>Vì sao Part nhận mức này?</strong>
-          <p>${escapeHtml(result?.scoreRationale || result?.generalFeedback || 'Chưa có giải thích tổng quan.')}</p>
-        </div>
+        <div class="grade-response-list">${responsesHtml}</div>
 
-        <section class="grade-response-section" aria-labelledby="grade-response-heading">
-          <div class="grade-section-heading">
-            <div><span>Quan trọng nhất</span><h4 id="grade-response-heading">Đánh giá từng câu</h4></div>
-            <small>${responses.length} câu/email</small>
-          </div>
-          <div class="grade-response-list">${responsesHtml}</div>
-        </section>
-
-        <section class="grade-overall-section">
-          <h4>Phân tích tiêu chí toàn Part</h4>
-          <div class="grade-criteria-container">${criteriaHtml}</div>
-        </section>
-
-        <div class="grade-general-feedback grade-general-feedback-secondary">
-          <strong>Nhận xét tổng quan</strong>
-          <p>${escapeHtml(result?.generalFeedback || 'Chưa có nhận xét tổng quan.')}</p>
-        </div>
-
-        ${improvementsHtml}
-
-        <p class="grade-diagnostic-note">${escapeHtml(result?.diagnosticNotice || 'Band từng câu là chẩn đoán AI để luyện tập, không phải kết quả thi chính thức.')}</p>
+        <p class="grade-diagnostic-note">${escapeHtml(result?.diagnosticNotice || 'Mỗi câu được chấm độc lập theo band để luyện tập; đây không phải kết quả thi chính thức.')}</p>
 
         <div class="grade-result-actions">
-          <button onclick="gradeCurrentPart()" class="grade-btn primary">Chấm lại</button>
+          <button onclick="gradeCurrentPart()" class="grade-btn primary">Chấm lại từng câu</button>
           <button onclick="clearGradeResult()" class="grade-btn secondary">Đóng kết quả</button>
         </div>
       </div>
