@@ -5,6 +5,8 @@ import re
 import shutil
 from pathlib import Path
 
+from speaking_b2_content import apply_b2_content
+
 
 ROOT = Path(r"C:\Users\QUANG\.gemini\antigravity\scratch\aptis-study")
 DATA_DIR = ROOT / ".tmp" / "speaking_data"
@@ -76,6 +78,7 @@ def main() -> None:
             "offline": True,
         },
     }
+    apply_b2_content(payload)
     body = "const speakingDB = " + json.dumps(
         payload, ensure_ascii=False, indent=2
     ) + ";\n"

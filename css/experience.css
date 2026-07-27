@@ -422,6 +422,15 @@ kbd { padding: 2px 5px; border: 1px solid rgba(255,255,255,.12); border-radius: 
 }
 .speaking-prompt-label { margin-bottom: 10px; color: #78859a; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
 .speaking-main-prompt { margin-bottom: 24px; color: #17233c; font-size: clamp(22px, 2.6vw, 34px); font-weight: 700; line-height: 1.25; letter-spacing: -.7px; }
+.speaking-part4-prompts { display: grid; gap: 10px; margin: 0 0 22px; padding: 0; list-style: none; }
+.speaking-part4-prompts li { display: grid; grid-template-columns: 30px 1fr; gap: 11px; align-items: start; padding: 13px 15px; border: 1px solid rgba(91,109,248,.16); border-radius: 13px; color: #24314a; background: #f7f8ff; font-weight: 650; line-height: 1.55; }
+.speaking-part4-prompts li span { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 9px; color: #fff; background: var(--speaking-accent); font-size: 13px; font-weight: 800; }
+
+@media (max-width: 560px) {
+  .speaking-part4-prompts li { grid-template-columns: 27px 1fr; padding: 12px; }
+  .speaking-part4-prompts li span { width: 25px; height: 25px; }
+}
+
 .speaking-collection { display: inline-flex; margin-bottom: 17px; padding: 5px 9px; border-radius: 999px; color: #5a6be0; background: #edf0ff; font-size: 10px; font-weight: 800; }
 .speaking-photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; margin-bottom: 24px; }
 .speaking-photo-grid.single { grid-template-columns: minmax(0, 1fr); }

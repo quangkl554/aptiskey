@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css?v=20260718b"/>
   <!-- Load Reading Database -->
   <script src="js/reading_db.js?v=20260718b"></script>
-  <script src="js/speaking_db.js?v=20260717"></script>
+  <script src="js/speaking_db.js?v=20260727easy"></script>
   <script src="js/speaking_rubric.js?v=20260721"></script>
   <style>
     /* Add extra styles for Parts 2-5 */
@@ -1697,6 +1697,7 @@
   }
 
   function getSpeakingMeta(part = speakingPart) {
+    if (part === 4) return ['Tr\u1ea3 l\u1eddi 3 c\u00e2u trong m\u1ed9t b\u00e0i', '1 ph\u00fat chu\u1ea9n b\u1ecb \u2192 n\u00f3i 2 ph\u00fat: tr\u1ea3i nghi\u1ec7m \u2192 c\u1ea3m x\u00fac/b\u00e0i h\u1ecdc \u2192 \u00fd ki\u1ebfn r\u1ed9ng h\u01a1n.'];
     return ({
       1: ['Câu hỏi cá nhân', 'Trả lời trực tiếp, tự nhiên và có một chi tiết thật về bạn.'],
       2: ['Mô tả hình và mở rộng', 'Quan sát từ tổng quát đến chi tiết rồi trả lời đủ ba câu hỏi.'],
@@ -1776,6 +1777,19 @@
     }
 
     content.classList.toggle('show-answers', speakingAnswersVisible);
+    if (speakingPart === 4) {
+      html = `
+        <div class="speaking-prompt-label">Ch\u1ee7 \u0111\u1ec1 Part 4</div>
+        <div class="speaking-main-prompt">${escapeHtml(cleanSpeakingText(item.question))}</div>
+        <div class="speaking-prompt-label">Ba c\u00e2u h\u1ecfi c\u1ea7n tr\u1ea3 l\u1eddi</div>
+        <ol class="speaking-part4-prompts">
+          ${[1, 2, 3].map(number => `<li><span>${number}</span>${escapeHtml(cleanSpeakingText(item[`question${number}`]))}</li>`).join('')}
+        </ol>
+        <div class="speaking-qa-list">
+          ${speakingQaCard('B\u00e0i m\u1eabu B2 d\u1ec5 n\u00f3i \u00b7 ', 'Tr\u1ea3 l\u1eddi li\u1ec1n m\u1ea1ch c\u1ea3 ba c\u00e2u', item.answer1)}
+        </div>`;
+    }
+
     content.innerHTML = html;
     document.getElementById('speaking-part-label').textContent = `SPEAKING · PART ${speakingPart}`;
     document.getElementById('speaking-title').textContent = title;
