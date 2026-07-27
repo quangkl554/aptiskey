@@ -216,7 +216,7 @@
       color: #212529;
     }
   </style>
-  <link rel="stylesheet" href="css/experience.css?v=20260727c"/>
+  <link rel="stylesheet" href="css/experience.css?v=20260727d"/>
 </head>
 <body>
 
@@ -1042,6 +1042,7 @@
     const nextView = document.getElementById(viewId);
     if (!nextView) return;
     nextView.classList.add('active');
+    document.body.classList.toggle('speaking-active', viewId === 'speaking-view');
 
     if (viewId !== 'practice-view') clearInterval(timerInterval);
     if (viewId !== 'speaking-view') stopSpeakingTimer();
