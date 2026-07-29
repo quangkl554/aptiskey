@@ -1782,6 +1782,8 @@
     const item = list[speakingQuestionIdx];
     const [title, tip] = getSpeakingMeta();
     const content = document.getElementById('speaking-content');
+    const questionSelect = document.getElementById('speaking-question-select');
+    const questionCount = document.getElementById('speaking-question-count');
     const images = [];
     if (item.urlpic1) images.push(item.urlpic1);
     if (item.urlpic2) images.push(item.urlpic2);
@@ -1860,8 +1862,6 @@
   function toggleSpeakingAnswers() {
     speakingAnswersVisible = !speakingAnswersVisible;
     const content = document.getElementById('speaking-content');
-    const questionSelect = document.getElementById('speaking-question-select');
-    const questionCount = document.getElementById('speaking-question-count');
     content.classList.toggle('show-answers', speakingAnswersVisible);
     content.querySelectorAll('.speaking-answer').forEach(answer => answer.setAttribute('aria-hidden', String(!speakingAnswersVisible)));
     updateSpeakingAnswerButton();
