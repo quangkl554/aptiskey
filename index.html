@@ -215,7 +215,21 @@
       line-height: 1.6;
       color: #212529;
     }
-  </style>
+  
+    /* Speaking layout refinements */
+    .speaking-question-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .speaking-question-head h2, .speaking-main-prompt, .speaking-qa-question, .speaking-answer, .speaking-question-select { min-width: 0; }
+    .speaking-main-prompt, .speaking-qa-question, .speaking-answer { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .speaking-main-prompt { display: block; }
+    .speaking-qa-question { display: flex; align-items: center; gap: 6px; }
+    .speaking-qa-question b { flex: 0 0 auto; white-space: nowrap; }
+    .speaking-qa-question span, .speaking-answer > div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .speaking-question-nav { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px; border: 1px solid var(--course-line); border-radius: 16px; background: rgba(255,255,255,.72); flex-wrap: wrap; }
+    .speaking-question-nav label { color: var(--course-muted); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .speaking-question-select { min-width: 220px; min-height: 42px; padding: 0 12px; border: 1px solid var(--course-line); border-radius: 12px; color: var(--course-ink); background: white; font: 700 13px var(--font); }
+    .speaking-question-count { margin-left: auto; color: var(--course-muted); font-size: 12px; font-weight: 800; white-space: nowrap; }
+    @media (max-width: 860px) { .speaking-main-prompt, .speaking-qa-question, .speaking-answer, .speaking-qa-question span, .speaking-answer > div { white-space: normal; } .speaking-question-count { margin-left: 0; } .speaking-question-select { width: 100%; min-width: 0; } }
+</style>
   <link rel="stylesheet" href="css/experience.css?v=20260727d"/>
 </head>
 <body>
@@ -496,6 +510,12 @@
                 </div>
               </div>
 
+              <div class="speaking-question-nav">
+                <label for="speaking-question-select">Cau</label>
+                <select id="speaking-question-select" class="speaking-question-select" onchange="changeSpeakingQuestion(this.value)"></select>
+                <span class="speaking-question-count" id="speaking-question-count"></span>
+              </div>
+
               <div id="speaking-content" class="speaking-content"></div>
 
               <section class="speaking-note-card">
@@ -588,9 +608,10 @@
     try {
       for (let index = localStorage.length - 1; index >= 0; index -= 1) {
         const key = localStorage.key(index);
-        if (key && key.startsWith('aptis')) localStorage.removeItem(key);
+        if (key && (key.startsWith('aptis') || key.includes('Speaking') || key.includes('Reading'))) localStorage.removeItem(key);
       }
     } catch (err) {}
+    try { sessionStorage.clear(); } catch (err) {}
   }
 
   clearAptisStorageOnReload();
@@ -1794,6 +1815,11 @@
 
     content.classList.toggle('show-answers', speakingAnswersVisible);
     content.innerHTML = html;
+    if (questionSelect) {
+      questionSelect.innerHTML = list.map((_, index) => `<option value="${index}" ${index === speakingQuestionIdx ? 'selected' : ''}>Cau ${index + 1}</option>`).join('');
+      questionSelect.value = String(speakingQuestionIdx);
+    }
+    if (questionCount) questionCount.textContent = `${speakingQuestionIdx + 1} / ${list.length}`;
     document.getElementById('speaking-part-label').textContent = `SPEAKING · PART ${speakingPart}`;
     document.getElementById('speaking-title').textContent = title;
     document.getElementById('speaking-coach-tip').textContent = tip;
@@ -1822,9 +1848,20 @@
     renderSpeakingQuestion();
   }
 
+  window.changeSpeakingQuestion = function changeSpeakingQuestion(value) {
+    const list = getSpeakingList();
+    const next = Number(value);
+    if (!Number.isInteger(next) || next < 0 || next >= list.length) return;
+    speakingQuestionIdx = next;
+    speakingAnswersVisible = false;
+    renderSpeakingQuestion();
+  };
+
   function toggleSpeakingAnswers() {
     speakingAnswersVisible = !speakingAnswersVisible;
     const content = document.getElementById('speaking-content');
+    const questionSelect = document.getElementById('speaking-question-select');
+    const questionCount = document.getElementById('speaking-question-count');
     content.classList.toggle('show-answers', speakingAnswersVisible);
     content.querySelectorAll('.speaking-answer').forEach(answer => answer.setAttribute('aria-hidden', String(!speakingAnswersVisible)));
     updateSpeakingAnswerButton();
