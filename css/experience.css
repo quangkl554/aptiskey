@@ -753,6 +753,61 @@ body.speaking-active .speaking-footer-bar { display: block; }
 .speaking-nav-actions .rubric-toggle-btn { color: #08916f; border: 1px solid #b9f0dd; background: #eefdf8; }
 .speaking-nav-actions .rubric-toggle-btn:hover { background: #dff7ef; }
 
+/* Keep Speaking rows compact on desktop. */
+.speaking-question-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+.speaking-question-nav label,
+.speaking-question-count {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.speaking-question-select {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+}
+.speaking-main-prompt,
+.speaking-qa-question,
+.speaking-qa-question b,
+.speaking-answer,
+.speaking-answer > div {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.speaking-qa-question {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.speaking-qa-question b {
+  flex: 0 0 auto;
+}
+.speaking-answer {
+  white-space: normal;
+}
+@media (max-width: 860px) {
+  .speaking-question-nav {
+    flex-wrap: wrap;
+  }
+  .speaking-question-select {
+    width: 100%;
+  }
+  .speaking-main-prompt,
+  .speaking-qa-question,
+  .speaking-answer,
+  .speaking-answer > div,
+  .speaking-qa-question b {
+    white-space: normal;
+  }
+}
+
 /* Speaking self-assessment rubric */
 .speaking-rubric-panel { animation: fadeInRubric 0.35s ease-out; }
 @keyframes fadeInRubric {
