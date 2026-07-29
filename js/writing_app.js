@@ -20,6 +20,20 @@
 
   const byId = (id) => document.getElementById(id);
 
+  function clearAptisStorageOnReload() {
+    const navEntry = performance.getEntriesByType?.('navigation')?.[0];
+    const isReload = navEntry?.type === 'reload' || performance.navigation?.type === 1;
+    if (!isReload) return;
+    try {
+      for (let index = localStorage.length - 1; index >= 0; index -= 1) {
+        const key = localStorage.key(index);
+        if (key && key.startsWith('aptis')) localStorage.removeItem(key);
+      }
+    } catch (err) {}
+  }
+
+  clearAptisStorageOnReload();
+
   function escapeHtml(value) {
     return String(value ?? "")
       .replace(/&/g, "&amp;")
