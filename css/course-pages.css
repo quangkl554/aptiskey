@@ -272,9 +272,9 @@ body.course-page::before {
 .writing-answer-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
 .writing-answer-head span { color: #707faa; font-size: 10px; font-weight: 800; white-space: nowrap; }
 .writing-workspace.show-answers .writing-answer { display: block; }
-.writing-actions { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin-top: 18px; }
-.writing-actions button { min-height: 44px; padding: 0 16px; border: 1px solid var(--course-line); border-radius: 11px; color: #5b6980; background: white; font: 800 12px var(--font); cursor: pointer; }
-.writing-actions button:last-child { justify-self: end; }
+.writing-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: 10px; margin-top: 18px; }
+.writing-actions button { min-width: 0; min-height: 44px; padding: 0 10px; border: 1px solid var(--course-line); border-radius: 11px; color: #5b6980; background: white; font: 800 11px var(--font); cursor: pointer; white-space: nowrap; }
+.writing-actions button:last-child { justify-self: stretch; }
 .writing-actions .primary { color: white; border-color: transparent; background: linear-gradient(135deg,var(--course-indigo),var(--course-violet)); }
 .writing-progress-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 18px; }
 .writing-progress-row h2 { font-size: 23px; letter-spacing: -.6px; }
@@ -378,8 +378,7 @@ body.course-page::before {
   .writing-workspace { padding: 17px; }
   .writing-side { grid-template-columns: 1fr 1fr; }
   .writing-side-label { display: none; }
-  .writing-actions { grid-template-columns: 1fr 1fr; }
-  .writing-actions .primary { grid-column: 1 / -1; grid-row: 1; }
+  .writing-actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -743,7 +742,7 @@ body.course-page::before { display: none; }
 .listen-workspace-actions button,
 .listening-side button,
 .writing-side button,
-.writing-actions button { min-height: 46px; font: 700 14px var(--font); }
+.writing-actions button { min-height: 44px; font: 700 12px var(--font); }
 .listen-check { background: #a96b00; box-shadow: none; }
 .listen-ghost { color: #354257; }
 
@@ -857,7 +856,7 @@ body.course-page::before { display: none; }
   .listen-workspace-actions,
   .writing-actions { gap: 8px; }
   .listen-workspace-actions button,
-  .writing-actions button { width: 100%; padding: 0 10px; }
+  .writing-actions button { width: 100%; padding: 0 4px; font-size: 10px; }
   .listening-side,
   .writing-side { grid-template-columns: 1fr 1fr; }
   .listening-side button,
